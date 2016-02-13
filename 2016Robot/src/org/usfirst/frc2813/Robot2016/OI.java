@@ -22,7 +22,6 @@ public class OI {
 	private ArrayList<double[]> inputRecordings;
 	private boolean recording;
 	private int numberOfFiles = 0;
-
 	public OI() {
 		
 		inputRecordings = new ArrayList<double[]>();
@@ -34,6 +33,7 @@ public class OI {
 		new JoystickButton(joystick1, 3).whenPressed(new EnableRecording());
 		new JoystickButton(joystick1, 4).whenPressed(new DisableRecording());
 		//new JoystickButton(joystick1, 5).whileHeld(new OutputNav6Values());
+
 	}
 
 	public Joystick getJoystick1() {

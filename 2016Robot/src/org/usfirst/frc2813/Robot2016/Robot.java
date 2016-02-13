@@ -13,6 +13,7 @@ public class Robot extends IterativeRobot {
 
 	Command autonomousCommand;
 
+	public static AnalogInput ultrasonicSensor;
 	public static OI oi;
 	public static Elevator elevator;
 	public static Nav6 nav6;
@@ -21,9 +22,8 @@ public class Robot extends IterativeRobot {
 	public static Pneumatics pneumatics;
 	public static DriveTrain driveTrain;
 	public static Arms arms;
-	public static AnalogInput ultrasonicSensor;
-	public final double RANGE_SCALE = 4.88/512;
-	
+	public final double RANGE_SCALE = 4.88 / 512;
+
 	public void robotInit() {
 		RobotMap.init();
 
@@ -36,6 +36,7 @@ public class Robot extends IterativeRobot {
 		arms = new Arms();
 		oi = new OI();
 		ultrasonicSensor = new AnalogInput(3);
+
 	}
 
 	public void disabledInit() {
@@ -61,13 +62,20 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopPeriodic() {
-//		nav6.displayNav6Data();
+		// nav6.displayNav6Data();
 		SmartDashboard.putNumber("Raw", ultrasonicSensor.getValue());
 		SmartDashboard.putNumber("Volts", ultrasonicSensor.getVoltage());
 		SmartDashboard.putNumber("AvgRaw", ultrasonicSensor.getAverageValue());
-		SmartDashboard.putNumber("AvgVolts", ultrasonicSensor.getAverageVoltage());
-		SmartDashboard.putNumber("Range(In.):", ultrasonicSensor.getVoltage()/RANGE_SCALE);
+		SmartDashboard.putNumber("AvgVolts",
+				ultrasonicSensor.getAverageVoltage());
+		SmartDashboard.putNumber("Range(In.)", ultrasonicSensor.getVoltage()
+				/ RANGE_SCALE);
+		SmartDashboard.putNumber("Joy1 X", Robot.oi.getJoystick1().getX());
+		SmartDashboard.putNumber("Joy1 Y", Robot.oi.getJoystick1().getY());
+		SmartDashboard.putNumber("Joy2 X", Robot.oi.getJoystick2().getX());
+		SmartDashboard.putNumber("Joy2 Y", Robot.oi.getJoystick2().getY());
 		Scheduler.getInstance().run();
+		Robot.driveTrain.customPID(DriveTrain.p, DriveTrain.i, DriveTrain.d);
 	}
 
 	public void testPeriodic() {

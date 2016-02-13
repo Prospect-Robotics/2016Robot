@@ -15,12 +15,20 @@ public class DriveTrain extends PIDSubsystem {
 	private double marginOfError = 2;
 	private double yaw;
 	private double pitch;
+	private double previousError = 0;
+	private double integral = 0;
+	private double newTime = System.currentTimeMillis();
+	private double oldTime = 0;
+	public static double p = 0.09;
+	public static double i = 0.0;
+	public static double d = 0.0;
 
 	public DriveTrain() {
-		super("ArcadeDrive", 0.05, 0.0, 0.0);
-		setAbsoluteTolerance(0);
+		super("ArcadeDrive", p, i, d);
+		setAbsoluteTolerance(1e-3);
 		getPIDController().setContinuous(false);
-		LiveWindow.addActuator("ArcadeDrive", "PIDSubsystem Controller", getPIDController());
+		LiveWindow.addActuator("ArcadeDrive", "PIDSubsystem Controller",
+				getPIDController());
 		getPIDController().setOutputRange(-1.0, 1.0);
 		enable();
 		setSetpoint(0);
@@ -59,20 +67,25 @@ public class DriveTrain extends PIDSubsystem {
 		// } else {
 		// enablePID();
 		// }
+		SmartDashboard
+				.putNumber("Nav6UpdateCount", Robot.nav6.getUpdateCount());
 		SmartDashboard.putNumber("DriveTrainPIDInput", returnPIDInput());
 		SmartDashboard.putNumber("DriveTrainPIDOutput", output);
 		SmartDashboard.putString("PIDStatus", String.valueOf(pIDStatus));
 		SmartDashboard.putNumber("CurrentSetpoint", getSetpoint());
-//		if (pIDStatus) {
-//			Robot.driveTrain.testDrive(Robot.oi.getJoystick1().getY(), output);
-//		}
+		if (pIDStatus) {
+			SmartDashboard.putNumber("PIDMOVE", Robot.oi.getJoystick1().getY());
+			Robot.driveTrain.testDrive(Robot.oi.getJoystick1().getY(), output);
+		}
 	}
-	
+
 	public void testDrive(double move, double rotate) {
-		returnPIDInput();
+		SmartDashboard.putNumber("DriveTrainPIDInput", returnPIDInput());
+		SmartDashboard.putString("PIDStatus", String.valueOf(pIDStatus));
 		RobotMap.driveTrainSpeedControllers.arcadeDrive(-move, -rotate);
-		double[] inputs = {-move, -rotate, yaw, pitch};
+		double[] inputs = { -move, -rotate, yaw, pitch };
 		Robot.oi.addInputs(inputs);
+		enable();
 	}
 
 	public double getOldSetpoint() {
@@ -81,5 +94,17 @@ public class DriveTrain extends PIDSubsystem {
 
 	public void setNewSetpoint(double value) {
 		setSetpoint(value);
+	}
+
+	public void customPID(double p, double i, double d) {
+		double dt = newTime - oldTime;
+		oldTime = newTime;
+		double error = getSetpoint() - returnPIDInput();
+		integral = integral + error * dt;
+		double derivative = (error - previousError) / dt;
+		double output = p * error + i * integral + d * derivative;
+		previousError = error;
+		newTime = System.currentTimeMillis();
+		usePIDOutput(output);
 	}
 }

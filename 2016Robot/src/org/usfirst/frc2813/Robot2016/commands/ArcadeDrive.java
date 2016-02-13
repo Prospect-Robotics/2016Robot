@@ -3,7 +3,6 @@ package org.usfirst.frc2813.Robot2016.commands;
 import org.usfirst.frc2813.Robot2016.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ArcadeDrive extends Command {
 
@@ -17,9 +16,11 @@ public class ArcadeDrive extends Command {
 
 	protected void execute() {
 		if (!Robot.driveTrain.getPIDStatus()) {
-			Robot.driveTrain.testDrive(Robot.oi.getJoystick1().getY(), Robot.oi.getJoystick1().getX());
+			Robot.driveTrain.testDrive(Robot.oi.getJoystick1().getY(), Robot.oi
+					.getJoystick1().getX());
 		}
-		SmartDashboard.putNumber("JoysitckX", Robot.oi.getJoystick1().getX());
+		// SmartDashboard.putNumber("JoysitckX",
+		// Robot.oi.getJoystick1().getX());
 	}
 
 	protected boolean isFinished() {

@@ -31,6 +31,9 @@ public class Nav6 extends Subsystem {
     }
     public void initDefaultCommand() {
     }
+    public double getUpdateCount() {
+    	return imu.getUpdateCount();
+    }
     public double pidGet () {
         return imu.pidGet();
     }
