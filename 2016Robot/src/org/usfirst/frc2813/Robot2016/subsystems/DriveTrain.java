@@ -35,7 +35,7 @@ public class DriveTrain extends PIDSubsystem {
 	}
 
 	public void initDefaultCommand() {
-		setDefaultCommand(new HaloDrive());
+//		setDefaultCommand(new HaloDrive());
 	}
 
 	public boolean getPIDStatus() {

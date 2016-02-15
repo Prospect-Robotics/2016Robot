@@ -8,7 +8,9 @@ import java.util.ArrayList;
 
 import org.usfirst.frc2813.Robot2016.commands.DisableRecording;
 import org.usfirst.frc2813.Robot2016.commands.EnableRecording;
+import org.usfirst.frc2813.Robot2016.commands.Intake;
 import org.usfirst.frc2813.Robot2016.commands.ResetNav6;
+import org.usfirst.frc2813.Robot2016.commands.Shoot;
 import org.usfirst.frc2813.Robot2016.commands.TogglePID;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -28,11 +30,14 @@ public class OI {
 		joystick1 = new Joystick(0);
 		joystick2 = new Joystick(1);
 
-		new JoystickButton(joystick1, 1).whenPressed(new TogglePID());
-		new JoystickButton(joystick1, 2).whenPressed(new ResetNav6());
-		new JoystickButton(joystick1, 3).whenPressed(new EnableRecording());
-		new JoystickButton(joystick1, 4).whenPressed(new DisableRecording());
+//		new JoystickButton(joystick1, 1).whenPressed(new TogglePID());
+//		new JoystickButton(joystick1, 2).whenPressed(new ResetNav6());
+//		new JoystickButton(joystick1, 3).whenPressed(new EnableRecording());
+//		new JoystickButton(joystick1, 4).whenPressed(new DisableRecording());
 		//new JoystickButton(joystick1, 5).whileHeld(new OutputNav6Values());
+
+		new JoystickButton(joystick1, 1).whileHeld(new Shoot());
+		new JoystickButton(joystick1, 3).whileHeld(new Intake());
 
 	}
 

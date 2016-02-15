@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.VictorSP;
 
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
@@ -17,10 +17,9 @@ public class RobotMap {
 	public static SpeedController elevatorSpeedControllerRight;
 	public static RobotDrive elevatorSpeedControllers;
 	public static Encoder elevatorEncoder;
-	public static SpeedController shooterSpeedController;
+	public static SpeedController shooterSpeedControllerLeft;
+	public static SpeedController shooterSpeedControllerRight;
 	public static Encoder shooterEncoder;
-	public static SpeedController intakeSpeedControllerLeft;
-	public static SpeedController intakeSpeedControllerRight;
 	public static SpeedController driveTrainSpeedControllerFrontLeft;
 	public static SpeedController driveTrainSpeedControllerFrontRight;
 	public static SpeedController driveTrainSpeedControllerBackLeft;
@@ -34,13 +33,13 @@ public class RobotMap {
 	public static RobotDrive armsSpeedControllers;
 
 	public static void init() {
-		// elevatorSpeedControllerLeft = new Talon(8);
+		// elevatorSpeedControllerLeft = new VictorSP(8);
 		// LiveWindow.addActuator("Elevator", "SpeedControllerLeft",
-		// (Talon) elevatorSpeedControllerLeft);
+		// (VictorSP) elevatorSpeedControllerLeft);
 
-		// elevatorSpeedControllerRight = new Talon(9);
+		// elevatorSpeedControllerRight = new VictorSP(9);
 		// LiveWindow.addActuator("Elevator", "SpeedControllerRight",
-		// (Talon) elevatorSpeedControllerRight);
+		// (VictorSP) elevatorSpeedControllerRight);
 
 		// elevatorSpeedControllers = new
 		// RobotDrive(elevatorSpeedControllerLeft,
@@ -55,48 +54,42 @@ public class RobotMap {
 		// LiveWindow.addSensor("Elevator", "Encoder", elevatorEncoder);
 		// elevatorEncoder.setDistancePerPulse(1.0);
 		// elevatorEncoder.setPIDSourceType(PIDSourceType.kRate);
-		// shooterSpeedController = new Talon(7);
-		// LiveWindow.addActuator("Shooter", "SpeedController",
-		// (Talon) shooterSpeedController);
+		 shooterSpeedControllerLeft = new VictorSP(7);
+		 shooterSpeedControllerRight = new VictorSP(5);
+		// LiveWindow.addActuator("Shoot", "SpeedController",
+		// (VictorSP) shooterSpeedController);
 
 		shooterEncoder = new Encoder(2, 3, false, EncodingType.k4X);
-		LiveWindow.addSensor("Shooter", "Encoder", shooterEncoder);
+		LiveWindow.addSensor("Shoot", "Encoder", shooterEncoder);
 		shooterEncoder.setDistancePerPulse(1.0);
 		shooterEncoder.setPIDSourceType(PIDSourceType.kRate);
-		// intakeSpeedControllerLeft = new Talon(7);
-		// LiveWindow.addActuator("Intake", "SpeedControllerLeft",
-		// (Talon) intakeSpeedControllerLeft);
 
-		// intakeSpeedControllerRight = new Talon(8);
-		// LiveWindow.addActuator("Intake", "SpeedControllerRight",
-		// (Talon) intakeSpeedControllerRight);
-
-		driveTrainSpeedControllerFrontLeft = new Talon(9);
-		LiveWindow.addActuator("ArcadeDrive", "SpeedControllerFrontLeft",
-				(Talon) driveTrainSpeedControllerFrontLeft);
-
-		driveTrainSpeedControllerFrontRight = new Talon(7);
-		LiveWindow.addActuator("ArcadeDrive", "SpeedControllerFrontRight",
-				(Talon) driveTrainSpeedControllerFrontRight);
-
-		driveTrainSpeedControllerBackLeft = new Talon(8);
-		LiveWindow.addActuator("ArcadeDrive", "SpeedControllerBackLeft",
-				(Talon) driveTrainSpeedControllerBackLeft);
-
-		driveTrainSpeedControllerBackRight = new Talon(6);
-		LiveWindow.addActuator("ArcadeDrive", "SpeedControllerBackRight",
-				(Talon) driveTrainSpeedControllerBackRight);
-
-		driveTrainSpeedControllers = new RobotDrive(
-				driveTrainSpeedControllerFrontLeft,
-				driveTrainSpeedControllerBackLeft,
-				driveTrainSpeedControllerFrontRight,
-				driveTrainSpeedControllerBackRight);
-
-		driveTrainSpeedControllers.setSafetyEnabled(true);
-		driveTrainSpeedControllers.setExpiration(0.1);
-		driveTrainSpeedControllers.setSensitivity(0.5);
-		driveTrainSpeedControllers.setMaxOutput(1.0);
+//		driveTrainSpeedControllerFrontLeft = new VictorSP(9);
+//		LiveWindow.addActuator("ArcadeDrive", "SpeedControllerFrontLeft",
+//				(VictorSP) driveTrainSpeedControllerFrontLeft);
+//
+//		driveTrainSpeedControllerFrontRight = new VictorSP(7);
+//		LiveWindow.addActuator("ArcadeDrive", "SpeedControllerFrontRight",
+//				(VictorSP) driveTrainSpeedControllerFrontRight);
+//
+//		driveTrainSpeedControllerBackLeft = new VictorSP(8);
+//		LiveWindow.addActuator("ArcadeDrive", "SpeedControllerBackLeft",
+//				(VictorSP) driveTrainSpeedControllerBackLeft);
+//
+//		driveTrainSpeedControllerBackRight = new VictorSP(6);
+//		LiveWindow.addActuator("ArcadeDrive", "SpeedControllerBackRight",
+//				(VictorSP) driveTrainSpeedControllerBackRight);
+//
+//		driveTrainSpeedControllers = new RobotDrive(
+//				driveTrainSpeedControllerFrontLeft,
+//				driveTrainSpeedControllerBackLeft,
+//				driveTrainSpeedControllerFrontRight,
+//				driveTrainSpeedControllerBackRight);
+//
+//		driveTrainSpeedControllers.setSafetyEnabled(true);
+//		driveTrainSpeedControllers.setExpiration(0.1);
+//		driveTrainSpeedControllers.setSensitivity(0.5);
+//		driveTrainSpeedControllers.setMaxOutput(1.0);
 
 		driveTrainGyro = new AnalogGyro(0);
 		LiveWindow.addSensor("ArcadeDrive", "Gyro", driveTrainGyro);
@@ -104,13 +97,13 @@ public class RobotMap {
 		armsPotentiometer = new AnalogPotentiometer(1, 1.0, 0.0);
 		LiveWindow.addSensor("Arms", "Potentiometer", armsPotentiometer);
 
-		// armsSpeedControllerLeft = new Talon(9);
+		// armsSpeedControllerLeft = new VictorSP(9);
 		// LiveWindow.addActuator("Arms", "SpeedControllerLeft",
-		// (Talon) armsSpeedControllerLeft);
+		// (VictorSP) armsSpeedControllerLeft);
 
-		armsSpeedControllerRight = new Talon(10);
+		armsSpeedControllerRight = new VictorSP(10);
 		LiveWindow.addActuator("Arms", "SpeedControllerRight",
-				(Talon) armsSpeedControllerRight);
+				(VictorSP) armsSpeedControllerRight);
 
 		// armsSpeedControllers = new RobotDrive(armsSpeedControllerLeft,
 		// armsSpeedControllerRight);

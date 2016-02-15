@@ -27,6 +27,6 @@ public class ElevatorUp extends Command {
 	}
 
 	protected void interrupted() {
-		//Robot.elevator.move(0);
+		Robot.elevator.move(0);
 	}
 }

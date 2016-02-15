@@ -7,14 +7,14 @@ import org.usfirst.frc2813.Robot2016.Robot;
 public class Intake extends Command {
 
 	public Intake() {
-		requires(Robot.intake);
+		requires(Robot.intakeShooter);
 	}
 
 	protected void initialize() {
-		Robot.intake.move(1);
 	}
 
 	protected void execute() {
+		Robot.intakeShooter.spin(-0.3);
 
 	}
 
@@ -27,6 +27,6 @@ public class Intake extends Command {
 	}
 
 	protected void interrupted() {
-		Robot.intake.move(0);
+		Robot.intakeShooter.spin(0);
 	}
 }

@@ -4,10 +4,10 @@ import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc2813.Robot2016.Robot;
 
-public class Shooter extends Command {
+public class Shoot extends Command {
 
-    public Shooter() {
-    	requires(Robot.shooter);
+    public Shoot() {
+    	requires(Robot.intakeShooter);
     }
 
     protected void initialize() {
@@ -15,7 +15,7 @@ public class Shooter extends Command {
     }
 
     protected void execute() {
-    	Robot.shooter.move(1);
+    	Robot.intakeShooter.spin(1);
     }
 
     protected boolean isFinished() {
@@ -26,6 +26,6 @@ public class Shooter extends Command {
     }
 
     protected void interrupted() {
-    	Robot.shooter.move(0);
+    	Robot.intakeShooter.spin(0);
     }
 }

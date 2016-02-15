@@ -17,8 +17,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static Elevator elevator;
 	public static Nav6 nav6;
-	public static Shooter shooter;
-	public static Intake intake;
+	public static IntakeShooter intakeShooter;
 	public static Pneumatics pneumatics;
 	public static DriveTrain driveTrain;
 	public static Arms arms;
@@ -28,9 +27,8 @@ public class Robot extends IterativeRobot {
 		RobotMap.init();
 
 		elevator = new Elevator();
-		shooter = new Shooter();
+		intakeShooter = new IntakeShooter();
 		nav6 = new Nav6();
-		intake = new Intake();
 		pneumatics = new Pneumatics();
 		driveTrain = new DriveTrain();
 		arms = new Arms();
@@ -75,7 +73,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Joy2 X", Robot.oi.getJoystick2().getX());
 		SmartDashboard.putNumber("Joy2 Y", Robot.oi.getJoystick2().getY());
 		Scheduler.getInstance().run();
-		Robot.driveTrain.customPID(DriveTrain.p, DriveTrain.i, DriveTrain.d);
+//		Robot.driveTrain.customPID(DriveTrain.p, DriveTrain.i, DriveTrain.d);
 	}
 
 	public void testPeriodic() {
