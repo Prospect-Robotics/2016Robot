@@ -83,6 +83,9 @@ public class TiltCameraDistanceCalculator {
 	 * @return the horizontal distance from the target to the camera
 	 */
 	public double targetDistance(int hp) {
+		if (hp == 0) {
+			return h / Math.tan(tilt);
+		}
 		double fov_adjustment = (FOVp * Math.cos(tilt) / 2 / hp / Math.tan(view)) - Math.sin(tilt);
 		return h * fov_adjustment / (1 + fov_adjustment * Math.tan(tilt));
 	}

@@ -13,7 +13,7 @@ public class TestDistanceCalculation {
 	
 	@Before
 	public void setUp() throws Exception {
-		this.calc = new TiltCameraDistanceCalculator(600, 25.5, 1.0, 85/12.0, 9.7);
+		this.calc = new TiltCameraDistanceCalculator(600, 24.5, 22.5/12.0, 85/12.0, 13);
 	}
 
 	/*
@@ -23,9 +23,10 @@ public class TestDistanceCalculation {
 	 */
 	@Test
 	public void test() {
-		assertTrue(Math.abs(calc.targetDistance(10) - 32.5) < epsilon);
-		assertTrue(Math.abs(calc.targetDistance(300) - 8.7) < epsilon);
-		assertTrue(Math.abs(calc.targetDistance(490) - 5.6) < epsilon);
+		assertTrue(Math.abs(calc.targetDistance(0) - 22.6) < epsilon);
+		assertTrue(Math.abs(calc.targetDistance(10) - 21.1) < epsilon);
+		assertTrue(Math.abs(calc.targetDistance(300) - 6.9) < epsilon);
+		assertTrue(Math.abs(calc.targetDistance(490) - 4.5) < epsilon);
 	}
 
 }
