@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class IdleIntakeShooter extends Command {
+public class IdleShooter extends Command {
 
-    public IdleIntakeShooter() {
+    public IdleShooter() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.intakeShooter);
@@ -26,7 +26,7 @@ public class IdleIntakeShooter extends Command {
 //    	Robot.intakeShooter.spin(-Robot.oi.getJoystick1().getY()); // Shooter spin
     	Robot.intakeShooter.spin(0); // Shooter spin
 //    	
-//    	Robot.intakeShooter.angle(-Robot.oi.getJoystick1().getZ()); // Shooter angle
+    	Robot.intakeShooter.angle(0.75 * Math.sqrt((-Robot.oi.getJoystick1().getZ() + 1.1)) - 1); // Shooter angle
     }
 
     // Make this return true when this Command no longer needs to run execute()

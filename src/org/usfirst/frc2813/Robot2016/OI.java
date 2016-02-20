@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import org.usfirst.frc2813.Robot2016.commands.DisableRecording;
 import org.usfirst.frc2813.Robot2016.commands.EnableRecording;
-import org.usfirst.frc2813.Robot2016.commands.Intake;
+import org.usfirst.frc2813.Robot2016.commands.ShooterIntake;
 import org.usfirst.frc2813.Robot2016.commands.ResetNav6;
 import org.usfirst.frc2813.Robot2016.commands.Shoot;
 import org.usfirst.frc2813.Robot2016.commands.FirePistonShooter;
@@ -41,7 +41,7 @@ public class OI {
 
 		new JoystickButton(joystick1, 1).whileHeld(new Shoot());
 		new JoystickButton(joystick1, 2).whenPressed(new FirePistonShooter());
-		new JoystickButton(joystick1, 3).whileHeld(new Intake());
+		new JoystickButton(joystick1, 3).whileHeld(new ShooterIntake());
 		new JoystickButton(joystick1, 4).whenPressed(new ToggleElevatorPiston());
 		new JoystickButton(joystick1, 10).whenPressed(new ToggleCompressor());
 

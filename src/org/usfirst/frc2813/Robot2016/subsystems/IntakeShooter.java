@@ -1,7 +1,7 @@
 package org.usfirst.frc2813.Robot2016.subsystems;
 
 import org.usfirst.frc2813.Robot2016.RobotMap;
-import org.usfirst.frc2813.Robot2016.commands.IdleIntakeShooter;
+import org.usfirst.frc2813.Robot2016.commands.IdleShooter;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -26,7 +26,7 @@ public class IntakeShooter extends PIDSubsystem {
 	}
 
 	public void initDefaultCommand() {
-		setDefaultCommand(new IdleIntakeShooter());
+		setDefaultCommand(new IdleShooter());
 	}
 
 	protected double returnPIDInput() {

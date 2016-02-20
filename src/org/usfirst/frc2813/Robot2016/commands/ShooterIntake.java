@@ -4,9 +4,9 @@ import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc2813.Robot2016.Robot;
 
-public class Intake extends Command {
+public class ShooterIntake extends Command {
 
-	public Intake() {
+	public ShooterIntake() {
 		requires(Robot.intakeShooter);
 	}
 
@@ -14,12 +14,12 @@ public class Intake extends Command {
 	}
 
 	protected void execute() {
-		Robot.intakeShooter.spin(-1.00);
+		Robot.intakeShooter.spin(-1.0);
 
 	}
 
 	protected boolean isFinished() {
-		return true;
+		return false;
 	}
 
 	protected void end() {
