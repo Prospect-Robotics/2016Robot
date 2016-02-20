@@ -72,6 +72,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Joy1 Y", Robot.oi.getJoystick1().getY());
 		SmartDashboard.putNumber("Joy2 X", Robot.oi.getJoystick2().getX());
 		SmartDashboard.putNumber("Joy2 Y", Robot.oi.getJoystick2().getY());
+		SmartDashboard.putBoolean("CompressorStatus", Robot.pneumatics.getCompressorStatus());
 		Scheduler.getInstance().run();
 //		Robot.driveTrain.customPID(DriveTrain.p, DriveTrain.i, DriveTrain.d);
 	}

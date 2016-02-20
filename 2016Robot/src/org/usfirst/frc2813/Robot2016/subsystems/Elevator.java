@@ -10,9 +10,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Elevator extends PIDSubsystem {
 
-	private final SpeedController speedControllerLeft = RobotMap.elevatorSpeedControllerLeft;
-	private final SpeedController speedControllerRight = RobotMap.elevatorSpeedControllerRight;
-	private final Encoder encoder = RobotMap.elevatorEncoder;
+//	private final SpeedController speedControllerLeft = RobotMap.elevatorSpeedControllerLeft;
+//	private final SpeedController speedControllerRight = RobotMap.elevatorSpeedControllerRight;
+//	private final Encoder encoder = RobotMap.elevatorEncoder;
 	private boolean toggle = false;
 
 	public Elevator() {
@@ -34,7 +34,8 @@ public class Elevator extends PIDSubsystem {
 	}
 
 	public double returnPIDInput() {
-		return encoder.getDistance();
+//		return encoder.getDistance();
+		return 0;
 	}
 
 	protected void usePIDOutput(double output) {
@@ -46,7 +47,7 @@ public class Elevator extends PIDSubsystem {
 	}
 
 	public void move(double speed) {
-		speedControllerLeft.set(speed);
-		speedControllerRight.set(-speed);
+//		speedControllerLeft.set(speed);
+//		speedControllerRight.set(-speed);
 	}
 }

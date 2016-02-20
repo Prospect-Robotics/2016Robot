@@ -12,6 +12,7 @@ public class IntakeShooter extends PIDSubsystem {
 
 	private final SpeedController speedControllerLeft = RobotMap.shooterSpeedControllerLeft;
 	private final SpeedController speedControllerRight = RobotMap.shooterSpeedControllerRight;
+	private final SpeedController speedControllerAngle = RobotMap.shooterSpeedControllerAngle;
 	private final Encoder encoder = RobotMap.shooterEncoder;
 
 	public IntakeShooter() {
@@ -40,5 +41,10 @@ public class IntakeShooter extends PIDSubsystem {
 	public void spin(double speed) {
 		speedControllerLeft.set(-speed);
 		speedControllerRight.set(-speed);
+	}
+	
+	public void angle(double speed) {
+//		if (speed < 0) speed = 0;
+		speedControllerAngle.set(speed);
 	}
 }

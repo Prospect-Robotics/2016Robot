@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class IdleIntakeShooter extends Command {
+public class ToggleCompressor extends Command {
 
-    public IdleIntakeShooter() {
+    public ToggleCompressor() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.intakeShooter);
+    	requires(Robot.pneumatics);
     }
 
     // Called just before this Command runs the first time
@@ -22,16 +22,12 @@ public class IdleIntakeShooter extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-//    	SmartDashboard.putNumber("IntakeShooterValue", -Robot.oi.getJoystick1().getZ());
-//    	Robot.intakeShooter.spin(-Robot.oi.getJoystick1().getY()); // Shooter spin
-    	Robot.intakeShooter.spin(0); // Shooter spin
-//    	
-//    	Robot.intakeShooter.angle(-Robot.oi.getJoystick1().getZ()); // Shooter angle
+    	Robot.pneumatics.setCompressor(!Robot.pneumatics.getCompressorStatus());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

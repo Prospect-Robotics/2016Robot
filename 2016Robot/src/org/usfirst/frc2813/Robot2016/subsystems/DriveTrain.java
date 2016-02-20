@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrain extends PIDSubsystem {
 
-	private boolean pIDStatus = true;
+	private boolean pIDStatus = false;
 	// private boolean driveStraight = true;
 	private double marginOfError = 2;
 	private double yaw;
@@ -19,9 +19,9 @@ public class DriveTrain extends PIDSubsystem {
 	private double integral = 0;
 	private double newTime = System.currentTimeMillis();
 	private double oldTime = 0;
-	public static double p = 0.09;
-	public static double i = 0.0;
-	public static double d = 0.0;
+	public static double p = 0.08;
+	public static double i = 0.012;
+	public static double d = 0.007;
 
 	public DriveTrain() {
 		super("ArcadeDrive", p, i, d);
@@ -35,7 +35,7 @@ public class DriveTrain extends PIDSubsystem {
 	}
 
 	public void initDefaultCommand() {
-//		setDefaultCommand(new HaloDrive());
+		setDefaultCommand(new HaloDrive());
 	}
 
 	public boolean getPIDStatus() {
@@ -61,14 +61,11 @@ public class DriveTrain extends PIDSubsystem {
 	}
 
 	protected void usePIDOutput(double output) {
-		// if (returnPIDInput() > getSetpoint() - marginOfError &&
-		// returnPIDInput() < getSetpoint() + marginOfError) {
-		// disablePID();
-		// } else {
-		// enablePID();
-		// }
-		SmartDashboard
-				.putNumber("Nav6UpdateCount", Robot.nav6.getUpdateCount());
+		 if (returnPIDInput() > getSetpoint() - marginOfError &&
+		 returnPIDInput() < getSetpoint() + marginOfError) {
+			 disablePID();
+		 }
+		SmartDashboard.putNumber("Nav6UpdateCount", Robot.nav6.getUpdateCount());
 		SmartDashboard.putNumber("DriveTrainPIDInput", returnPIDInput());
 		SmartDashboard.putNumber("DriveTrainPIDOutput", output);
 		SmartDashboard.putString("PIDStatus", String.valueOf(pIDStatus));
@@ -88,18 +85,19 @@ public class DriveTrain extends PIDSubsystem {
 		enable();
 	}
 
-	public double getOldSetpoint() {
-		return getSetpoint();
-	}
-
-	public void setNewSetpoint(double value) {
-		setSetpoint(value);
+	public void changeSetpoint(double value) {
+		value = returnPIDInput() + value;
+		if (value > 180) value -= 360;
+		else if (value < -180) value += 360;
+		setSetpoint(returnPIDInput() + value);
 	}
 
 	public void customPID(double p, double i, double d) {
-		double dt = newTime - oldTime;
+		double dt = (newTime - oldTime) / 1000;
 		oldTime = newTime;
 		double error = getSetpoint() - returnPIDInput();
+		if (error > 180) error -= 360;
+		else if (error < -180) error += 360;
 		integral = integral + error * dt;
 		double derivative = (error - previousError) / dt;
 		double output = p * error + i * integral + d * derivative;

@@ -11,7 +11,7 @@ public class Arms extends PIDSubsystem {
 	
 	private final SpeedController speedControllerSucker = RobotMap.armsSpeedControllerSucker;
 
-	private final AnalogPotentiometer potentiometer = RobotMap.armsPotentiometer;
+//	private final AnalogPotentiometer potentiometer = RobotMap.armsPotentiometer;
 
 	public Arms() {
 		super("Arms", 1.0, 0.0, 0.0);
@@ -26,7 +26,8 @@ public class Arms extends PIDSubsystem {
 	}
 
 	protected double returnPIDInput() {
-		return potentiometer.get();
+//		return potentiometer.get();
+		return 0;
 	}
 
 	protected void usePIDOutput(double output) {

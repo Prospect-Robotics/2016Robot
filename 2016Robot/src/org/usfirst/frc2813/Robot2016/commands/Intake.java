@@ -14,7 +14,7 @@ public class Intake extends Command {
 	}
 
 	protected void execute() {
-		Robot.intakeShooter.spin(-0.3);
+		Robot.intakeShooter.spin(-1.00);
 
 	}
 
