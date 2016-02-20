@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc2813.Robot2016.Robot;
 
-public class Shoot extends CommandGroup {
+public class Shoot extends Command {
 
     public Shoot() {
     	requires(Robot.intakeShooter);
@@ -18,7 +18,7 @@ public class Shoot extends CommandGroup {
     protected void execute() {
     	Robot.intakeShooter.spin(1);
     	Timer.delay(2);
-    	addSeq
+    	//addSeq piston
     }
 
     protected boolean isFinished() {
