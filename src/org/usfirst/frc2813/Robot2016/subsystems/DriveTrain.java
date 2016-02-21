@@ -3,6 +3,8 @@ package org.usfirst.frc2813.Robot2016.subsystems;
 import org.usfirst.frc2813.Robot2016.Robot;
 import org.usfirst.frc2813.Robot2016.RobotMap;
 import org.usfirst.frc2813.Robot2016.commands.HaloDrive;
+import org.usfirst.frc2813.Robot2016.commands.ImageProcessing;
+import org.usfirst.frc2813.Robot2016.commands.TrajectorySimulator;
 
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -11,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveTrain extends PIDSubsystem {
 
 	private boolean pIDStatus = false;
+	private boolean pointedAtGoal = false;
 	// private boolean driveStraight = true;
 	private double marginOfError = 2;
 	private double yaw;
@@ -46,25 +49,36 @@ public class DriveTrain extends PIDSubsystem {
 		pIDStatus = !pIDStatus;
 	}
 
+	public void enablePID() {
+		pIDStatus = true;
+	}
+
 	public void disablePID() {
 		pIDStatus = false;
 	}
-
-	public void enablePID() {
-		pIDStatus = true;
+	
+	public boolean getPointedAtGoal() {
+		return pointedAtGoal;
+	}
+	
+	public void setPointedAtGoal(boolean value) {
+		pointedAtGoal = value;
 	}
 
 	protected double returnPIDInput() {
 		yaw = Robot.nav6.pidGet();
 		pitch = Robot.nav6.getPitch();
 		return yaw;
+//		return ImageProcessing.findGoal();
 	}
 
 	protected void usePIDOutput(double output) {
 		 if (returnPIDInput() > getSetpoint() - marginOfError &&
 		 returnPIDInput() < getSetpoint() + marginOfError) {
+			 integral = 0;
+			 pointedAtGoal = true;
 			 disablePID();
-		 }
+		 } else pointedAtGoal = false;
 		SmartDashboard.putNumber("Nav6UpdateCount", Robot.nav6.getUpdateCount());
 		SmartDashboard.putNumber("DriveTrainPIDInput", returnPIDInput());
 		SmartDashboard.putNumber("DriveTrainPIDOutput", output);
@@ -90,14 +104,15 @@ public class DriveTrain extends PIDSubsystem {
 		if (value > 180) value -= 360;
 		else if (value < -180) value += 360;
 		setSetpoint(returnPIDInput() + value);
+//		setSetpoint(centerX + 100);
 	}
 
 	public void customPID(double p, double i, double d) {
 		double dt = (newTime - oldTime) / 1000;
 		oldTime = newTime;
 		double error = getSetpoint() - returnPIDInput();
-		if (error > 180) error -= 360;
-		else if (error < -180) error += 360;
+//		if (error > 180) error -= 360;
+//		else if (error < -180) error += 360;
 		integral = integral + error * dt;
 		double derivative = (error - previousError) / dt;
 		double output = p * error + i * integral + d * derivative;

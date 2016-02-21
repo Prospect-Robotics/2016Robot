@@ -1,14 +1,14 @@
 package org.usfirst.frc2813.Robot2016.commands;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
 import org.usfirst.frc2813.Robot2016.Robot;
 
-public class Shoot extends Command {
+public class Shoot extends CommandGroup {
 
     public Shoot() {
-    	requires(Robot.intakeShooter);
+    	requires(Robot.shooterWheels);
     }
 
     protected void initialize() {
@@ -16,9 +16,9 @@ public class Shoot extends Command {
     }
 
     protected void execute() {
-    	Robot.intakeShooter.spin(1);
+    	Robot.shooterWheels.spin(1);
     	Timer.delay(2);
-    	//addSeq piston
+    	addSequential(new FirePistonShooter());
     }
 
     protected boolean isFinished() {
@@ -29,6 +29,6 @@ public class Shoot extends Command {
     }
 
     protected void interrupted() {
-    	Robot.intakeShooter.spin(0);
+    	Robot.shooterWheels.spin(0);
     }
 }

@@ -20,7 +20,8 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static Elevator elevator;
 	public static Nav6 nav6;
-	public static IntakeShooter intakeShooter;
+	public static ShooterAim shooterAim;
+	public static ShooterWheels shooterWheels;
 	public static Pneumatics pneumatics;
 	public static DriveTrain driveTrain;
 	public static Arms arms;
@@ -30,7 +31,8 @@ public class Robot extends IterativeRobot {
 		RobotMap.init();
 
 		elevator = new Elevator();
-		intakeShooter = new IntakeShooter();
+		shooterAim = new ShooterAim();
+		shooterWheels = new ShooterWheels();
 		nav6 = new Nav6();
 		pneumatics = new Pneumatics();
 		driveTrain = new DriveTrain();

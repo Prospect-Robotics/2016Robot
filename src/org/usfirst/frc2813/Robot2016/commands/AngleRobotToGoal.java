@@ -3,17 +3,16 @@ package org.usfirst.frc2813.Robot2016.commands;
 import org.usfirst.frc2813.Robot2016.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class IdleShooter extends Command {
+public class AngleRobotToGoal extends Command {
 
-    public IdleShooter() {
+    public AngleRobotToGoal() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.shooterAim);
+    	requires(Robot.driveTrain);
     }
 
     // Called just before this Command runs the first time
@@ -22,24 +21,25 @@ public class IdleShooter extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-//    	SmartDashboard.putNumber("IntakeShooterValue", -Robot.oi.getJoystick1().getZ());
-//    	Robot.shooterAim.spin(-Robot.oi.getJoystick1().getY()); // Shooter spin
-    	Robot.shooterWheels.spin(0); // Shooter spin
-//    	
-    	Robot.shooterAim.angle(0.75 * Math.sqrt((-Robot.oi.getJoystick1().getZ() + 1.1)) - 1); // Shooter angle
+    	Robot.driveTrain.enablePID();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+    	if (Robot.driveTrain.getPointedAtGoal()) return true;
         return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.driveTrain.disablePID();
+    	Robot.driveTrain.setPointedAtGoal(false);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.driveTrain.disablePID();
+    	Robot.driveTrain.setPointedAtGoal(false);
     }
 }
