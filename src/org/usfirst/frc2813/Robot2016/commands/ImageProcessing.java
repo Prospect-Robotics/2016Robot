@@ -6,55 +6,47 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
+import org.usfirst.frc2813.Robot2016.Robot;
+
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ImageProcessing {
 		
-	private int maxWidthIndex;
-	private double minX;
-	private double maxX;
-	private double minY;
-	private double maxY;
+	private static int maxWidthIndex;
+	private static double minX;
+	private static double maxX;
+	private static double minY;
+	private static double maxY;
 	
-	private double[] goalWidths;
-	private double[] goalHeights;
-	private double[] goalXs;
-	private double[] goalYs;
-	private double[] lineAngles;
-	private double[] lineLengths;
-	private double[] x1Coordinates;
-	private double[] y1Coordinates;
-	private double[] x2Coordinates;
-	private double[] y2Coordinates;
+	private static double[] goalWidths;
+	private static double[] goalHeights;
+	private static double[] goalXs;
+	private static double[] goalYs;
+	private static double[] lineAngles;
+	private static double[] lineLengths;
+	private static double[] x1Coordinates;
+	private static double[] y1Coordinates;
+	private static double[] x2Coordinates;
+	private static double[] y2Coordinates;
 	
-	private double marginOfError = 8.5; // Difference between detected contour width and points of lines
-	private List<Point2D.Double> points = new ArrayList<Point2D.Double>();
-	private Point2D.Double bottomLeftPoint;
-	private Point2D.Double bottomRightPoint;
-	private Point2D.Double topLeftPoint;
-	private Point2D.Double topRightPoint;
-	private Point2D.Double targetPoint;
-	private double targetDistance;
+	private static double marginOfError = 8.5; // Difference between detected contour width and points of lines
+	private static List<Point2D.Double> points = new ArrayList<Point2D.Double>();
+	private static Point2D.Double bottomLeftPoint;
+	private static Point2D.Double bottomRightPoint;
+	private static Point2D.Double topLeftPoint;
+	private static Point2D.Double topRightPoint;
+	private static Point2D.Double targetPoint;
+	private static double targetDistance;
 	
-	private List<double[]> goalAngles = new ArrayList<double[]>();
-	private double goalAngle = -180;
-	private double angleError = 3;
+	private static List<double[]> goalAngles = new ArrayList<double[]>();
+	private static double goalAngle = -180;
+	private static double angleError = 3;
 	
-	
-	
-	public ImageProcessing() {
-		NetworkTable.setClientMode();
-		NetworkTable.setIPAddress("roborio-2813-frc.local");
-	}
-	
-	
-	public double[] findGoal() {
+	public static double[] findGoal() {
 
 		try {
 
-//			NetworkTable table = NetworkTable.getTable("GRIP");r
-			NetworkTable table = null;
 
 			// Populate angles list
 			for (double angle = -45 + angleError/2; angle <= 45; angle += angleError) {
@@ -63,18 +55,18 @@ public class ImageProcessing {
 			}
 			
 			// Get contour report
-			goalWidths = table.getSubTable("myContoursReport").getNumberArray("width");
-			goalHeights = table.getSubTable("myContoursReport").getNumberArray("height");
-			goalXs = table.getSubTable("myContoursReport").getNumberArray("centerX");
-			goalYs = table.getSubTable("myContoursReport").getNumberArray("centerY");
+			goalWidths = Robot.table.getSubTable("myContoursReport").getNumberArray("width");
+			goalHeights = Robot.table.getSubTable("myContoursReport").getNumberArray("height");
+			goalXs = Robot.table.getSubTable("myContoursReport").getNumberArray("centerX");
+			goalYs = Robot.table.getSubTable("myContoursReport").getNumberArray("centerY");
 			
 			// Get line report
-			lineAngles = table.getSubTable("myLinesReport").getNumberArray("angle");
-			lineLengths = table.getSubTable("myLinesReport").getNumberArray("length");
-			x1Coordinates = table.getSubTable("myLinesReport").getNumberArray("x1");
-			y1Coordinates = table.getSubTable("myLinesReport").getNumberArray("y1");
-			x2Coordinates = table.getSubTable("myLinesReport").getNumberArray("x2");
-			y2Coordinates = table.getSubTable("myLinesReport").getNumberArray("y2");
+			lineAngles = Robot.table.getSubTable("myLinesReport").getNumberArray("angle");
+			lineLengths = Robot.table.getSubTable("myLinesReport").getNumberArray("length");
+			x1Coordinates = Robot.table.getSubTable("myLinesReport").getNumberArray("x1");
+			y1Coordinates = Robot.table.getSubTable("myLinesReport").getNumberArray("y1");
+			x2Coordinates = Robot.table.getSubTable("myLinesReport").getNumberArray("x2");
+			y2Coordinates = Robot.table.getSubTable("myLinesReport").getNumberArray("y2");
 			
 			
 			// Picks the goal with the biggest width for optimal shooting space
