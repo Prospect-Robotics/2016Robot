@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc2813.Robot2016.commands.ImageProcessing;
 import org.usfirst.frc2813.Robot2016.subsystems.*;
 
 public class Robot extends IterativeRobot {
@@ -14,6 +15,7 @@ public class Robot extends IterativeRobot {
 	Command autonomousCommand;
 
 	public static AnalogInput ultrasonicSensor;
+	public static ImageProcessing imageProcessing;
 	public static OI oi;
 	public static Elevator elevator;
 	public static Nav6 nav6;
@@ -34,6 +36,7 @@ public class Robot extends IterativeRobot {
 		arms = new Arms();
 		oi = new OI();
 		ultrasonicSensor = new AnalogInput(3);
+		imageProcessing = new ImageProcessing();
 
 	}
 

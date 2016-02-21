@@ -11,49 +11,50 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ImageProcessing {
 		
-	private static int maxWidthIndex;
-	private static double minX;
-	private static double maxX;
-	private static double minY;
-	private static double maxY;
+	private int maxWidthIndex;
+	private double minX;
+	private double maxX;
+	private double minY;
+	private double maxY;
 	
-	private static double[] goalWidths;
-	private static double[] goalHeights;
-	private static double[] goalXs;
-	private static double[] goalYs;
-	private static double[] lineAngles;
-	private static double[] lineLengths;
-	private static double[] x1Coordinates;
-	private static double[] y1Coordinates;
-	private static double[] x2Coordinates;
-	private static double[] y2Coordinates;
+	private double[] goalWidths;
+	private double[] goalHeights;
+	private double[] goalXs;
+	private double[] goalYs;
+	private double[] lineAngles;
+	private double[] lineLengths;
+	private double[] x1Coordinates;
+	private double[] y1Coordinates;
+	private double[] x2Coordinates;
+	private double[] y2Coordinates;
 	
-	private static double marginOfError = 8.5; // Difference between detected contour width and points of lines
-	private static List<Point2D.Double> points = new ArrayList<Point2D.Double>();
-	private static Point2D.Double bottomLeftPoint;
-	private static Point2D.Double bottomRightPoint;
-	private static Point2D.Double topLeftPoint;
-	private static Point2D.Double topRightPoint;
-	private static Point2D.Double targetPoint;
-	private static double targetDistance;
+	private double marginOfError = 8.5; // Difference between detected contour width and points of lines
+	private List<Point2D.Double> points = new ArrayList<Point2D.Double>();
+	private Point2D.Double bottomLeftPoint;
+	private Point2D.Double bottomRightPoint;
+	private Point2D.Double topLeftPoint;
+	private Point2D.Double topRightPoint;
+	private Point2D.Double targetPoint;
+	private double targetDistance;
 	
-	private static List<double[]> goalAngles = new ArrayList<double[]>();
-	private static double goalAngle = -180;
-	private static double angleError = 3;
+	private List<double[]> goalAngles = new ArrayList<double[]>();
+	private double goalAngle = -180;
+	private double angleError = 3;
 	
-	private static NetworkTable table;
+	
 	
 	public ImageProcessing() {
 		NetworkTable.setClientMode();
 		NetworkTable.setIPAddress("roborio-2813-frc.local");
-		table = NetworkTable.getTable("GRIP");
 	}
 	
 	
-	public static double[] findGoal() {
+	public double[] findGoal() {
 
 		try {
-			
+
+//			NetworkTable table = NetworkTable.getTable("GRIP");r
+			NetworkTable table = null;
 
 			// Populate angles list
 			for (double angle = -45 + angleError/2; angle <= 45; angle += angleError) {
@@ -210,7 +211,7 @@ public class ImageProcessing {
 			double[] output = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
 			return output;
 		}
-		
+
 	}
 	
 

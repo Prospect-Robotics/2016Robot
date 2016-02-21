@@ -44,7 +44,7 @@ public class OI {
 		new JoystickButton(joystick1, 2).whenPressed(new FirePistonShooter());
 		new JoystickButton(joystick1, 3).whileHeld(new ShooterIntake());
 		new JoystickButton(joystick1, 4).whenPressed(new ToggleElevatorPiston());
-		new JoystickButton(joystick1, 10).whileHeld(new RunImageProcesssingOnce());
+		new JoystickButton(joystick1, 10).whenPressed(new RunImageProcesssingOnce());
 
 	}
 
