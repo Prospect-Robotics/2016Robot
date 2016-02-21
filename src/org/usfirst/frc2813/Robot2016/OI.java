@@ -10,6 +10,7 @@ import org.usfirst.frc2813.Robot2016.commands.DisableRecording;
 import org.usfirst.frc2813.Robot2016.commands.EnableRecording;
 import org.usfirst.frc2813.Robot2016.commands.ShooterIntake;
 import org.usfirst.frc2813.Robot2016.commands.ResetNav6;
+import org.usfirst.frc2813.Robot2016.commands.RunImageProcesssingOnce;
 import org.usfirst.frc2813.Robot2016.commands.Shoot;
 import org.usfirst.frc2813.Robot2016.commands.FirePistonShooter;
 import org.usfirst.frc2813.Robot2016.commands.ToggleCompressor;
@@ -43,7 +44,7 @@ public class OI {
 		new JoystickButton(joystick1, 2).whenPressed(new FirePistonShooter());
 		new JoystickButton(joystick1, 3).whileHeld(new ShooterIntake());
 		new JoystickButton(joystick1, 4).whenPressed(new ToggleElevatorPiston());
-		new JoystickButton(joystick1, 10).whenPressed(new ToggleCompressor());
+		new JoystickButton(joystick1, 10).whileHeld(new RunImageProcesssingOnce());
 
 	}
 
