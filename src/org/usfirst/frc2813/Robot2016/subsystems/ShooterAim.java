@@ -69,8 +69,8 @@ public class ShooterAim extends PIDSubsystem {
 			integral = 0;
 			pointedAtGoal = true;
 		} else pointedAtGoal = false;
-//		System.out.println("AIM OUTPUT: " + output);
-//		System.out.println("SETPOINT: " + getAngle());
+//		SmartDashboard.putNumber("AimPIDOutput", output);
+		SmartDashboard.putNumber("AimPIDSetpoint", getAngle());
 		if (pIDStatus) {
 			speedControllerAngle.pidWrite(output);
 		}

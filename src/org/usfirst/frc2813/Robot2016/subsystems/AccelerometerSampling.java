@@ -5,8 +5,7 @@ import org.usfirst.frc2813.Robot2016.RobotMap;
 import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-//take samples to get average. I don't know stats
-public class AvgAccelerometer extends Subsystem {
+public class AccelerometerSampling extends Subsystem {
 
 	final int numberOfSamples = 10;
 	
@@ -15,7 +14,7 @@ public class AvgAccelerometer extends Subsystem {
 	private double[] yValues;
 	private double[] zValues;
 	
-	public AvgAccelerometer() {
+	public AccelerometerSampling() {
 		accelerometer = RobotMap.accelerometer;
 		xValues = new double[numberOfSamples];
 		yValues = new double[numberOfSamples];
@@ -25,7 +24,6 @@ public class AvgAccelerometer extends Subsystem {
 		}
 	}
 	
-	@Override
 	protected void initDefaultCommand() {
 		
 	}

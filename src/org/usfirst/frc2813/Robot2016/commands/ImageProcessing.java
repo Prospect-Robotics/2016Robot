@@ -1,14 +1,8 @@
 package org.usfirst.frc2813.Robot2016.commands;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import javax.swing.JFrame;
-
 import org.usfirst.frc2813.Robot2016.Robot;
-
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ImageProcessing {
 		
@@ -128,8 +122,7 @@ public class ImageProcessing {
 				}
 			}
 			if (numberOfOccurances == 0) {
-				double[] output = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
-				return output;
+				return new double[0];
 			}
 
 			// Save all of the corner points
@@ -183,10 +176,6 @@ public class ImageProcessing {
 			// Clear lists for next iteration
 			points.clear();
 			goalAngles.clear();
-
-			// Print results for testing
-			SmartDashboard.putString("GoalCenter", "(" + goalXs[maxWidthIndex] + ", " + goalYs[maxWidthIndex] + ")");
-			SmartDashboard.putBoolean("Goal", true);
 			
 			double[] output = {topLeftPoint[0], topLeftPoint[1], topRightPoint[0], topRightPoint[1], bottomLeftPoint[0], bottomLeftPoint[1], bottomRightPoint[0], bottomRightPoint[1], goalXs[maxWidthIndex], goalYs[maxWidthIndex]};
 			return output;
@@ -196,17 +185,13 @@ public class ImageProcessing {
 			// Clear lists for next iteration
 			points.clear();
 			goalAngles.clear();
-			SmartDashboard.putBoolean("Goal", false);
-			double[] output = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
-			return output;
+			return new double[0];
 		} catch (Exception ex) {
-			
 			// Clear lists for next iteration
 			points.clear();
 			goalAngles.clear();
-			SmartDashboard.putString("GoalError", ex.getMessage());
-			double[] output = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
-			return output;
+			System.out.println("Image proccessing error: " + ex.getMessage());
+			return new double[0];
 		}
 		
 	}

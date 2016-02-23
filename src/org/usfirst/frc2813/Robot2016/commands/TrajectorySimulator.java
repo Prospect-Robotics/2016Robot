@@ -17,7 +17,7 @@ public class TrajectorySimulator  {
 
 
 	
-//	private static double timer = System.currentTimeMillis();
+	private static double timer;
 	
 	// Trajectory Algorithm (in cm) ***VALUES ARE NOT CURRENTLY ACCURATE***
 	private static double changeInTime; /* The time (in seconds) added to the time at every
@@ -78,8 +78,8 @@ public class TrajectorySimulator  {
 //		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		changeInTime = 0.007;
-		distGoalX = TiltCameraDistanceCalculator.targetDistance((int) Math.round(Robot.bottomGoalY)) - 43.18;
-		distGoalY = 68;
+		distGoalX = TiltCameraDistanceCalculator.targetDistance((int) Math.round(Robot.bottomGoalY)) + 43.18;
+		distGoalY = 216.17;
 		angleOfShooter = 10;
 		velocity = 1600;
 		velocityX = velocity * Math.cos(Math.toRadians(angleOfShooter));
@@ -95,10 +95,12 @@ public class TrajectorySimulator  {
 		initialVelocity = velocity;
 //		rand = new Random();
 		minDistance = -1;
-//		timer = System.currentTimeMillis();
+		timer = System.currentTimeMillis();
 		bestAttemptValues = new double[2];
 		minAngle = 10;
 		maxAngle = 90;
+		
+		System.out.println("Distance from goal: " + distGoalX);
 		
 		// Close to mid range
 //		for (int i = 0; true; i++) {
@@ -110,7 +112,7 @@ public class TrajectorySimulator  {
 //			boolean foundValue = true;
 //			
 //			// Calculate actual starting position of ball (changes with angle of shooter)
-//			actualDistGoalX = distGoalX + (35.56 * Math.cos(angleOfShooter));
+//			actualDistGoalX = distGoalX - (35.56 * Math.cos(angleOfShooter));
 //			actualDistGoalY = distGoalY - (35.56 * Math.sin(angleOfShooter));
 //			
 //			for (int j = 0; !velocityTuned && foundValue; j++) {
@@ -120,9 +122,9 @@ public class TrajectorySimulator  {
 //				calculateTajectory(false, false, false);
 //				
 //				// Change initial velocity based on guessed error
-//				if (x < distGoalX - 1) {
+//				if (x < actualDistGoalX - 1) {
 //					minSpeed = initialVelocity;
-//				} else if (x > distGoalX + 3) {
+//				} else if (x > actualDistGoalX + 3) {
 //					maxSpeed = initialVelocity;
 //				} else {
 //					if (initialVelocity <= 1700) velocityTuned = true;
@@ -131,7 +133,7 @@ public class TrajectorySimulator  {
 //			}
 //			
 //			if (foundValue) {
-//				double guessDistance = Math.sqrt(Math.pow(distGoalX - x, 2) + Math.pow(distGoalY - 30.48 - y, 2));
+//				double guessDistance = Math.sqrt(Math.pow(actualDistGoalX - x, 2) + Math.pow(actualDistGoalY - y, 2));
 //				if (guessDistance < minDistance || minDistance == -1) {
 //					minDistance = guessDistance;
 //					bestAttemptValues[0] = angleOfShooter;
@@ -144,7 +146,7 @@ public class TrajectorySimulator  {
 ////				point(angleOfShooter, guessDistance + 200, new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255)));
 //				if (minDistance > 5) {
 //					
-//					if (y < distGoalY - 30.48) {
+//					if (y < actualDistGoalY) {
 //						minAngle = angleOfShooter;
 //					} else {
 //						maxAngle = angleOfShooter;
@@ -165,7 +167,7 @@ public class TrajectorySimulator  {
 			maxAngle = 90;
 			
 			// Calculate actual starting position of ball (changes with angle of shooter)
-			actualDistGoalX = distGoalX + (35.56 * Math.cos(angleOfShooter));
+			actualDistGoalX = distGoalX - (35.56 * Math.cos(angleOfShooter));
 			actualDistGoalY = distGoalY - (35.56 * Math.sin(angleOfShooter));
 			
 			for (int i = 0; true; i++) {
@@ -174,14 +176,14 @@ public class TrajectorySimulator  {
 				
 				calculateTajectory(true, false, false);
 				
-				double guessDistance = Math.abs(distGoalY - 30.48 - y);
+				double guessDistance = Math.abs(actualDistGoalY - y);
 				if (guessDistance < minDistance || minDistance == -1) {
 					minDistance = guessDistance;
 					bestAttemptValues[0] = angleOfShooter;
 					bestAttemptValues[1] = initialVelocity;
 				}
 				if (minDistance > 5) {
-					if (y < distGoalY - 30.48) {
+					if (y < actualDistGoalY) {
 						minAngle = angleOfShooter;
 					} else {
 						maxAngle = angleOfShooter;
@@ -194,17 +196,18 @@ public class TrajectorySimulator  {
 		}
 		
 		if (minDistance == -1 || minDistance > 50) {
-			System.out.println("Velocity would need to be higher than shooter can handle.");
-			double[] output = {-1, -1};
-			return output;
+			System.out.println("The velocity of the shooter wheels would need to be higher than shooter can handle.");
+			return new double[0];
 		}
 		else {
-//			System.out.println("Time (in milliseconds): " + (System.currentTimeMillis() - timer));
+			System.out.println("Time (in milliseconds) for trajectory calculation: " + (System.currentTimeMillis() - timer));
+			
+			System.out.println("The shot was calculated to land " + minDistance + "cm from the goal.");
+			
 			angleOfShooter = bestAttemptValues[0];
 			initialVelocity = bestAttemptValues[1];
 			System.out.println("Angle: " + bestAttemptValues[0]);
 			System.out.println("Velocity: " + bestAttemptValues[1]);
-			System.out.println("Distance from goal: " + distGoalX);
 //			initialVelocity = 1700;
 //			angleOfShooter = 26;
 //			calculateTajectory(true, true, false);

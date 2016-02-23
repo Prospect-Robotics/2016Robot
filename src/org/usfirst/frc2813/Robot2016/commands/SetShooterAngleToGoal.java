@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class SetShooterAngle extends Command {
+public class SetShooterAngleToGoal extends Command {
 
-    public SetShooterAngle() {
+    public SetShooterAngleToGoal() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.shooterAim);
@@ -21,7 +21,7 @@ public class SetShooterAngle extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double angle = TrajectorySimulator.findTrajectory()[0];
+    	double angle = Robot.autoShooterValues[0];
     	Robot.shooterAim.setAngle(angle);
     	
     }
