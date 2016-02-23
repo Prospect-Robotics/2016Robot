@@ -12,7 +12,7 @@ public class ShootIntoGoal extends CommandGroup {
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
-    	addSequential(new AngleRobotToGoal());
+//    	addSequential(new AngleRobotToGoal());
     	addSequential(new SetShooterAngle());
     	addSequential(new Shoot());
         // To run multiple commands at the same time,

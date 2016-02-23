@@ -8,54 +8,74 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 //take samples to get average. I don't know stats
 public class AvgAccelerometer extends Subsystem {
 
-	double accelX;
-	double accelY;
-	double accelZ;
-	double sumX = 0;
-	double sumY = 0;
-	double sumZ = 0;
+	final int numberOfSamples = 10;
 	
-	int samples = 0;
-	int requiredSamples = 100;
-	ADXL345_I2C accelerometer = RobotMap.accelerometer;
+	private ADXL345_I2C accelerometer;
+	private double[] xValues;
+	private double[] yValues;
+	private double[] zValues;
+	
+	public AvgAccelerometer() {
+		accelerometer = RobotMap.accelerometer;
+		xValues = new double[numberOfSamples];
+		yValues = new double[numberOfSamples];
+		zValues = new double[numberOfSamples];
+		for (int i = 0; i < numberOfSamples; i++) {
+			update();
+		}
+	}
 	
 	@Override
 	protected void initDefaultCommand() {
-
-		accelX = accelerometer.getX();
-		accelY = accelerometer.getY();
-		accelZ = accelerometer.getZ();
 		
 	}
 	
 	public void update(){
-		if(samples >= requiredSamples){
-			accelX = sumX/samples;
-			accelY = sumY/samples;
-			accelZ = sumZ/samples;
-			samples = 0;
-			sumX = 0;
-			sumY = 0;
-			sumZ = 0;
+		for (int i = 0; i < numberOfSamples - 1; i++) {
+			xValues[i] = xValues[i + 1];
+			yValues[i] = yValues[i + 1];
+			zValues[i] = zValues[i + 1];
 		}
-		else{
-			samples++;
-			sumX+=accelerometer.getX();
-			sumY+=accelerometer.getY();
-			sumZ+=accelerometer.getZ();			
+		xValues[numberOfSamples - 1] = this.getX();
+		yValues[numberOfSamples - 1] = this.getY();
+		zValues[numberOfSamples - 1] = this.getZ();
+	}
+	
+	public double getXAvg() {
+		double sum = 0;
+		for (int i = 0; i < numberOfSamples; i++) {
+			sum += xValues[i];
 		}
+		return sum/numberOfSamples;
 	}
-
-	public double getX(){
-		return accelX;
+	
+	public double getYAvg() {
+		double sum = 0;
+		for (int i = 0; i < numberOfSamples; i++) {
+			sum += yValues[i];
+		}
+		return sum/numberOfSamples;
 	}
-	public double getY(){
-		return accelY;
+	
+	public double getZAvg() {
+		double sum = 0;
+		for (int i = 0; i < numberOfSamples; i++) {
+			sum += zValues[i];
+		}
+		return sum/numberOfSamples;
 	}
-	public double getZ(){
-		return accelZ;
+	
+	private double getX(){
+		return RobotMap.accelerometer.getX();
 	}
-    
+	
+	private double getY(){
+		return RobotMap.accelerometer.getY();
+	}
+	
+	private double getZ(){
+		return RobotMap.accelerometer.getZ();
+	}
 	
 }
 

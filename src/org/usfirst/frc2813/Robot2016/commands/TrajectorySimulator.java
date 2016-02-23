@@ -7,6 +7,7 @@ package org.usfirst.frc2813.Robot2016.commands;
 //import java.util.Arrays;
 //import java.util.Random;
 
+import org.usfirst.frc2813.Robot2016.Robot;
 import org.usfirst.frc2813.Robot2016.subsystems.TiltCameraDistanceCalculator;
 
 //import javax.swing.JComponent;
@@ -58,6 +59,10 @@ public class TrajectorySimulator  {
 	private static double minAngle;
 	private static double maxAngle;
 	
+	private static double actualDistGoalX;
+
+	private static double actualDistGoalY;
+	
 //	private static Random rand;
 //	
 //	private static int width;
@@ -73,10 +78,10 @@ public class TrajectorySimulator  {
 //		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		changeInTime = 0.007;
-		distGoalX = 0;
+		distGoalX = TiltCameraDistanceCalculator.targetDistance((int) Math.round(Robot.bottomGoalY)) - 43.18;
 		distGoalY = 68;
 		angleOfShooter = 10;
-		velocity = 1000;
+		velocity = 1600;
 		velocityX = velocity * Math.cos(Math.toRadians(angleOfShooter));
 		velocityY = velocity * Math.sin(Math.toRadians(angleOfShooter));
 		time = 0;
@@ -105,11 +110,8 @@ public class TrajectorySimulator  {
 //			boolean foundValue = true;
 //			
 //			// Calculate actual starting position of ball (changes with angle of shooter)
-//			distGoalX = Math.sqrt(Math.pow(goalX - shooterX, 2) + Math.pow(goalZ - shooterZ, 2))
-//						- (5 /* dist from cam to shooter */ + 20 /* dist from shooter axel to end of shooter */
-//						   * Math.cos(angleOfShooter));
-//			distGoalY = goalY - + 20 /* dist from shooter axel to end of shooter */
-//						* Math.sin(angleOfShooter);
+//			actualDistGoalX = distGoalX + (35.56 * Math.cos(angleOfShooter));
+//			actualDistGoalY = distGoalY - (35.56 * Math.sin(angleOfShooter));
 //			
 //			for (int j = 0; !velocityTuned && foundValue; j++) {
 //				
@@ -158,15 +160,13 @@ public class TrajectorySimulator  {
 		// Long range
 		if (minDistance == -1 || minDistance > 50) {
 			
-			initialVelocity = 1700;
+			initialVelocity = 1600;
 			minAngle = 10;
 			maxAngle = 90;
 			
 			// Calculate actual starting position of ball (changes with angle of shooter)
-			distGoalX = //Math.sqrt(Math.pow(goalX - shooterX, 2) + Math.pow(goalZ - shooterZ, 2))
-						- (5 /* dist from cam to shooter */ + 20 /* dist from shooter axel to end of shooter */
-						   * Math.cos(angleOfShooter));
-			distGoalY = 68 - Math.sin(angleOfShooter);
+			actualDistGoalX = distGoalX + (35.56 * Math.cos(angleOfShooter));
+			actualDistGoalY = distGoalY - (35.56 * Math.sin(angleOfShooter));
 			
 			for (int i = 0; true; i++) {
 
@@ -202,9 +202,9 @@ public class TrajectorySimulator  {
 //			System.out.println("Time (in milliseconds): " + (System.currentTimeMillis() - timer));
 			angleOfShooter = bestAttemptValues[0];
 			initialVelocity = bestAttemptValues[1];
-//			System.out.println("Angle: " + bestAttemptValues[0]);
-//			System.out.println("Velocity: " + bestAttemptValues[1]);
-//			System.out.println("Distance from goal: " + minDistance);
+			System.out.println("Angle: " + bestAttemptValues[0]);
+			System.out.println("Velocity: " + bestAttemptValues[1]);
+			System.out.println("Distance from goal: " + distGoalX);
 //			initialVelocity = 1700;
 //			angleOfShooter = 26;
 //			calculateTajectory(true, true, false);

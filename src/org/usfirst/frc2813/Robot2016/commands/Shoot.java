@@ -9,6 +9,7 @@ public class Shoot extends CommandGroup {
 
     public Shoot() {
     	requires(Robot.shooterWheels);
+    	requires(Robot.pneumatics);
     }
 
     protected void initialize() {
@@ -17,10 +18,11 @@ public class Shoot extends CommandGroup {
 
     protected void execute() {
     	Robot.shooterWheels.spin(1);
-    	Timer.delay(2);
-    	Robot.pneumatics.setShooterSolenoidStatus(true);
+//    	Robot.pneumatics.setShooterSolenoidStatus(false);
+    	Timer.delay(3);
+//    	Robot.pneumatics.setShooterSolenoidStatus(true);
     	Timer.delay(0.5);
-    	Robot.pneumatics.setShooterSolenoidStatus(false);
+//    	Robot.pneumatics.setShooterSolenoidStatus(false);
     }
 
     protected boolean isFinished() {

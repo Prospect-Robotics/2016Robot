@@ -15,6 +15,7 @@ import org.usfirst.frc2813.Robot2016.commands.ShooterJogUp;
 import org.usfirst.frc2813.Robot2016.commands.ResetNav6;
 import org.usfirst.frc2813.Robot2016.commands.RunImageProcesssingOnce;
 import org.usfirst.frc2813.Robot2016.commands.Shoot;
+import org.usfirst.frc2813.Robot2016.commands.ShootIntoGoal;
 import org.usfirst.frc2813.Robot2016.commands.FirePistonShooter;
 import org.usfirst.frc2813.Robot2016.commands.ToggleCompressor;
 import org.usfirst.frc2813.Robot2016.commands.ToggleElevatorPiston;
@@ -49,7 +50,7 @@ public class OI {
 		new JoystickButton(joystick1, 2).whenPressed(new FirePistonShooter());
 		new JoystickButton(joystick1, 3).whileHeld(new ShooterIntake());
 //		new JoystickButton(joystick1, 4).whenPressed(new ToggleElevatorPiston());
-		new JoystickButton(joystick1, 8).whenPressed(new AngleRobotToGoal());
+		new JoystickButton(joystick1, 8).whenPressed(new ShootIntoGoal());
 		
 		new JoystickButton(operator, 1).whileHeld(new ShooterJogUp());
 		new JoystickButton(operator, 4).whileHeld(new ShooterJogDown());

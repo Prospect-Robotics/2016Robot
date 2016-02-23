@@ -28,8 +28,7 @@ public class Robot extends IterativeRobot {
 	public static Pneumatics pneumatics;
 	public static DriveTrain driveTrain;
 	public static Arms arms;
-	public static TiltCameraDistanceCalculator distanceCalculator;
-	public static double goalX;
+	public static double bottomGoalY;
 	public final double RANGE_SCALE = 4.88 / 512;
 	public static AvgAccelerometer avgAccel;
 	
@@ -47,7 +46,6 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		ultrasonicSensor = new AnalogInput(3);
 		table = NetworkTable.getTable("GRIP");
-		distanceCalculator = new TiltCameraDistanceCalculator(480, 24.5, 29.21, 83, 28);
 		avgAccel = new AvgAccelerometer();
 		
 
@@ -106,13 +104,14 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("AccelZ", RobotMap.accelerometer.getZ());
 		
 		SmartDashboard.putBoolean("CompressorStatus", Robot.pneumatics.getCompressorStatus());
-		System.out.println("Accelerometer Angle: " + ((Math.atan2(RobotMap.accelerometer.getY(), RobotMap.accelerometer.getX()) * 180.0) / Math.PI));
+		avgAccel.update();
+//		System.out.println("Accelerometer Angle: " + (88.3 -(Math.atan2(avgAccel.getYAvg(), avgAccel.getXAvg()) * 180.0) / Math.PI));
 //		System.out.println("ENCODER VALUE: " + RobotMap.shooterEncoder.getDistance());
 //		System.out.println("MAGNET SENSOR: " + RobotMap.limitSwitch.get());
 		if (!RobotMap.limitSwitch.get()) RobotMap.shooterEncoder.reset();
-    	Robot.goalX = ImageProcessing.findGoal()[8];
+    	Robot.bottomGoalY = (ImageProcessing.findGoal()[5] + ImageProcessing.findGoal()[7]) / 2;
+		Robot.shooterAim.customPID(0.018, 0.0000, 0.0);
 		Scheduler.getInstance().run();
-//		Robot.driveTrain.customPID(DriveTrain.p, DriveTrain.i, DriveTrain.d);
 	}
 
 	public void testPeriodic() {

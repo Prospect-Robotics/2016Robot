@@ -47,33 +47,6 @@ package org.usfirst.frc2813.Robot2016.subsystems;
  * 
  */
 public class TiltCameraDistanceCalculator {
-
-	int FOVp;    // view port size of the camera in pixels
-	double view; // angle of view converted to radians (θ above)
-	double hc;	 // camera height in world units (usually feet or meters)
-	double h;   // height of the target minus the camera height
-	double tilt; // tilt angle converted to radians (α above) 
-	
-	/**
-	 * Create a calculator object to use to resolve the distance of the camera to the target
-	 * 
-	 * Parameters must be specified in the constructor but you can change them later.
-	 * This simplifies the calculation process. If you have a camera that can tilt
-	 * during operation you can just update it before executing the distance calculation.
-	 * 
-	 * @param FOVp view port size of the camera in pixels
-	 * @param view angle of view in degrees (θ)
-	 * @param hc camera height in world units (usually feet or meters)
-	 * @param hT height of the target
-	 * @param tilt camera tilt angle in degrees (α) 
-	 */
-	public TiltCameraDistanceCalculator(int FOVp, double view, double hc, double hT, double tilt) {
-		this.FOVp = FOVp;
-		this.setView(view);
-		this.hc = hc;
-		this.h = hT - hc;
-		this.setTilt(tilt);
-	}
 	
 	/**
 	 * Calculate the distance to the target in world units based on the pixel
@@ -82,68 +55,18 @@ public class TiltCameraDistanceCalculator {
 	 * @param hp the distance in pixels from the target to the view axis of the camera
 	 * @return the horizontal distance from the target to the camera
 	 */
-	public double targetDistance(int hp) {
+	public static double targetDistance(int hp) {
+		double tilt = Math.toRadians(27);
+		double hT = 210.82;
+		double hc = 29.21;
+		double FOVp = 480;
+		double view = Math.toRadians(24.5);
+		double h = hT - hc;
 		if (hp == 0) {
 			return h / Math.tan(tilt);
 		}
 		double fov_adjustment = (FOVp * Math.cos(tilt) / 2 / hp / Math.tan(view)) - Math.sin(tilt);
 		return h * fov_adjustment / (1 + fov_adjustment * Math.tan(tilt));
-	}
-
-	/**
-	 * Update the field of view of the camera. Maybe you have a zoom lens.
-	 * 
-	 * @param view view angle of view in degrees (θ)
-	 */
-	public void setView(double view) {
-		this.view = view * Math.PI / 180.0;
-	}
-
-	/**
-	 * Update the tilt angle of the camera
-	 * 
-	 * @param tilt camera tilt angle in degrees (α) 
-	 */
-	public void setTilt(double tilt) {
-		this.tilt = tilt * Math.PI / 180.0;
-	}
-	
-	/**
-	 * Update the camera height. Fancy dollies are a thing
-	 * 
-	 * @param hc camera height in world units (usually feet or meters)
-	 */
-	public void setHc(double hc) {
-		this.hc = hc;
-	}
-
-	/**
-	 * Update the target height. Moving targets probably need a more sophisticated algorithm
-	 * 
-	 * @param hT
-	 */
-	public void sethT(double hT) {
-		this.h = hT - this.geth();
-	}
-
-	public int getFOVp() {
-		return FOVp;
-	}
-
-	public double getHc() {
-		return hc;
-	}
-
-	public double geth() {
-		return h;
-	}
-
-	public double getView() {
-		return view;
-	}
-
-	public double getTilt() {
-		return tilt;
 	}
 
 }

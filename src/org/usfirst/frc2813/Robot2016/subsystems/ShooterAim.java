@@ -1,5 +1,6 @@
 package org.usfirst.frc2813.Robot2016.subsystems;
 
+import org.usfirst.frc2813.Robot2016.Robot;
 import org.usfirst.frc2813.Robot2016.RobotMap;
 import org.usfirst.frc2813.Robot2016.commands.IdleShooterAngle;
 
@@ -18,18 +19,18 @@ public class ShooterAim extends PIDSubsystem {
 	private final Encoder encoder = RobotMap.shooterEncoder;
 	private final DigitalInput limitSwitch = RobotMap.limitSwitch;
 	
-	private boolean pIDStatus = false;
+	private boolean pIDStatus = true;
 	private boolean pointedAtGoal = false;
-	private double marginOfError = 2;
-//	private double previousError = 0;
-//	private double integral = 0;
-//	private double motorSpeed = 0.25;
-//	private double newTime = System.currentTimeMillis();
-//	private double oldTime = 0;
+	private double marginOfError = 0.3;
+	private double previousError = 0;
+	private double integral = 0;
+	private double motorSpeed = 0.25;
+	private double newTime;
+	private double oldTime = System.currentTimeMillis();
 
 	public ShooterAim() {
-		super("Shoot", 0.011, 0.0011, 0.0);
-		setAbsoluteTolerance(0.01);
+		super("Shoot", 0.000, 0.00, 0.0);
+		setAbsoluteTolerance(0.1);
 		getPIDController().setContinuous(false);
 		LiveWindow.addActuator("Shoot", "PIDSubsystem Controller",
 				getPIDController());
@@ -45,7 +46,7 @@ public class ShooterAim extends PIDSubsystem {
 	public void disablePID() {
 		pIDStatus = false;
 	}
-	
+
 	public boolean getPointedAtGoal() {
 		return pointedAtGoal;
 	}
@@ -59,24 +60,20 @@ public class ShooterAim extends PIDSubsystem {
 	}
 
 	protected double returnPIDInput() {
-//		return encoder.getDistance();
-		return Math.atan2(accelerometer.getY(), accelerometer.getX()) * 180 / Math.PI - 89.6;
+		return 88.3 - (Math.atan2(Robot.avgAccel.getYAvg(), Robot.avgAccel.getXAvg()) * 180 / Math.PI);
 	}
 
 	protected void usePIDOutput(double output) {
 		if (returnPIDInput() > getSetpoint() - marginOfError &&
 		returnPIDInput() < getSetpoint() + marginOfError) {
+			integral = 0;
 			pointedAtGoal = true;
 		} else pointedAtGoal = false;
 //		System.out.println("AIM OUTPUT: " + output);
-//		System.out.println("SHOOTER PID: " + pIDStatus);
+//		System.out.println("SETPOINT: " + getAngle());
 		if (pIDStatus) {
-//			speedControllerAngle.pidWrite(output);
+			speedControllerAngle.pidWrite(output);
 		}
-	}
-	
-	public void setSpeed(double speed) {
-//		speedControllerAngle.set(speed);
 	}
 	
 	public double getAngle() {
@@ -86,19 +83,19 @@ public class ShooterAim extends PIDSubsystem {
 	public void setAngle(double angle) {
 		setSetpoint(angle);
 	}
-//
-//	public void customPID(double p, double i, double d) {
-//		double dt = (newTime - oldTime) / 1000;
-//		oldTime = newTime;
-//		double error = getSetpoint() - returnPIDInput();
-////		if (error > 180) error -= 360;
-////		else if (error < -180) error += 360;
-//		integral = integral + error * dt;
-//		double derivative = (error - previousError) / dt;
-//		double output = p * error + i * integral + d * derivative;
-//		previousError = error;
-//		newTime = System.currentTimeMillis();
-//		usePIDOutput(output);
-//	}
+
+	public void customPID(double p, double i, double d) {
+		newTime = System.currentTimeMillis();
+		double dt = (newTime - oldTime) / 1000;
+		oldTime = newTime;
+		double error = getSetpoint() - returnPIDInput();
+		integral = integral + error * dt;
+		double derivative = (error - previousError) / dt;
+		double output = p * error + i * integral + d * derivative;
+		previousError = error;
+		if (output > 1) output = 1;
+		else if (output < -1) output = -1;
+		usePIDOutput(output);
+	}
 	
 }

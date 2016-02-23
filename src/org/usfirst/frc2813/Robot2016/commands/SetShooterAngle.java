@@ -21,9 +21,8 @@ public class SetShooterAngle extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double desiredAngle = TrajectorySimulator.findTrajectory()[0];
-//    	double encoderValue = SOME EQUATION TO CONVERT DESIREDANGLE TO ENCODER VALUE;
-//    	Robot.shooterAim.setNewSetpoint(encoderValue);
+    	double angle = TrajectorySimulator.findTrajectory()[0];
+    	Robot.shooterAim.setAngle(angle);
     	
     }
 

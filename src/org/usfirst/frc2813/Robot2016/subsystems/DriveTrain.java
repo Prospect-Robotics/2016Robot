@@ -70,7 +70,7 @@ public class DriveTrain extends PIDSubsystem {
 //		yaw = Robot.nav6.pidGet();
 //		pitch = Robot.nav6.getPitch();
 //		return yaw;
-		return Robot.goalX;
+		return Robot.bottomGoalY;
 //		return 0;
 	}
 
