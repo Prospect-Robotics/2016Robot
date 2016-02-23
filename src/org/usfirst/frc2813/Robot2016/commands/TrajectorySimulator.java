@@ -78,7 +78,7 @@ public class TrajectorySimulator  {
 //		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		changeInTime = 0.007;
-		distGoalX = TiltCameraDistanceCalculator.targetDistance((int) Math.round(Robot.bottomGoalY)) + 43.18;
+		distGoalX = TiltCameraDistanceCalculator.targetDistance(240 - (int) Math.round(Robot.bottomGoalY)) + 43.18;
 		distGoalY = 216.17;
 		angleOfShooter = 10;
 		velocity = 1600;
