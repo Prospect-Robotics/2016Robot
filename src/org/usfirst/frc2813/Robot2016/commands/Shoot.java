@@ -18,7 +18,9 @@ public class Shoot extends CommandGroup {
     protected void execute() {
     	Robot.shooterWheels.spin(1);
     	Timer.delay(2);
-    	addSequential(new FirePistonShooter());
+    	Robot.pneumatics.setShooterSolenoidStatus(true);
+    	Timer.delay(0.5);
+    	Robot.pneumatics.setShooterSolenoidStatus(false);
     }
 
     protected boolean isFinished() {
@@ -26,9 +28,9 @@ public class Shoot extends CommandGroup {
     }
 
     protected void end() {
+    	Robot.shooterWheels.spin(0);
     }
 
     protected void interrupted() {
-    	Robot.shooterWheels.spin(0);
     }
 }

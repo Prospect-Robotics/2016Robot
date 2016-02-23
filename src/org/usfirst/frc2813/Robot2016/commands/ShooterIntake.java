@@ -14,19 +14,17 @@ public class ShooterIntake extends Command {
 	}
 
 	protected void execute() {
-		Robot.shooterWheels.spin(-1.0);
+		Robot.shooterWheels.spin(-0.45);
 
 	}
 
 	protected boolean isFinished() {
-		return false;
+		return true;
 	}
 
 	protected void end() {
-
 	}
 
 	protected void interrupted() {
-		Robot.shooterWheels.spin(0);
 	}
 }

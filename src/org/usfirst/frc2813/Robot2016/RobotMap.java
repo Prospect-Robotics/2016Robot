@@ -3,15 +3,18 @@ package org.usfirst.frc2813.Robot2016;
 //import edu.wpi.first.wpilibj.AnalogGyro;
 //import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
-//import edu.wpi.first.wpilibj.PIDSource.PIDSourceParameter;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
-
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public class RobotMap {
@@ -34,7 +37,8 @@ public class RobotMap {
 	public static SpeedController armsSpeedControllerLeft;
 	public static SpeedController armsSpeedControllerRight;
 	public static SpeedController armsSpeedControllerSucker;
-	public static ADXL345_I2C accelerometor;
+	public static ADXL345_I2C accelerometer;
+	public static DigitalInput limitSwitch;
 	public static RobotDrive armsSpeedControllers;
 	public static Compressor compressor;
 	public static Solenoid shooterSolenoid;
@@ -44,6 +48,7 @@ public class RobotMap {
 	public static Solenoid solenoid5;
 
 	public static void init() {
+		
 		// elevatorSpeedControllerLeft = new VictorSP(8);
 		// LiveWindow.addActuator("Elevator", "SpeedControllerLeft",
 		// (VictorSP) elevatorSpeedControllerLeft);
@@ -78,10 +83,14 @@ public class RobotMap {
 		solenoid4 = new Solenoid(3);
 		solenoid5 = new Solenoid(4);
 
-//		shooterEncoder = new Encoder(2, 3, false, EncodingType.k4X)
-//		LiveWindow.addSensor("Shoot", "Encoder", shooterEncoder);
-//		shooterEncoder.setDistancePerPulse(1.0);
-//		shooterEncoder.setPIDSourceParameter(PIDSourceParameter.kRate);
+		shooterEncoder = new Encoder(0, 1, false, EncodingType.k4X);
+		LiveWindow.addSensor("Shoot", "Encoder", shooterEncoder);
+		shooterEncoder.setDistancePerPulse(1.0);
+		shooterEncoder.setPIDSourceType(PIDSourceType.kRate);
+		
+		accelerometer = new ADXL345_I2C(I2C.Port.kOnboard, Accelerometer.Range.k4G);
+		
+		limitSwitch = new DigitalInput(9);
 
 		driveTrainSpeedControllerFrontLeft = new VictorSP(2);
 		LiveWindow.addActuator("ArcadeDrive", "SpeedControllerFrontLeft",

@@ -1,5 +1,4 @@
 package org.usfirst.frc2813.Robot2016.commands;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,12 +30,13 @@ public class ImageProcessing {
 	private static double[] y2Coordinates;
 	
 	private static double marginOfError = 8.5; // Difference between detected contour width and points of lines
-	private static List<Point2D.Double> points = new ArrayList<Point2D.Double>();
-	private static Point2D.Double bottomLeftPoint;
-	private static Point2D.Double bottomRightPoint;
-	private static Point2D.Double topLeftPoint;
-	private static Point2D.Double topRightPoint;
-	private static Point2D.Double targetPoint;
+	private static List<double[]> points = new ArrayList<double[]>();
+	private static double[] point = new double[2];
+	private static double[] bottomLeftPoint;
+	private static double[] bottomRightPoint;
+	private static double[] topLeftPoint;
+	private static double[] topRightPoint;
+	private static double[] targetPoint;
 	private static double targetDistance;
 	
 	private static List<double[]> goalAngles = new ArrayList<double[]>();
@@ -94,9 +94,12 @@ public class ImageProcessing {
 					x2 >= minX - marginOfError && x2 <= maxX + marginOfError &&
 					y1 >= minY - marginOfError && y1 <= maxY + marginOfError &&
 					y2 >= minY - marginOfError && y2 <= maxY + marginOfError) {
-
-					points.add(new Point2D.Double(x1, y1));
-					points.add(new Point2D.Double(x2, y2));
+					point[0] = x1;
+					point[1] = y1;
+					points.add(point);
+					point[0] = x2;
+					point[1] = y2;
+					points.add(point);
 					if (length > 20) {
 						angle = Math.abs(angle);
 						angle -= 90;
@@ -130,27 +133,28 @@ public class ImageProcessing {
 			}
 
 			// Save all of the corner points
-			Point2D.Double bottomMostPoint = points.get(0);
-			for (Point2D.Double point : points) {
-				if (point.getY() > bottomMostPoint.getY())
+			double[] bottomMostPoint = points.get(0);
+			for (double[] point : points) {
+				if (point[1] > bottomMostPoint[1])
 					bottomMostPoint = point;
 			}
 			bottomLeftPoint = bottomMostPoint;
 			bottomRightPoint = bottomMostPoint;
 			topLeftPoint = bottomMostPoint;
 			topRightPoint = bottomMostPoint;
-			if ((double) bottomMostPoint.getX() < (double) goalXs[maxWidthIndex]) {
-				for (Point2D.Double point : points) {
-					if (point.getX() > bottomRightPoint.getX() && point.getY() > (double) goalYs[maxWidthIndex])
+			if ((double) bottomMostPoint[0] < (double) goalXs[maxWidthIndex]) {
+				for (double[] point : points) {
+					if (point[0] > bottomRightPoint[0] && point[1] > (double) goalYs[maxWidthIndex])
 						bottomRightPoint = point;
-					if (point.getY() < topRightPoint.getY() && point.getX() > (double) goalXs[maxWidthIndex])
+					if (point[1] < topRightPoint[1] && point[0] > (double) goalXs[maxWidthIndex])
 						topRightPoint = point;
 				}
-
-				targetPoint = new Point2D.Double(topRightPoint.getX() - (bottomRightPoint.getX() - bottomLeftPoint.getX()), topRightPoint.getY() + (bottomLeftPoint.getY() - bottomRightPoint.getY()));
+				point[0] = topRightPoint[0] - (bottomRightPoint[0] - bottomLeftPoint[0]);
+				point[1] = topRightPoint[1] + (bottomLeftPoint[1] - bottomRightPoint[1]);
+				targetPoint = point;
 				targetDistance = 10000;
-				for (Point2D.Double point : points) {
-					double currentDistance = Math.sqrt(Math.pow(targetPoint.getX() - point.getX(), 2) + Math.pow(targetPoint.getY() - point.getY(), 2));
+				for (double[] point : points) {
+					double currentDistance = Math.sqrt(Math.pow(targetPoint[0] - point[0], 2) + Math.pow(targetPoint[1] - point[1], 2));
 					if (currentDistance < targetDistance) {
 						topLeftPoint = point;
 						targetDistance = currentDistance;
@@ -158,17 +162,18 @@ public class ImageProcessing {
 				}
 			}
 			else {
-				for (Point2D.Double point : points) {
-					if (point.getX() <= bottomLeftPoint.getX() && point.getY() > (double) goalYs[maxWidthIndex])
+				for (double[] point : points) {
+					if (point[0] <= bottomLeftPoint[0] && point[1] > (double) goalYs[maxWidthIndex])
 						bottomLeftPoint = point;
-					if (point.getY() < topLeftPoint.getY() && point.getX() < (double) goalXs[maxWidthIndex])
+					if (point[1] < topLeftPoint[1] && point[0] < (double) goalXs[maxWidthIndex])
 						topLeftPoint = point;
 				}
-				
-				targetPoint = new Point2D.Double(topLeftPoint.getX() + (bottomRightPoint.getX() - bottomLeftPoint.getX()), topLeftPoint.getY() + (bottomRightPoint.getY() - bottomLeftPoint.getY()));
+				point[0] = topLeftPoint[0] + (bottomRightPoint[0] - bottomLeftPoint[0]);
+				point[1] = topLeftPoint[1] + (bottomRightPoint[1] - bottomLeftPoint[1]);
+				targetPoint = point;
 				targetDistance = 10000;
-				for (Point2D.Double point : points) {
-					double currentDistance = Math.sqrt(Math.pow(targetPoint.getX() - point.getX(), 2) + Math.pow(targetPoint.getY() - point.getY(), 2));
+				for (double[] point : points) {
+					double currentDistance = Math.sqrt(Math.pow(targetPoint[0] - point[0], 2) + Math.pow(targetPoint[1] - point[1], 2));
 					if (currentDistance < targetDistance) {
 						topRightPoint = point;
 						targetDistance = currentDistance;
@@ -183,7 +188,7 @@ public class ImageProcessing {
 			SmartDashboard.putString("GoalCenter", "(" + goalXs[maxWidthIndex] + ", " + goalYs[maxWidthIndex] + ")");
 			SmartDashboard.putBoolean("Goal", true);
 			
-			double[] output = {topLeftPoint.getX(), topLeftPoint.getY(), topRightPoint.getX(), topRightPoint.getY(), bottomLeftPoint.getX(), bottomLeftPoint.getY(), bottomRightPoint.getX(), bottomRightPoint.getY(), goalXs[maxWidthIndex], goalYs[maxWidthIndex]};
+			double[] output = {topLeftPoint[0], topLeftPoint[1], topRightPoint[0], topRightPoint[1], bottomLeftPoint[0], bottomLeftPoint[1], bottomRightPoint[0], bottomRightPoint[1], goalXs[maxWidthIndex], goalYs[maxWidthIndex]};
 			return output;
 			
 		} catch (java.lang.ArrayIndexOutOfBoundsException ex) {
@@ -203,7 +208,7 @@ public class ImageProcessing {
 			double[] output = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
 			return output;
 		}
-
+		
 	}
 	
 

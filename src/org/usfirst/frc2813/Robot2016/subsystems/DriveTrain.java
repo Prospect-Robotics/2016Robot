@@ -15,16 +15,16 @@ public class DriveTrain extends PIDSubsystem {
 	private boolean pIDStatus = false;
 	private boolean pointedAtGoal = false;
 	// private boolean driveStraight = true;
-	private double marginOfError = 2;
+	private double marginOfError = 20;
 	private double yaw;
 	private double pitch;
 	private double previousError = 0;
 	private double integral = 0;
 	private double newTime = System.currentTimeMillis();
 	private double oldTime = 0;
-	public static double p = 0.08;
-	public static double i = 0.012;
-	public static double d = 0.007;
+	public static double p = 0.005;
+	public static double i = 0.00;
+	public static double d = 0.000;
 
 	public DriveTrain() {
 		super("ArcadeDrive", p, i, d);
@@ -34,7 +34,8 @@ public class DriveTrain extends PIDSubsystem {
 				getPIDController());
 		getPIDController().setOutputRange(-1.0, 1.0);
 		enable();
-		setSetpoint(0);
+		setSetpoint(260);
+//		setSetpoint(0);
 	}
 
 	public void initDefaultCommand() {
@@ -66,10 +67,11 @@ public class DriveTrain extends PIDSubsystem {
 	}
 
 	protected double returnPIDInput() {
-		yaw = Robot.nav6.pidGet();
-		pitch = Robot.nav6.getPitch();
-		return yaw;
-//		return ImageProcessing.findGoal();
+//		yaw = Robot.nav6.pidGet();
+//		pitch = Robot.nav6.getPitch();
+//		return yaw;
+		return Robot.goalX;
+//		return 0;
 	}
 
 	protected void usePIDOutput(double output) {
@@ -104,7 +106,6 @@ public class DriveTrain extends PIDSubsystem {
 		if (value > 180) value -= 360;
 		else if (value < -180) value += 360;
 		setSetpoint(returnPIDInput() + value);
-//		setSetpoint(centerX + 100);
 	}
 
 	public void customPID(double p, double i, double d) {

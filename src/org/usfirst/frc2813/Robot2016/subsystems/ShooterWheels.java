@@ -1,7 +1,7 @@
 package org.usfirst.frc2813.Robot2016.subsystems;
 
 import org.usfirst.frc2813.Robot2016.RobotMap;
-import org.usfirst.frc2813.Robot2016.commands.IdleShooter;
+import org.usfirst.frc2813.Robot2016.commands.IdleShooterWheels;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -13,7 +13,6 @@ public class ShooterWheels extends PIDSubsystem {
 
 	private final SpeedController speedControllerLeft = RobotMap.shooterSpeedControllerLeft;
 	private final SpeedController speedControllerRight = RobotMap.shooterSpeedControllerRight;
-	private final Encoder encoder = RobotMap.shooterEncoder;
 	
 	private boolean pIDStatus = false;
 	private double previousError = 0;
@@ -43,11 +42,12 @@ public class ShooterWheels extends PIDSubsystem {
 	}
 
 	public void initDefaultCommand() {
-		setDefaultCommand(new IdleShooter());
+		setDefaultCommand(new IdleShooterWheels());
 	}
 
 	protected double returnPIDInput() {
-		return encoder.pidGet();
+//		return encoder.pidGet();
+		return 0;
 	}
 
 	protected void usePIDOutput(double output) {
