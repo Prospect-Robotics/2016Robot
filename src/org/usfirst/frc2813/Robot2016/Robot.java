@@ -29,26 +29,41 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain driveTrain;
 	public static Arms arms;
 	public static double bottomGoalY;
-	public static double[] goalValues;
+	public static double centerY;
+	public static double[] goalValues = new double[0];
 	public static double[] autoShooterValues;
 	public final double RANGE_SCALE = 4.88 / 512;
 	public static AccelerometerSampling avgAccel;
 	
 	public void robotInit() {
-		System.out.println("TEST1");
+		System.out.println("Pre RobotMap Init");
 		RobotMap.init();
+		System.out.println("Post RobotMap Init");
 
 		elevator = new Elevator();
+		System.out.println("Elevator");
 		shooterAim = new ShooterAim();
+		System.out.println("Shooter Aim");
 		shooterWheels = new ShooterWheels();
+		System.out.println("Shooter Wheels");
 		nav6 = new Nav6();
+		System.out.println("Nav6");
 		pneumatics = new Pneumatics();
+		System.out.println("Pneumatics");
 		driveTrain = new DriveTrain();
+		System.out.println("DriveTrain");
 		arms = new Arms();
+		System.out.println("Arms");
 		oi = new OI();
+		System.out.println("OI");
 		ultrasonicSensor = new AnalogInput(3);
+		System.out.println("Ultrasonic");
 		table = NetworkTable.getTable("GRIP");
+		System.out.println("Network");
 		avgAccel = new AccelerometerSampling();
+		System.out.println("Accelerometer");
+		
+		System.out.println("Robot Init Done");
 		
 
 	}
@@ -114,11 +129,17 @@ public class Robot extends IterativeRobot {
 		goalValues = ImageProcessing.findGoal();
 		if (goalValues.length == 0) {
 			SmartDashboard.putBoolean("GoalFound", false);
-		} else if (goalValues.length >= 8) {
-			Robot.bottomGoalY = (goalValues[5] + goalValues[7]) / 2;
+		// The following was disabled on Bag Day due to performance concerns 
+//		} else if (goalValues.length >= 8) {
+//			Robot.bottomGoalY = (goalValues[5] + goalValues[7]) / 2;
+//			SmartDashboard.putBoolean("GoalFound", true);
+		// The following was tested on Bag Day 2/23/2016
+		} else if (goalValues.length >= 10) {
+			Robot.centerY = goalValues[9];
+			SmartDashboard.putNumber("GoalCenterY", Robot.centerY);
 			SmartDashboard.putBoolean("GoalFound", true);
 		}
-		Robot.shooterAim.customPID(0.018, 0.0000, 0.0);
+		Robot.shooterAim.customPID(0.018, 0.0000, 0.0018);
 		Scheduler.getInstance().run();
 	}
 

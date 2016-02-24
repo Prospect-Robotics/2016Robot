@@ -17,11 +17,13 @@ public class SetShooterAngleToGoal extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.autoShooterValues = TrajectorySimulator.findTrajectory(); // this is temp
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	double angle = Robot.autoShooterValues[0];
+    	Robot.shooterAim.enablePID();
     	Robot.shooterAim.setAngle(angle);
     	
     }
@@ -34,14 +36,14 @@ public class SetShooterAngleToGoal extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.shooterAim.disablePID();
+//    	Robot.shooterAim.disablePID();
     	Robot.shooterAim.setPointedAtGoal(false);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.shooterAim.disablePID();
+//    	Robot.shooterAim.disablePID();
     	Robot.shooterAim.setPointedAtGoal(false);
     }
     

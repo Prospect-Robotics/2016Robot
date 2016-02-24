@@ -18,11 +18,11 @@ public class Shoot extends CommandGroup {
 
     protected void execute() {
     	Robot.shooterWheels.spin(1);
-//    	Robot.pneumatics.setShooterSolenoidStatus(false);
-    	Timer.delay(3);
-//    	Robot.pneumatics.setShooterSolenoidStatus(true);
+    	Robot.pneumatics.retractShooterPiston();
+    	Timer.delay(2);
+    	Robot.pneumatics.extendShooterPiston();
     	Timer.delay(0.5);
-//    	Robot.pneumatics.setShooterSolenoidStatus(false);
+    	Robot.pneumatics.retractShooterPiston();
     }
 
     protected boolean isFinished() {

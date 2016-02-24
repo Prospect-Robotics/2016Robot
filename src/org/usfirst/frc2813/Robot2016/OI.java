@@ -6,19 +6,12 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 
-import org.usfirst.frc2813.Robot2016.commands.AngleRobotToGoal;
-import org.usfirst.frc2813.Robot2016.commands.DisableRecording;
-import org.usfirst.frc2813.Robot2016.commands.EnableRecording;
+import org.usfirst.frc2813.Robot2016.commands.FirePistonShooter;
+import org.usfirst.frc2813.Robot2016.commands.SetShooterAngleToGoal;
+import org.usfirst.frc2813.Robot2016.commands.Shoot;
 import org.usfirst.frc2813.Robot2016.commands.ShooterIntake;
 import org.usfirst.frc2813.Robot2016.commands.ShooterJogDown;
 import org.usfirst.frc2813.Robot2016.commands.ShooterJogUp;
-import org.usfirst.frc2813.Robot2016.commands.ResetNav6;
-import org.usfirst.frc2813.Robot2016.commands.Shoot;
-import org.usfirst.frc2813.Robot2016.commands.ShootIntoGoal;
-import org.usfirst.frc2813.Robot2016.commands.FirePistonShooter;
-import org.usfirst.frc2813.Robot2016.commands.ToggleCompressor;
-import org.usfirst.frc2813.Robot2016.commands.ToggleElevatorPiston;
-import org.usfirst.frc2813.Robot2016.commands.TogglePID;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -49,7 +42,7 @@ public class OI {
 		new JoystickButton(joystick1, 2).whenPressed(new FirePistonShooter());
 		new JoystickButton(joystick1, 3).whileHeld(new ShooterIntake());
 //		new JoystickButton(joystick1, 4).whenPressed(new ToggleElevatorPiston());
-		new JoystickButton(joystick1, 8).whenPressed(new ShootIntoGoal());
+		new JoystickButton(joystick1, 8).whenPressed(new SetShooterAngleToGoal());
 		
 		new JoystickButton(operator, 1).whileHeld(new ShooterJogUp());
 		new JoystickButton(operator, 4).whileHeld(new ShooterJogDown());

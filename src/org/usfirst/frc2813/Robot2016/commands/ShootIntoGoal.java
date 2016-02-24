@@ -10,9 +10,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class ShootIntoGoal extends CommandGroup {
     
     public  ShootIntoGoal() {
+		System.out.println("hi1");
     	
     	if (Robot.goalValues.length != 0) {
-    		
+    		System.out.println("hi2");
 //        	addSequential(new AngleRobotToGoal());
     		
 	    	Robot.autoShooterValues = TrajectorySimulator.findTrajectory();

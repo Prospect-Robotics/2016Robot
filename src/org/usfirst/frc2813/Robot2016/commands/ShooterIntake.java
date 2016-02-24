@@ -14,8 +14,8 @@ public class ShooterIntake extends Command {
 	}
 
 	protected void execute() {
+    	Robot.pneumatics.retractShooterPiston();
 		Robot.shooterWheels.spin(-0.45);
-
 	}
 
 	protected boolean isFinished() {

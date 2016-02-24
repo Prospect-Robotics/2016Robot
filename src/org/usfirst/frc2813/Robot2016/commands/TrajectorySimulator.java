@@ -78,10 +78,10 @@ public class TrajectorySimulator  {
 //		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		changeInTime = 0.007;
-		distGoalX = TiltCameraDistanceCalculator.targetDistance(240 - (int) Math.round(Robot.bottomGoalY)) + 43.18;
+		distGoalX = TiltCameraDistanceCalculator.targetDistance((int) Math.round(Robot.centerY)) + 43.18;
 		distGoalY = 216.17;
 		angleOfShooter = 10;
-		velocity = 1600;
+		velocity = 1295.4;
 		velocityX = velocity * Math.cos(Math.toRadians(angleOfShooter));
 		velocityY = velocity * Math.sin(Math.toRadians(angleOfShooter));
 		time = 0;
@@ -162,7 +162,7 @@ public class TrajectorySimulator  {
 		// Long range
 		if (minDistance == -1 || minDistance > 50) {
 			
-			initialVelocity = 1600;
+			initialVelocity = 1295.4;
 			minAngle = 10;
 			maxAngle = 90;
 			

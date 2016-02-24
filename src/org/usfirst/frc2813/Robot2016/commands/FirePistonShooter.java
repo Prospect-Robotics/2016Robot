@@ -23,9 +23,9 @@ public class FirePistonShooter extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.pneumatics.setShooterSolenoidStatus(true);
+    	Robot.pneumatics.extendShooterPiston();
     	Timer.delay(0.5);
-    	Robot.pneumatics.setShooterSolenoidStatus(false);
+    	Robot.pneumatics.retractShooterPiston();
     }
 
     // Make this return true when this Command no longer needs to run execute()
