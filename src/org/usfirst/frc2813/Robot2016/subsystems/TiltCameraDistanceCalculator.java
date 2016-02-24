@@ -56,12 +56,13 @@ public class TiltCameraDistanceCalculator {
 	 * @return the horizontal distance from the target to the camera
 	 */
 	public static double targetDistance(int hp) {
-		double tilt = Math.toRadians(27);
-		double hT = 210.82;
+		double tilt = Math.toRadians(31);
+		double hT = 226.06;
 		double hc = 29.21;
 		double FOVp = 480;
 		double view = Math.toRadians(24.5);
 		double h = hT - hc;
+		hp = (int) Math.round(FOVp/2 - hp);
 		if (hp == 0) {
 			return h / Math.tan(tilt);
 		}

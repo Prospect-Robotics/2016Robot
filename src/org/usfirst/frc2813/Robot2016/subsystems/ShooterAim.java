@@ -21,7 +21,7 @@ public class ShooterAim extends PIDSubsystem {
 	
 	private boolean pIDStatus = true;
 	private boolean pointedAtGoal = false;
-	private double marginOfError = 0.3;
+	private double marginOfError = 2;
 	private double previousError = 0;
 	private double integral = 0;
 	private double motorSpeed = 0.25;

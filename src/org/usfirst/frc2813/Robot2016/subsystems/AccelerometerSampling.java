@@ -1,9 +1,12 @@
 package org.usfirst.frc2813.Robot2016.subsystems;
 
+import org.usfirst.frc2813.Robot2016.Robot;
 import org.usfirst.frc2813.Robot2016.RobotMap;
 
 import edu.wpi.first.wpilibj.ADXL345_I2C;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
 public class AccelerometerSampling extends Subsystem {
 
@@ -13,6 +16,7 @@ public class AccelerometerSampling extends Subsystem {
 	private double[] xValues;
 	private double[] yValues;
 	private double[] zValues;
+	private int errors = 0; //TEMP
 	
 	public AccelerometerSampling() {
 		accelerometer = RobotMap.accelerometer;
@@ -37,6 +41,12 @@ public class AccelerometerSampling extends Subsystem {
 		xValues[numberOfSamples - 1] = this.getX();
 		yValues[numberOfSamples - 1] = this.getY();
 		zValues[numberOfSamples - 1] = this.getZ();
+		if (xValues[numberOfSamples - 1] == 0 && yValues[numberOfSamples - 1] == 0 && zValues[numberOfSamples - 1] == 0) {
+			errors++;
+			Robot.shooterAim.setAngle(Robot.shooterAim.getAngle());
+			accelerometer = new ADXL345_I2C(I2C.Port.kOnboard, Accelerometer.Range.k4G);
+			System.out.println(errors);
+		}
 	}
 	
 	public double getXAvg() {

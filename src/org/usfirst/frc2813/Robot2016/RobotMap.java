@@ -41,11 +41,9 @@ public class RobotMap {
 	public static DigitalInput limitSwitch;
 	public static RobotDrive armsSpeedControllers;
 	public static Compressor compressor;
-	public static Solenoid shooterSolenoid;
-	public static Solenoid elevatorSolenoid;
-	public static Solenoid solenoid3;
-	public static Solenoid solenoid4;
-	public static Solenoid solenoid5;
+	public static Solenoid shooterSolenoidFirstChannel;
+	public static Solenoid shooterSolenoidSecondChannel;
+//	public static Solenoid elevatorSolenoid;
 
 	public static void init() {
 		
@@ -77,11 +75,9 @@ public class RobotMap {
 		// (VictorSP) shooterSpeedController);
 		
 		compressor = new Compressor();
-		shooterSolenoid = new Solenoid(0);
-		elevatorSolenoid = new Solenoid(1);
-		solenoid3 = new Solenoid(2);
-		solenoid4 = new Solenoid(3);
-		solenoid5 = new Solenoid(4);
+		shooterSolenoidFirstChannel = new Solenoid(0);
+		shooterSolenoidSecondChannel = new Solenoid(1);
+//		elevatorSolenoid = new Solenoid(2);
 
 		shooterEncoder = new Encoder(0, 1, false, EncodingType.k4X);
 		LiveWindow.addSensor("Shoot", "Encoder", shooterEncoder);

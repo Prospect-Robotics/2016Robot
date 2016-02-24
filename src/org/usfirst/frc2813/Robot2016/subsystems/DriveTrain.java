@@ -34,8 +34,8 @@ public class DriveTrain extends PIDSubsystem {
 				getPIDController());
 		getPIDController().setOutputRange(-1.0, 1.0);
 		enable();
-		setSetpoint(260);
-//		setSetpoint(0);
+//		setSetpoint(260);
+		setSetpoint(0);
 	}
 
 	public void initDefaultCommand() {
@@ -70,26 +70,35 @@ public class DriveTrain extends PIDSubsystem {
 //		yaw = Robot.nav6.pidGet();
 //		pitch = Robot.nav6.getPitch();
 //		return yaw;
-		return Robot.bottomGoalY;
-//		return 0;
+//		if (Robot.goalValues.length != 0) {
+//			return Robot.centerY;
+//		} else {
+//			System.out.println("Can't find goal.");
+//			return getSetpoint();
+//		}
+		return 0;
 	}
 
 	protected void usePIDOutput(double output) {
-		 if (returnPIDInput() > getSetpoint() - marginOfError &&
-		 returnPIDInput() < getSetpoint() + marginOfError) {
-			 integral = 0;
-			 pointedAtGoal = true;
-			 disablePID();
-		 } else pointedAtGoal = false;
-		SmartDashboard.putNumber("Nav6UpdateCount", Robot.nav6.getUpdateCount());
-		SmartDashboard.putNumber("DriveTrainPIDInput", returnPIDInput());
-		SmartDashboard.putNumber("DriveTrainPIDOutput", output);
-		SmartDashboard.putString("PIDStatus", String.valueOf(pIDStatus));
-		SmartDashboard.putNumber("CurrentSetpoint", getSetpoint());
-		if (pIDStatus) {
-			SmartDashboard.putNumber("PIDMOVE", Robot.oi.getJoystick1().getY());
-			Robot.driveTrain.testDrive(Robot.oi.getJoystick1().getY(), output);
-		}
+//		if (Robot.goalValues.length != 0) {
+//			if (returnPIDInput() > getSetpoint() - marginOfError &&
+//			returnPIDInput() < getSetpoint() + marginOfError) {
+//				integral = 0;
+//				pointedAtGoal = true;
+//				disablePID();
+//			} else pointedAtGoal = false;
+//				SmartDashboard.putNumber("Nav6UpdateCount", Robot.nav6.getUpdateCount());
+//				SmartDashboard.putNumber("DriveTrainPIDInput", returnPIDInput());
+//				SmartDashboard.putNumber("DriveTrainPIDOutput", output);
+//				SmartDashboard.putString("PIDStatus", String.valueOf(pIDStatus));
+//				SmartDashboard.putNumber("CurrentSetpoint", getSetpoint());
+//			if (pIDStatus) {
+//				SmartDashboard.putNumber("PIDMOVE", Robot.oi.getJoystick1().getY());
+//				Robot.driveTrain.testDrive(Robot.oi.getJoystick1().getY(), output);
+//			}
+//		} else {
+//			System.out.println("Can't find goal.");
+//		}
 	}
 
 	public void testDrive(double move, double rotate) {
