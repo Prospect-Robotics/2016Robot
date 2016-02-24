@@ -114,8 +114,8 @@ public class Robot extends IterativeRobot {
 		goalValues = ImageProcessing.findGoal();
 		if (goalValues.length == 0) {
 			SmartDashboard.putBoolean("GoalFound", false);
-		} else {
-			Robot.bottomGoalY = (ImageProcessing.findGoal()[5] + ImageProcessing.findGoal()[7]) / 2;
+		} else if (goalValues.length >= 8) {
+			Robot.bottomGoalY = (goalValues[5] + goalValues[7]) / 2;
 			SmartDashboard.putBoolean("GoalFound", true);
 		}
 		Robot.shooterAim.customPID(0.018, 0.0000, 0.0);

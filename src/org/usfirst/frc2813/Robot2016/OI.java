@@ -13,7 +13,6 @@ import org.usfirst.frc2813.Robot2016.commands.ShooterIntake;
 import org.usfirst.frc2813.Robot2016.commands.ShooterJogDown;
 import org.usfirst.frc2813.Robot2016.commands.ShooterJogUp;
 import org.usfirst.frc2813.Robot2016.commands.ResetNav6;
-import org.usfirst.frc2813.Robot2016.commands.RunImageProcesssingOnce;
 import org.usfirst.frc2813.Robot2016.commands.Shoot;
 import org.usfirst.frc2813.Robot2016.commands.ShootIntoGoal;
 import org.usfirst.frc2813.Robot2016.commands.FirePistonShooter;

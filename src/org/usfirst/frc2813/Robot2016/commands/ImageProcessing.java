@@ -36,15 +36,14 @@ public class ImageProcessing {
 	private static List<double[]> goalAngles = new ArrayList<double[]>();
 	private static double goalAngle = -180;
 	private static double angleError = 3;
+	private static double[] angleCount = {0, 0};
 	
 	public static double[] findGoal() {
 
 		try {
-
-
 			// Populate angles list
 			for (double angle = -45 + angleError/2; angle <= 45; angle += angleError) {
-				double[] angleCount = {angle, 0};
+				angleCount[0] = angle;
 				goalAngles.add(angleCount);
 			}
 			
@@ -61,7 +60,6 @@ public class ImageProcessing {
 			y1Coordinates = Robot.table.getSubTable("myLinesReport").getNumberArray("y1");
 			x2Coordinates = Robot.table.getSubTable("myLinesReport").getNumberArray("x2");
 			y2Coordinates = Robot.table.getSubTable("myLinesReport").getNumberArray("y2");
-			
 			
 			// Picks the goal with the biggest width for optimal shooting space
 			maxWidthIndex = 0;
