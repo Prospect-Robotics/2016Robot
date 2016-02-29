@@ -1,13 +1,13 @@
-package org.usfirst.frc2813.Robot2016.commands;
+package org.usfirst.frc2813.Robot2016.commands.elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc2813.Robot2016.Robot;
 
-public class DriveTrainClockwise extends Command {
+public class ElevatorDown extends Command {
 
-	public DriveTrainClockwise() {
-		requires(Robot.arms);
+	public ElevatorDown() {
+		requires(Robot.elevator);
 	}
 
 	protected void initialize() {
@@ -15,7 +15,7 @@ public class DriveTrainClockwise extends Command {
 	}
 
 	protected void execute() {
-//		Robot.driveTrain..changeSetpoint(30);
+		Robot.elevator.move(-0.6);
 	}
 
 	protected boolean isFinished() {
@@ -27,6 +27,6 @@ public class DriveTrainClockwise extends Command {
 	}
 
 	protected void interrupted() {
-		
+		Robot.elevator.move(0);
 	}
 }

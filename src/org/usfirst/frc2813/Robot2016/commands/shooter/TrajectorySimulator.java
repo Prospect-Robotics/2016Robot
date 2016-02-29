@@ -1,4 +1,4 @@
-package org.usfirst.frc2813.Robot2016.commands;
+package org.usfirst.frc2813.Robot2016.commands.shooter;
 //import java.awt.Color;
 //import java.awt.Graphics;
 //import java.awt.Graphics2D;

@@ -1,21 +1,21 @@
-package org.usfirst.frc2813.Robot2016.commands;
+package org.usfirst.frc2813.Robot2016.commands.arm;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc2813.Robot2016.Robot;
 
-public class ShooterIntake extends Command {
+public class ArmExtend extends Command {
 
-	public ShooterIntake() {
-		requires(Robot.shooterWheels);
+	public ArmExtend() {
+		requires(Robot.arms);
 	}
 
 	protected void initialize() {
+
 	}
 
 	protected void execute() {
-    	Robot.pneumatics.retractShooterPiston();
-		Robot.shooterWheels.spin(-0.45);
+		Robot.arms.move(90);
 	}
 
 	protected boolean isFinished() {
@@ -23,8 +23,10 @@ public class ShooterIntake extends Command {
 	}
 
 	protected void end() {
+
 	}
 
 	protected void interrupted() {
+
 	}
 }

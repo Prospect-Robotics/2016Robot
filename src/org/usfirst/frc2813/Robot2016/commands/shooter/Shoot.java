@@ -1,11 +1,11 @@
-package org.usfirst.frc2813.Robot2016.commands;
+package org.usfirst.frc2813.Robot2016.commands.shooter;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc2813.Robot2016.Robot;
 
-public class Shoot extends CommandGroup {
+public class Shoot extends Command {
 
     public Shoot() {
     	requires(Robot.shooterWheels);

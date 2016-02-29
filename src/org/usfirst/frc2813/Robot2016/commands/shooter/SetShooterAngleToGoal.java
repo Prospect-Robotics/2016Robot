@@ -1,41 +1,50 @@
-package org.usfirst.frc2813.Robot2016.commands;
+package org.usfirst.frc2813.Robot2016.commands.shooter;
 
 import org.usfirst.frc2813.Robot2016.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class OutputNav6Values extends Command {
+public class SetShooterAngleToGoal extends Command {
 
-    public OutputNav6Values() {
+    public SetShooterAngleToGoal() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	requires(Robot.shooterAim);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.autoShooterValues = TrajectorySimulator.findTrajectory(); // this is temp
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	SmartDashboard.putNumber("Yaw", Robot.nav6.getYaw());
-        SmartDashboard.putNumber("Pitch", Robot.nav6.getPitch());
+    	double angle = Robot.autoShooterValues[0];
+    	Robot.shooterAim.enablePID();
+    	Robot.shooterAim.setAngle(angle);
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+    	if (Robot.shooterAim.getPointedAtGoal()) return true;
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+//    	Robot.shooterAim.disablePID();
+    	Robot.shooterAim.setPointedAtGoal(false);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+//    	Robot.shooterAim.disablePID();
+    	Robot.shooterAim.setPointedAtGoal(false);
     }
+    
 }

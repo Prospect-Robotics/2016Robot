@@ -7,11 +7,11 @@ import java.io.Writer;
 import java.util.ArrayList;
 
 import org.usfirst.frc2813.Robot2016.commands.FirePistonShooter;
-import org.usfirst.frc2813.Robot2016.commands.SetShooterAngleToGoal;
-import org.usfirst.frc2813.Robot2016.commands.Shoot;
-import org.usfirst.frc2813.Robot2016.commands.ShooterIntake;
-import org.usfirst.frc2813.Robot2016.commands.ShooterJogDown;
-import org.usfirst.frc2813.Robot2016.commands.ShooterJogUp;
+import org.usfirst.frc2813.Robot2016.commands.shooter.SetShooterAngleToGoal;
+import org.usfirst.frc2813.Robot2016.commands.shooter.Shoot;
+import org.usfirst.frc2813.Robot2016.commands.shooter.ShooterIntake;
+import org.usfirst.frc2813.Robot2016.commands.shooter.ShooterJogDown;
+import org.usfirst.frc2813.Robot2016.commands.shooter.ShooterJogUp;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;

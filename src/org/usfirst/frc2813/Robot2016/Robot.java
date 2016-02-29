@@ -10,8 +10,9 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc2813.Robot2016.commands.ImageProcessing;
+import org.usfirst.frc2813.Robot2016.commands.shooter.ImageProcessing;
 import org.usfirst.frc2813.Robot2016.subsystems.*;
+import org.usfirst.frc2813.Robot2016.subsystems.IMU.Nav6;
 
 
 public class Robot extends IterativeRobot {

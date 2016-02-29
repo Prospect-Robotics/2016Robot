@@ -1,4 +1,4 @@
-package org.usfirst.frc2813.Robot2016.commands;
+package org.usfirst.frc2813.Robot2016.commands.shooter;
 
 import org.usfirst.frc2813.Robot2016.Robot;
 

@@ -1,21 +1,21 @@
-package org.usfirst.frc2813.Robot2016.commands;
+package org.usfirst.frc2813.Robot2016.commands.shooter;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc2813.Robot2016.Robot;
 
-public class ElevatorUp extends Command {
+public class ShooterIntake extends Command {
 
-	public ElevatorUp() {
-		requires(Robot.elevator);
+	public ShooterIntake() {
+		requires(Robot.shooterWheels);
 	}
 
 	protected void initialize() {
-
 	}
 
 	protected void execute() {
-		Robot.elevator.move(0.6);
+    	Robot.pneumatics.retractShooterPiston();
+		Robot.shooterWheels.spin(-0.45);
 	}
 
 	protected boolean isFinished() {
@@ -23,10 +23,8 @@ public class ElevatorUp extends Command {
 	}
 
 	protected void end() {
-
 	}
 
 	protected void interrupted() {
-		Robot.elevator.move(0);
 	}
 }

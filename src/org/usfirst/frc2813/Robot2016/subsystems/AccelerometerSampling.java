@@ -5,10 +5,9 @@ import org.usfirst.frc2813.Robot2016.RobotMap;
 
 import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
-public class AccelerometerSampling extends Subsystem {
+public class AccelerometerSampling {
 
 	final int numberOfSamples = 10;
 	
@@ -26,10 +25,6 @@ public class AccelerometerSampling extends Subsystem {
 		for (int i = 0; i < numberOfSamples; i++) {
 			update();
 		}
-	}
-	
-	protected void initDefaultCommand() {
-		
 	}
 	
 	public void update(){

@@ -1,19 +1,19 @@
-package org.usfirst.frc2813.Robot2016.commands;
+package org.usfirst.frc2813.Robot2016.commands.shooter;
 
 import org.usfirst.frc2813.Robot2016.Robot;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class ToggleElevatorPiston extends Command {
+public class IdleShooterAngle extends Command {
 
-    public ToggleElevatorPiston() {
+    public IdleShooterAngle() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.pneumatics);
+    	requires(Robot.shooterAim);
     }
 
     // Called just before this Command runs the first time
@@ -22,12 +22,14 @@ public class ToggleElevatorPiston extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-//    	Robot.pneumatics.setElevatorSolenoidStatus(!Robot.pneumatics.getElevatorSolenoidStatus());
+//    	SmartDashboard.putNumber("IntakeShooterValue", -Robot.oi.getJoystick1().getZ());
+//    	double value = -Robot.oi.getJoystick1().getZ();
+//    	Robot.shooterAim.angle(0); // Shooter angle
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true

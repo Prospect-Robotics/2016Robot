@@ -1,19 +1,20 @@
-package org.usfirst.frc2813.Robot2016.commands;
+package org.usfirst.frc2813.Robot2016.commands.shooter;
 
 import org.usfirst.frc2813.Robot2016.Robot;
 
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class AngleRobotToGoal extends CommandGroup {
+public class IdleShooterWheels extends Command {
 
-    public AngleRobotToGoal() {
+    public IdleShooterWheels() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.driveTrain);
+//    	requires(Robot.shooterAim);
+    	requires(Robot.shooterWheels);
     }
 
     // Called just before this Command runs the first time
@@ -22,25 +23,24 @@ public class AngleRobotToGoal extends CommandGroup {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.enablePID();
+//    	SmartDashboard.putNumber("IntakeShooterValue", -Robot.oi.getJoystick1().getZ());
+//    	Robot.shooterAim.spin(-Robot.oi.getJoystick1().getY()); // Shooter spin
+    	Robot.shooterWheels.spin(0); // Shooter spin
+//    	
+//    	Robot.shooterAim.angle(0.75 * Math.sqrt((-Robot.oi.getJoystick1().getZ() + 1.1)) - 1); // Shooter angle
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if (Robot.driveTrain.getPointedAtGoal()) return true;
         return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.driveTrain.disablePID();
-    	Robot.driveTrain.setPointedAtGoal(false);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.driveTrain.disablePID();
-    	Robot.driveTrain.setPointedAtGoal(false);
     }
 }

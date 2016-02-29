@@ -1,17 +1,16 @@
-package org.usfirst.frc2813.Robot2016.commands;
+package org.usfirst.frc2813.Robot2016.commands.elevator;
 
 import org.usfirst.frc2813.Robot2016.Robot;
 
 import edu.wpi.first.wpilibj.Timer;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class FirePistonShooter extends Command {
+public class ToggleElevatorPiston extends Command {
 
-    public FirePistonShooter() {
+    public ToggleElevatorPiston() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.pneumatics);
@@ -23,9 +22,7 @@ public class FirePistonShooter extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.pneumatics.extendShooterPiston();
-    	Timer.delay(0.5);
-    	Robot.pneumatics.retractShooterPiston();
+//    	Robot.pneumatics.setElevatorSolenoidStatus(!Robot.pneumatics.getElevatorSolenoidStatus());
     }
 
     // Make this return true when this Command no longer needs to run execute()

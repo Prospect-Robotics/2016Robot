@@ -1,20 +1,18 @@
-package org.usfirst.frc2813.Robot2016.commands;
+package org.usfirst.frc2813.Robot2016.commands.shooter;
 
 import org.usfirst.frc2813.Robot2016.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class IdleShooterWheels extends Command {
+public class ShooterJogUp extends Command {
 
-    public IdleShooterWheels() {
+    public ShooterJogUp() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-//    	requires(Robot.shooterAim);
-    	requires(Robot.shooterWheels);
+    	requires(Robot.shooterAim);
     }
 
     // Called just before this Command runs the first time
@@ -23,16 +21,12 @@ public class IdleShooterWheels extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-//    	SmartDashboard.putNumber("IntakeShooterValue", -Robot.oi.getJoystick1().getZ());
-//    	Robot.shooterAim.spin(-Robot.oi.getJoystick1().getY()); // Shooter spin
-    	Robot.shooterWheels.spin(0); // Shooter spin
-//    	
-//    	Robot.shooterAim.angle(0.75 * Math.sqrt((-Robot.oi.getJoystick1().getZ() + 1.1)) - 1); // Shooter angle
+    	Robot.shooterAim.setAngle(Robot.shooterAim.getAngle() + 0.5);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

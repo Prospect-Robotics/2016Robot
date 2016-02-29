@@ -1,10 +1,4 @@
-package org.usfirst.frc2813.Robot2016.subsystems;
-
-/**
- * Created by Timothy on 2/11/2015.
- */
-
-import org.usfirst.frc2813.Robot2016.IMU.IMU;
+package org.usfirst.frc2813.Robot2016.subsystems.IMU;
 
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;

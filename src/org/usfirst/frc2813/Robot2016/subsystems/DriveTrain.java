@@ -2,9 +2,9 @@ package org.usfirst.frc2813.Robot2016.subsystems;
 
 import org.usfirst.frc2813.Robot2016.Robot;
 import org.usfirst.frc2813.Robot2016.RobotMap;
-import org.usfirst.frc2813.Robot2016.commands.HaloDrive;
-import org.usfirst.frc2813.Robot2016.commands.ImageProcessing;
-import org.usfirst.frc2813.Robot2016.commands.TrajectorySimulator;
+import org.usfirst.frc2813.Robot2016.commands.driving.HaloDrive;
+import org.usfirst.frc2813.Robot2016.commands.shooter.ImageProcessing;
+import org.usfirst.frc2813.Robot2016.commands.shooter.TrajectorySimulator;
 
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;

@@ -1,13 +1,13 @@
-package org.usfirst.frc2813.Robot2016.commands;
+package org.usfirst.frc2813.Robot2016.commands.arm;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc2813.Robot2016.Robot;
 
-public class ElevatorDown extends Command {
+public class ArmRetract extends Command {
 
-	public ElevatorDown() {
-		requires(Robot.elevator);
+	public ArmRetract() {
+		requires(Robot.arms);
 	}
 
 	protected void initialize() {
@@ -15,7 +15,7 @@ public class ElevatorDown extends Command {
 	}
 
 	protected void execute() {
-		Robot.elevator.move(-0.6);
+		Robot.arms.move(0);
 	}
 
 	protected boolean isFinished() {
@@ -27,6 +27,6 @@ public class ElevatorDown extends Command {
 	}
 
 	protected void interrupted() {
-		Robot.elevator.move(0);
+
 	}
 }

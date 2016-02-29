@@ -1,7 +1,7 @@
 package org.usfirst.frc2813.Robot2016.subsystems;
 
 import org.usfirst.frc2813.Robot2016.RobotMap;
-import org.usfirst.frc2813.Robot2016.commands.IdleShooterWheels;
+import org.usfirst.frc2813.Robot2016.commands.shooter.IdleShooterWheels;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;

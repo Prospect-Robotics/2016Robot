@@ -1,4 +1,4 @@
-package org.usfirst.frc2813.Robot2016.IMU;
+package org.usfirst.frc2813.Robot2016.subsystems.IMU;
 
 import java.util.Arrays;
 
