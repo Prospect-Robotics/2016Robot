@@ -6,7 +6,6 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 
-import org.usfirst.frc2813.Robot2016.commands.FirePistonShooter;
 import org.usfirst.frc2813.Robot2016.commands.shooter.SetShooterAngleToGoal;
 import org.usfirst.frc2813.Robot2016.commands.shooter.Shoot;
 import org.usfirst.frc2813.Robot2016.commands.shooter.ShooterIntake;
@@ -39,7 +38,6 @@ public class OI {
 		//new JoystickButton(joystick1, 5).whileHeld(new OutputNav6Values());
 
 		new JoystickButton(joystick1, 1).whenPressed(new Shoot());
-		new JoystickButton(joystick1, 2).whenPressed(new FirePistonShooter());
 		new JoystickButton(joystick1, 3).whileHeld(new ShooterIntake());
 //		new JoystickButton(joystick1, 4).whenPressed(new ToggleElevatorPiston());
 		new JoystickButton(joystick1, 8).whenPressed(new SetShooterAngleToGoal());
