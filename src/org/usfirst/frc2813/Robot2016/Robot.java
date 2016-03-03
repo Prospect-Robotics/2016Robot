@@ -104,6 +104,9 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopPeriodic() {
+		SmartDashboard.putNumber("AccelX", RobotMap.accelerometer.getX());
+		SmartDashboard.putNumber("AccelY", RobotMap.accelerometer.getY());
+		SmartDashboard.putNumber("AccelZ", RobotMap.accelerometer.getZ());
 //		avgAccel.update();
 		// nav6.displayNav6Data();
 //		SmartDashboard.putNumber("Raw", ultrasonicSensor.getValue());
@@ -117,9 +120,6 @@ public class Robot extends IterativeRobot {
 //		SmartDashboard.putNumber("Joy1 Y", Robot.oi.getJoystick1().getY());
 //		SmartDashboard.putNumber("Joy2 X", Robot.oi.getJoystick2().getX());
 //		SmartDashboard.putNumber("Joy2 Y", Robot.oi.getJoystick2().getY());
-		SmartDashboard.putNumber("AccelX", RobotMap.accelerometer.getX());
-		SmartDashboard.putNumber("AccelY", RobotMap.accelerometer.getY());
-		SmartDashboard.putNumber("AccelZ", RobotMap.accelerometer.getZ());
 		
 		SmartDashboard.putBoolean("CompressorStatus", Robot.pneumatics.getCompressorStatus());
 		avgAccel.update();

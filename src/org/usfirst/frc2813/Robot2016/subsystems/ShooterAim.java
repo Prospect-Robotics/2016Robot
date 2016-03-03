@@ -13,17 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ShooterAim extends Subsystem {
 
-	// Hardware declarations
-	private final Encoder encoder;
-	private final ADXL345_I2C accelerometer;
-	private final DigitalInput limitSwitch;
-	private final SpeedController speedControllerAngle;
-	
-	// Sensor selections
-	private final int ENCODER = 0; // Encoder is more reliable, not heavily affected by impact
-	private final int ACCELEROMETER = 1; // Accelerometer values are drastically affected by impact.
-										  // Cannot function properly when forces other than gravity are acting upon it
-	
+		
 	private int sensorSelection; // Sensor setting
 	private boolean pIDStatus; // PID is enabled when true
 	private double marginOfError; // The amount of degrees we are willing to be off target
@@ -36,14 +26,20 @@ public class ShooterAim extends Subsystem {
 	private double oldTime;
 	private double integral;
 	private double previousError;
+	
+	// Hardware declarations
+	private final Encoder encoder = RobotMap.shooterEncoder;;
+	private final ADXL345_I2C accelerometer = RobotMap.accelerometer;
+	private final DigitalInput limitSwitch = RobotMap.limitSwitch;
+	private final SpeedController speedControllerAngle = RobotMap.shooterSpeedControllerAngle;
+	
+	// Sensor selections
+	private final int ENCODER = 0; // Encoder is more reliable, not heavily affected by impact
+	private final int ACCELEROMETER = 1; // Accelerometer values are drastically affected by impact.
+										  // Cannot function properly when forces other than gravity are acting upon it
+
 
 	public ShooterAim() {
-		
-		// Hardware initializations
-		encoder = RobotMap.shooterEncoder;
-		accelerometer = RobotMap.accelerometer;
-		limitSwitch = RobotMap.limitSwitch;
-		speedControllerAngle = RobotMap.shooterSpeedControllerAngle;
 		
 		// PID settings
 		sensorSelection = ENCODER; // Default sensor is encoder

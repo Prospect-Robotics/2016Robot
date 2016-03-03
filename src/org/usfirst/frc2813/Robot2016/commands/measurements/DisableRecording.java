@@ -4,9 +4,7 @@ import org.usfirst.frc2813.Robot2016.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
+
 public class DisableRecording extends Command {
 
     public DisableRecording() {

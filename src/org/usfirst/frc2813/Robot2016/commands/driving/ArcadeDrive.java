@@ -19,6 +19,7 @@ public class ArcadeDrive extends Command {
 			Robot.driveTrain.testDrive(Robot.oi.getJoystick1().getY(), Robot.oi
 					.getJoystick1().getX());
 		}
+		
 		// SmartDashboard.putNumber("JoysitckX",
 		// Robot.oi.getJoystick1().getX());
 	}

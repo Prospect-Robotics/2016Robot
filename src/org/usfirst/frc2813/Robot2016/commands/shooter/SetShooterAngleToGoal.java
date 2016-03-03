@@ -4,15 +4,14 @@ import org.usfirst.frc2813.Robot2016.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
+
 public class SetShooterAngleToGoal extends Command {
 
     public SetShooterAngleToGoal() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     	requires(Robot.shooterAim);
+    	// Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	
     }
 
     // Called just before this Command runs the first time
@@ -36,15 +35,17 @@ public class SetShooterAngleToGoal extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-//    	Robot.shooterAim.disablePID();
     	Robot.shooterAim.setPointedAtGoal(false);
+    	//    	Robot.shooterAim.disablePID();
+    	
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-//    	Robot.shooterAim.disablePID();
     	Robot.shooterAim.setPointedAtGoal(false);
+    	//    	Robot.shooterAim.disablePID();
+  
     }
     
 }

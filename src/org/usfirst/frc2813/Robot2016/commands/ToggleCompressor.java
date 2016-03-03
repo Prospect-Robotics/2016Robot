@@ -5,15 +5,12 @@ import org.usfirst.frc2813.Robot2016.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- *
- */
+
 public class ToggleCompressor extends Command {
 
     public ToggleCompressor() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     	requires(Robot.pneumatics);
+    	
     }
 
     // Called just before this Command runs the first time

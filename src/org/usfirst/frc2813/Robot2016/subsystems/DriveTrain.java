@@ -14,7 +14,6 @@ public class DriveTrain extends PIDSubsystem {
 
 	private boolean pIDStatus = false;
 	private boolean pointedAtGoal = false;
-	// private boolean driveStraight = true;
 	private double marginOfError = 20;
 	private double yaw;
 	private double pitch;
@@ -25,6 +24,7 @@ public class DriveTrain extends PIDSubsystem {
 	public static double p = 0.005;
 	public static double i = 0.00;
 	public static double d = 0.000;
+	// private boolean driveStraight = true;
 
 	public DriveTrain() {
 		super("ArcadeDrive", p, i, d);
@@ -34,8 +34,8 @@ public class DriveTrain extends PIDSubsystem {
 				getPIDController());
 		getPIDController().setOutputRange(-1.0, 1.0);
 		enable();
-//		setSetpoint(260);
 		setSetpoint(0);
+//		setSetpoint(260);
 	}
 
 	public void initDefaultCommand() {
@@ -67,6 +67,7 @@ public class DriveTrain extends PIDSubsystem {
 	}
 
 	protected double returnPIDInput() {
+		return 0;
 //		yaw = Robot.nav6.pidGet();
 //		pitch = Robot.nav6.getPitch();
 //		return yaw;
@@ -76,7 +77,7 @@ public class DriveTrain extends PIDSubsystem {
 //			System.out.println("Can't find goal.");
 //			return getSetpoint();
 //		}
-		return 0;
+		
 	}
 
 	protected void usePIDOutput(double output) {

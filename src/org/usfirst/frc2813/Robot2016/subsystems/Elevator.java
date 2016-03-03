@@ -9,12 +9,11 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Elevator extends PIDSubsystem {
-
+	private boolean toggle = false;
 //	private final SpeedController speedControllerLeft = RobotMap.elevatorSpeedControllerLeft;
 //	private final SpeedController speedControllerRight = RobotMap.elevatorSpeedControllerRight;
 //	private final Encoder encoder = RobotMap.elevatorEncoder;
-	private boolean toggle = false;
-
+	
 	public Elevator() {
 		super("Elevator", 1.0, 0.0, 0.0);
 		setAbsoluteTolerance(0.2);
@@ -34,8 +33,8 @@ public class Elevator extends PIDSubsystem {
 	}
 
 	public double returnPIDInput() {
-//		return encoder.getDistance();
 		return 0;
+//		return encoder.getDistance();
 	}
 
 	protected void usePIDOutput(double output) {

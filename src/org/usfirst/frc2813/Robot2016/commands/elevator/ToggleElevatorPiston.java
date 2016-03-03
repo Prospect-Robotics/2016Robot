@@ -5,15 +5,13 @@ import org.usfirst.frc2813.Robot2016.Robot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
 public class ToggleElevatorPiston extends Command {
 
     public ToggleElevatorPiston() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     	requires(Robot.pneumatics);
+    	// Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	
     }
 
     // Called just before this Command runs the first time
