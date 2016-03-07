@@ -19,6 +19,10 @@ public class ShooterAim extends Subsystem {
 	private double marginOfError; // The amount of degrees we are willing to be off target
 	private double setpoint; // This is the value we want to get the sensor at -- the goal of the PID loop
 
+	// Angle limit for shooter (in degrees)
+	private double lowerLimit;
+	private double upperLimit;
+	
 	private boolean shooterSet; // True when shooter is at the desired location (within the margin of error)
 	
 	// These variables are for the custom PID loop to work
@@ -46,6 +50,10 @@ public class ShooterAim extends Subsystem {
 		pIDStatus = true; // PID is on by default
 		marginOfError = 0.8; // A good margin of error is 0.8 of a degree
 		setAngle(0); // Set angle to 0 by default
+		
+		// Shooter angle limits | TODO: Actually measure
+		lowerLimit = -32;
+		upperLimit = 60;
 
 		shooterSet = false; // Assume shooter not set at desired value by default
 		
@@ -82,6 +90,8 @@ public class ShooterAim extends Subsystem {
 	}
 	
 	public void setAngle(double angle) {
+		if (angle < lowerLimit) angle = lowerLimit;
+		else if (angle > upperLimit) angle = upperLimit;
 		setSetpoint(angle);
 	}
 	

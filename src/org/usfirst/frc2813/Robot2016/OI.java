@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import org.usfirst.frc2813.Robot2016.commands.shooter.SetShooterAngleToGoal;
 import org.usfirst.frc2813.Robot2016.commands.shooter.Shoot;
 import org.usfirst.frc2813.Robot2016.commands.shooter.ShooterIntake;
-import org.usfirst.frc2813.Robot2016.commands.shooter.ShooterJogDown;
-import org.usfirst.frc2813.Robot2016.commands.shooter.ShooterJogUp;
+import org.usfirst.frc2813.Robot2016.commands.shooter.ShooterSensorJogDown;
+import org.usfirst.frc2813.Robot2016.commands.shooter.ShooterSensorJogUp;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -42,8 +42,8 @@ public class OI {
 //		new JoystickButton(joystick1, 4).whenPressed(new ToggleElevatorPiston());
 		new JoystickButton(joystick1, 8).whenPressed(new SetShooterAngleToGoal());
 		
-		new JoystickButton(operator, 1).whileHeld(new ShooterJogUp());
-		new JoystickButton(operator, 4).whileHeld(new ShooterJogDown());
+		new JoystickButton(operator, 1).whileHeld(new ShooterSensorJogUp());
+		new JoystickButton(operator, 4).whileHeld(new ShooterSensorJogDown());
 		new JoystickButton(operator, 3).whenPressed(new Shoot());
 		new JoystickButton(operator, 6).whileHeld(new ShooterIntake());
 		
