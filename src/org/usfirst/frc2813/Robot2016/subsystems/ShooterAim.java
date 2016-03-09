@@ -16,14 +16,14 @@ public class ShooterAim extends Subsystem {
 		
 	private int sensorSelection; // Sensor setting
 	private boolean pIDStatus; // PID is enabled when true
-	private double marginOfError; // The amount of degrees we are willing to be off target
 	private double setpoint; // This is the value we want to get the sensor at -- the goal of the PID loop
+	private double marginOfError; // The amount of degrees we are willing to be off target
 
 	// Angle limit for shooter (in degrees)
 	private double lowerLimit;
 	private double upperLimit;
 	
-	private boolean shooterSet; // True when shooter is at the desired location (within the margin of error)
+	private boolean shooterAngleSet; // True when shooter is at the desired location (within the margin of error)
 	
 	// These variables are for the custom PID loop to work
 	private double newTime;
@@ -32,10 +32,10 @@ public class ShooterAim extends Subsystem {
 	private double previousError;
 	
 	// Hardware declarations
-	private final Encoder encoder = RobotMap.shooterEncoder;;
-	private final ADXL345_I2C accelerometer = RobotMap.accelerometer;
-	private final DigitalInput limitSwitch = RobotMap.limitSwitch;
-	private final SpeedController speedControllerAngle = RobotMap.shooterSpeedControllerAngle;
+	private final Encoder encoder;
+	private final ADXL345_I2C accelerometer;
+	private final DigitalInput limitSwitch;
+	private final SpeedController speedControllerAngle;
 	
 	// Sensor selections
 	private final int ENCODER = 0; // Encoder is more reliable, not heavily affected by impact
@@ -48,19 +48,25 @@ public class ShooterAim extends Subsystem {
 		// PID settings
 		sensorSelection = ENCODER; // Default sensor is encoder
 		pIDStatus = true; // PID is on by default
-		marginOfError = 0.8; // A good margin of error is 0.8 of a degree
 		setAngle(0); // Set angle to 0 by default
+		marginOfError = 0.8; // A good margin of error is 0.8 of a degree
 		
 		// Shooter angle limits | TODO: Actually measure
 		lowerLimit = -32;
 		upperLimit = 60;
 
-		shooterSet = false; // Assume shooter not set at desired value by default
+		shooterAngleSet = false; // Assume shooter angle not set at desired value by default
 		
 		// PID variable initiations
 		integral = 0;
 		previousError = 0;
 		oldTime = System.currentTimeMillis();
+		
+		// Hardware initializations
+		encoder = RobotMap.shooterAngleEncoder;
+		accelerometer = RobotMap.accelerometer;
+		limitSwitch = RobotMap.limitSwitch;
+		speedControllerAngle = RobotMap.shooterSpeedControllerAngle;
 		
 	}
 	
@@ -78,11 +84,11 @@ public class ShooterAim extends Subsystem {
 	}
 
 	public boolean getPointedAtGoal() {
-		return shooterSet;
+		return shooterAngleSet;
 	}
 	
 	public void setPointedAtGoal(boolean value) {
-		shooterSet = value;
+		shooterAngleSet = value;
 	}
 	
 	public double getAngle() {
@@ -129,11 +135,13 @@ public class ShooterAim extends Subsystem {
 
 	// This is what the PID loop calls to actually use the value that it calculated
 	protected void usePIDOutput(double output) {
+		
 		if (returnPIDInput() > getSetpoint() - marginOfError &&
 		returnPIDInput() < getSetpoint() + marginOfError) {
 			integral = 0;
-			shooterSet = true;
-		} else shooterSet = false;
+			shooterAngleSet = true;
+		} else shooterAngleSet = false;
+		
 		SmartDashboard.putNumber("AimPIDOutput", output);
 		SmartDashboard.putNumber("AimPIDSetpoint", getAngle());
 		if (pIDStatus) {

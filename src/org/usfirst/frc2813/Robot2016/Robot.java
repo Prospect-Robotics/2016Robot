@@ -83,7 +83,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousPeriodic() {
-		if (!RobotMap.limitSwitch.get()) RobotMap.shooterEncoder.reset();
+		if (!RobotMap.limitSwitch.get()) RobotMap.shooterAngleEncoder.reset();
 		Scheduler.getInstance().run();
 	}
 
@@ -124,9 +124,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putBoolean("CompressorStatus", Robot.pneumatics.getCompressorStatus());
 		avgAccel.update();
 //		System.out.println("AccelerometerSampling Angle: " + (88.3 -(Math.atan2(avgAccel.getYAvg(), avgAccel.getXAvg()) * 180.0) / Math.PI));
-//		System.out.println("ENCODER VALUE: " + RobotMap.shooterEncoder.getDistance());
+//		System.out.println("ENCODER VALUE: " + RobotMap.shooterAngleEncoder.getDistance());
 //		System.out.println("MAGNET SENSOR: " + RobotMap.limitSwitch.get());
-		if (!RobotMap.limitSwitch.get()) RobotMap.shooterEncoder.reset();
+		if (!RobotMap.limitSwitch.get()) RobotMap.shooterAngleEncoder.reset();
 		goalValues = ImageProcessing.findGoal();
 		if (goalValues.length == 0) {
 			SmartDashboard.putBoolean("GoalFound", false);
@@ -140,6 +140,8 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putNumber("GoalCenterY", Robot.centerY);
 			SmartDashboard.putBoolean("GoalFound", true);
 		}
+		Robot.shooterWheels.customPID(0.01, 0, 0, "left");
+		Robot.shooterWheels.customPID(0.01, 0, 0, "right");
 		Robot.shooterAim.customPID(0.018, 0.0000, 0.0018);
 		Scheduler.getInstance().run();
 	}

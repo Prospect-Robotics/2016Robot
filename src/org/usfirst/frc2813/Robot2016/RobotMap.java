@@ -26,7 +26,9 @@ public class RobotMap {
 	public static SpeedController shooterSpeedControllerLeft;
 	public static SpeedController shooterSpeedControllerRight;
 	public static SpeedController shooterSpeedControllerAngle;
-	public static Encoder shooterEncoder;
+	public static Encoder shooterAngleEncoder;
+	public static Encoder shooterSpeedEncoderLeft;
+	public static Encoder shooterSpeedEncoderRight;
 	public static SpeedController driveTrainSpeedControllerFrontLeft;
 	public static SpeedController driveTrainSpeedControllerFrontRight;
 	public static SpeedController driveTrainSpeedControllerBackLeft;
@@ -71,6 +73,7 @@ public class RobotMap {
 		shooterSpeedControllerLeft = new VictorSP(7);
 		shooterSpeedControllerRight = new VictorSP(5);
 		shooterSpeedControllerAngle = new VictorSP(4);
+		
 		// LiveWindow.addActuator("Shoot", "SpeedController",
 		// (VictorSP) shooterSpeedController);
 		
@@ -79,10 +82,20 @@ public class RobotMap {
 		shooterSolenoidSecondChannel = new Solenoid(1);
 //		elevatorSolenoid = new Solenoid(2);
 
-		shooterEncoder = new Encoder(0, 1, false, EncodingType.k4X);
-		LiveWindow.addSensor("Shoot", "Encoder", shooterEncoder);
-		shooterEncoder.setDistancePerPulse(1.0);
-		shooterEncoder.setPIDSourceType(PIDSourceType.kRate);
+		shooterAngleEncoder = new Encoder(0, 1, false, EncodingType.k4X);
+		LiveWindow.addSensor("Shoot", "Encoder", shooterAngleEncoder);
+		shooterAngleEncoder.setDistancePerPulse(1.0);
+		shooterAngleEncoder.setPIDSourceType(PIDSourceType.kRate);
+		
+		shooterSpeedEncoderLeft = new Encoder(2, 3, false, EncodingType.k4X);
+		LiveWindow.addSensor("Shoot", "Encoder", shooterSpeedEncoderLeft);
+		shooterAngleEncoder.setDistancePerPulse(1.0);
+		shooterAngleEncoder.setPIDSourceType(PIDSourceType.kRate);
+		
+		shooterSpeedEncoderRight = new Encoder(4, 5, false, EncodingType.k4X);
+		LiveWindow.addSensor("Shoot", "Encoder", shooterSpeedEncoderRight);
+		shooterAngleEncoder.setDistancePerPulse(1.0);
+		shooterAngleEncoder.setPIDSourceType(PIDSourceType.kRate);
 		
 		accelerometer = new ADXL345_I2C(I2C.Port.kOnboard, Accelerometer.Range.k4G);
 		
