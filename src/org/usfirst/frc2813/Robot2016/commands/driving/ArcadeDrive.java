@@ -16,7 +16,7 @@ public class ArcadeDrive extends Command {
 
 	protected void execute() {
 		if (!Robot.driveTrain.getPIDStatus()) {
-			Robot.driveTrain.testDrive(Robot.oi.getJoystick1().getY(), Robot.oi
+			Robot.driveTrain.arcadeDrive(Robot.oi.getJoystick1().getY(), Robot.oi
 					.getJoystick1().getX());
 		}
 		

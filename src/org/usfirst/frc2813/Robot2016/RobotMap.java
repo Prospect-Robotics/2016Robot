@@ -36,9 +36,8 @@ public class RobotMap {
 	public static RobotDrive driveTrainSpeedControllers;
 //	public static AnalogGyro driveTrainGyro;
 //	public static AnalogPotentiometer armsPotentiometer;
-	public static SpeedController armsSpeedControllerLeft;
-	public static SpeedController armsSpeedControllerRight;
-	public static SpeedController armsSpeedControllerSucker;
+	public static SpeedController armsSpeedControllerTilt;
+	public static SpeedController armsSpeedControllerIntake;
 	public static ADXL345_I2C accelerometer;
 	public static DigitalInput limitSwitch;
 	public static RobotDrive armsSpeedControllers;
@@ -74,7 +73,7 @@ public class RobotMap {
 		shooterSpeedControllerRight = new VictorSP(5);
 		shooterSpeedControllerAngle = new VictorSP(4);
 		
-		// LiveWindow.addActuator("Shoot", "SpeedController",
+		// LiveWindow.addActuator("ManualShoot", "SpeedController",
 		// (VictorSP) shooterSpeedController);
 		
 		compressor = new Compressor();
@@ -83,19 +82,19 @@ public class RobotMap {
 //		elevatorSolenoid = new Solenoid(2);
 
 		shooterAngleEncoder = new Encoder(0, 1, false, EncodingType.k4X);
-		LiveWindow.addSensor("Shoot", "Encoder", shooterAngleEncoder);
+		LiveWindow.addSensor("ManualShoot", "Encoder", shooterAngleEncoder);
 		shooterAngleEncoder.setDistancePerPulse(1.0);
 		shooterAngleEncoder.setPIDSourceType(PIDSourceType.kRate);
 		
-		shooterSpeedEncoderLeft = new Encoder(2, 3, false, EncodingType.k4X);
-		LiveWindow.addSensor("Shoot", "Encoder", shooterSpeedEncoderLeft);
-		shooterAngleEncoder.setDistancePerPulse(1.0);
-		shooterAngleEncoder.setPIDSourceType(PIDSourceType.kRate);
+		shooterSpeedEncoderLeft = new Encoder(5, 4, false, EncodingType.k4X);
+		LiveWindow.addSensor("ManualShoot", "Encoder", shooterSpeedEncoderLeft);
+		shooterSpeedEncoderLeft.setDistancePerPulse(1.0);
+		shooterSpeedEncoderLeft.setPIDSourceType(PIDSourceType.kRate);
 		
-		shooterSpeedEncoderRight = new Encoder(4, 5, false, EncodingType.k4X);
-		LiveWindow.addSensor("Shoot", "Encoder", shooterSpeedEncoderRight);
-		shooterAngleEncoder.setDistancePerPulse(1.0);
-		shooterAngleEncoder.setPIDSourceType(PIDSourceType.kRate);
+		shooterSpeedEncoderRight = new Encoder(3, 2, false, EncodingType.k4X);
+		LiveWindow.addSensor("ManualShoot", "Encoder", shooterSpeedEncoderRight);
+		shooterSpeedEncoderRight.setDistancePerPulse(1.0);
+		shooterSpeedEncoderRight.setPIDSourceType(PIDSourceType.kRate);
 		
 		accelerometer = new ADXL345_I2C(I2C.Port.kOnboard, Accelerometer.Range.k4G);
 		
@@ -134,20 +133,13 @@ public class RobotMap {
 //		armsPotentiometer = new AnalogPotentiometer(1, 1.0, 0.0);
 //		LiveWindow.addSensor("Arms", "Potentiometer", armsPotentiometer);
 
-		// armsSpeedControllerLeft = new VictorSP(9);
-		// LiveWindow.addActuator("Arms", "SpeedControllerLeft",
-		// (VictorSP) armsSpeedControllerLeft);
+		 armsSpeedControllerTilt = new VictorSP(6);
+		 LiveWindow.addActuator("Arms", "SpeedControllerTilt",
+		 (VictorSP) armsSpeedControllerTilt);
+		 
+		 armsSpeedControllerIntake = new VictorSP(8);
+		 LiveWindow.addActuator("Arms", "SpeedControllerIntake",
+		 (VictorSP) armsSpeedControllerIntake);
 
-		armsSpeedControllerRight = new VictorSP(10);
-		LiveWindow.addActuator("Arms", "SpeedControllerRight",
-				(VictorSP) armsSpeedControllerRight);
-
-		// armsSpeedControllers = new RobotDrive(armsSpeedControllerLeft,
-		// armsSpeedControllerRight);
-
-		// armsSpeedControllers.setSafetyEnabled(true);
-		// armsSpeedControllers.setExpiration(0.1);
-		// armsSpeedControllers.setSensitivity(0.5);
-		// armsSpeedControllers.setMaxOutput(1.0);
 	}
 }

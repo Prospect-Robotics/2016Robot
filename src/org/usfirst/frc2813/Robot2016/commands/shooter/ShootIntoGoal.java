@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class ShootIntoGoal extends CommandGroup {
     
-    public  ShootIntoGoal() {
+    public ShootIntoGoal() {
 		System.out.println("hi1");
     	
     	if (Robot.goalValues.length != 0) {
@@ -19,8 +19,10 @@ public class ShootIntoGoal extends CommandGroup {
 	    	Robot.autoShooterValues = TrajectorySimulator.findTrajectory();
 	    	
 	    	if (Robot.autoShooterValues.length != 0) {
+//	    		new AngleRobotToGoal();
+//	    		while (!Robot.driveTrain.getPointedAtGoal()) {};
 		    	addSequential(new SetShooterAngleToGoal());
-		    	addSequential(new Shoot());
+		    	addSequential(new ManualShoot());
 	    	}
 	    	
     	} else {

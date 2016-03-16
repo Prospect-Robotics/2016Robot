@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc2813.Robot2016.commands.obstacles.TerrainObstacles;
 import org.usfirst.frc2813.Robot2016.commands.shooter.ImageProcessing;
 import org.usfirst.frc2813.Robot2016.subsystems.*;
 import org.usfirst.frc2813.Robot2016.subsystems.IMU.Nav6;
@@ -30,11 +31,17 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain driveTrain;
 	public static Arms arms;
 	public static double bottomGoalY;
+	public static double centerX;
 	public static double centerY;
 	public static double[] goalValues = new double[0];
 	public static double[] autoShooterValues;
 	public final double RANGE_SCALE = 4.88 / 512;
 	public static AccelerometerSampling avgAccel;
+	public static double[] normalPitch;
+	
+	public static int ghettoCount = 0;
+	
+	private boolean resetEncoder = true;
 	
 	public void robotInit() {
 		System.out.println("Pre RobotMap Init");
@@ -78,12 +85,20 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousInit() {
-		if (autonomousCommand != null)
-			autonomousCommand.start();
+		autonomousCommand = new TerrainObstacles();
+		//if (autonomousCommand != null)
+			//autonomousCommand.start();
 	}
 
 	public void autonomousPeriodic() {
+		Robot.nav6.updatePitch();
+		normalPitch = Robot.nav6.getNormalizedPitch(25);
+		SmartDashboard.putNumber("MeanPitch", normalPitch[0]);
+		SmartDashboard.putNumber("StdDevPitch", normalPitch[1]);
+		ghettoCount++;
+		if (ghettoCount == 60) autonomousCommand.start();
 		if (!RobotMap.limitSwitch.get()) RobotMap.shooterAngleEncoder.reset();
+		
 		Scheduler.getInstance().run();
 	}
 
@@ -99,6 +114,7 @@ public class Robot extends IterativeRobot {
 //		}
 //		Robot.shooterAim.setAngle(0);
 //		Robot.shooterAim.enablePID();
+		
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 	}
@@ -121,28 +137,41 @@ public class Robot extends IterativeRobot {
 //		SmartDashboard.putNumber("Joy2 X", Robot.oi.getJoystick2().getX());
 //		SmartDashboard.putNumber("Joy2 Y", Robot.oi.getJoystick2().getY());
 		
+		Robot.nav6.updatePitch();
+		normalPitch = Robot.nav6.getNormalizedPitch(50);
+		SmartDashboard.putNumber("MeanPitch", normalPitch[0]);
+		SmartDashboard.putNumber("StdDevPitch", normalPitch[1]);
+		
 		SmartDashboard.putBoolean("CompressorStatus", Robot.pneumatics.getCompressorStatus());
 		avgAccel.update();
 //		System.out.println("AccelerometerSampling Angle: " + (88.3 -(Math.atan2(avgAccel.getYAvg(), avgAccel.getXAvg()) * 180.0) / Math.PI));
-//		System.out.println("ENCODER VALUE: " + RobotMap.shooterAngleEncoder.getDistance());
-//		System.out.println("MAGNET SENSOR: " + RobotMap.limitSwitch.get());
-		if (!RobotMap.limitSwitch.get()) RobotMap.shooterAngleEncoder.reset();
+		SmartDashboard.putNumber("EncoderValue", RobotMap.shooterAngleEncoder.getDistance());
+		SmartDashboard.putBoolean("LimitSwitch", RobotMap.limitSwitch.get());
+		
+		if (RobotMap.limitSwitch.get() && resetEncoder) {
+			RobotMap.shooterAngleEncoder.reset();
+			resetEncoder = false;
+		} else if (!RobotMap.limitSwitch.get()) resetEncoder = true;
+		
 		goalValues = ImageProcessing.findGoal();
 		if (goalValues.length == 0) {
 			SmartDashboard.putBoolean("GoalFound", false);
 		// The following was disabled on Bag Day due to performance concerns 
-//		} else if (goalValues.length >= 8) {
+//		} else if (goalValues.length >= 10) {
 //			Robot.bottomGoalY = (goalValues[5] + goalValues[7]) / 2;
 //			SmartDashboard.putBoolean("GoalFound", true);
 		// The following was tested on Bag Day 2/23/2016
 		} else if (goalValues.length >= 10) {
+			Robot.centerX = goalValues[8];
 			Robot.centerY = goalValues[9];
+			SmartDashboard.putNumber("GoalCenerX", Robot.centerX);
 			SmartDashboard.putNumber("GoalCenterY", Robot.centerY);
 			SmartDashboard.putBoolean("GoalFound", true);
 		}
-		Robot.shooterWheels.customPID(0.01, 0, 0, "left");
-		Robot.shooterWheels.customPID(0.01, 0, 0, "right");
-		Robot.shooterAim.customPID(0.018, 0.0000, 0.0018);
+		Robot.shooterWheels.bangBangControl("left");
+		Robot.shooterWheels.bangBangControl("right");
+		Robot.shooterAim.customPID(0.014, 0.0000, 0.0014);
+		Robot.driveTrain.customPID(0.07, 0, 0.007);
 		Scheduler.getInstance().run();
 	}
 

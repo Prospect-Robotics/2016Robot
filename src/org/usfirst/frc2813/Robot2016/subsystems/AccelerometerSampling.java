@@ -38,7 +38,7 @@ public class AccelerometerSampling {
 		zValues[numberOfSamples - 1] = this.getZ();
 		if (xValues[numberOfSamples - 1] == 0 && yValues[numberOfSamples - 1] == 0 && zValues[numberOfSamples - 1] == 0) {
 			errors++;
-			Robot.shooterAim.setAngle(Robot.shooterAim.getAngle());
+			Robot.shooterAim.disablePID();
 			accelerometer = new ADXL345_I2C(I2C.Port.kOnboard, Accelerometer.Range.k4G);
 			System.out.println(errors);
 		}

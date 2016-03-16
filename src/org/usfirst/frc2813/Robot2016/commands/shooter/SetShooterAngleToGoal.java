@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj.command.Command;
 public class SetShooterAngleToGoal extends Command {
 
     public SetShooterAngleToGoal() {
+    	
+ 
+    	
     	requires(Robot.shooterAim);
     	// Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -16,27 +19,27 @@ public class SetShooterAngleToGoal extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.autoShooterValues = TrajectorySimulator.findTrajectory(); // this is temp
+    	Robot.autoShooterValues = TrajectorySimulator.findTrajectory(); // this is temp - not sure why
+
+    	Robot.shooterAim.enablePID();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	double angle = Robot.autoShooterValues[0];
-    	Robot.shooterAim.enablePID();
     	Robot.shooterAim.setAngle(angle);
     	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if (Robot.shooterAim.getPointedAtGoal()) return true;
-        return false;
+    	if (Robot.oi.getOperator().getRawButton(8)) return false;
+        return true;
     }
 
     // Called once after isFinished returns true
     protected void end() {
     	Robot.shooterAim.setPointedAtGoal(false);
-    	//    	Robot.shooterAim.disablePID();
     	
     }
 
@@ -44,7 +47,6 @@ public class SetShooterAngleToGoal extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     	Robot.shooterAim.setPointedAtGoal(false);
-    	//    	Robot.shooterAim.disablePID();
   
     }
     

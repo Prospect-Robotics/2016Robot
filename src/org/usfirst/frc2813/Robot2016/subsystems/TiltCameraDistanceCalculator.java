@@ -1,5 +1,7 @@
 package org.usfirst.frc2813.Robot2016.subsystems;
 
+import org.usfirst.frc2813.Robot2016.Robot;
+
 /*
  * Calculates the horizontal distance to a target given camera pixel offset value
  *
@@ -8,7 +10,7 @@ package org.usfirst.frc2813.Robot2016.subsystems;
  *
  * The triangle ΔABC is complementary to ΔDEC
  *
- * FOVp = the height of the camera field of view in pixels
+ * FOVy = the height of the camera field of view in pixels
  * hT = the height of the the target (in feet or meters)
  * ha = AC, the height of the target above the center line (feet or meters)
  * hp = the image position of the target (in pixels)
@@ -16,7 +18,7 @@ package org.usfirst.frc2813.Robot2016.subsystems;
  *
  * We need to solve the 3 simultaneous equations
  *
- * (1) da = ha × FOVp ÷ (2 hp × tan(θ))
+ * (1) da = ha × FOVy ÷ (2 hp × tan(θ))
  *
  * (2) cos(α) = DE ÷ DC = d ÷ (da - BC)
  *    → d = cos(α) × (da - BC) = cos(α) × (da - ha × tan(α))
@@ -27,15 +29,15 @@ package org.usfirst.frc2813.Robot2016.subsystems;
  *    → ha = h - d × tan(α)
  *    
  * First combine equations (1) and (2)
- * 	d = ha × FOVp ÷ (2 hp × tan(θ)) × cos(α) - ha sin(α)
+ * 	d = ha × FOVy ÷ (2 hp × tan(θ)) × cos(α) - ha sin(α)
  * 
  * Pull out the common factor ha
- *  d = ha [FOVp ÷ (2 hp × tan(θ)) × cos(α) - sin(α)]
+ *  d = ha [FOVy ÷ (2 hp × tan(θ)) × cos(α) - sin(α)]
  *  
  * Substitute equation (3) for ha
- *  d = (h - d × tan(α)) × [FOVp ÷ (2 hp × tan(θ)) × cos(α) - sin(α)]
+ *  d = (h - d × tan(α)) × [FOVy ÷ (2 hp × tan(θ)) × cos(α) - sin(α)]
  *  
- * Let FOV() = FOVp ÷ (2 hp × tan(θ)) × cos(α) - sin(α)
+ * Let FOV() = FOVy ÷ (2 hp × tan(θ)) × cos(α) - sin(α)
  *  d = (h - d × tan(α)) × FOV()
  * 
  * Expand
@@ -47,7 +49,25 @@ package org.usfirst.frc2813.Robot2016.subsystems;
  * 
  */
 public class TiltCameraDistanceCalculator {
+
+	private static double tilt = Math.toRadians(31); // Angle of camera from ground
+	private static double hT = 226.06; // distance from the center of the goal to the ground
+//	private static double hT = 239;
+	private static double hc = 32.51;// height of camera from ground (in desired unit)
+	private static double wc = 25.4; // distance from camera to the center of the ball
+	private static double FOVx = 640; // width of camera input (in pixels)
+	private static double FOVy = 480; // height of camera input (in pixels)
+	private static double view = Math.toRadians(25.5); // Field of view of the camera (can find this info online)
+
+	private static double h = hT - hc;
 	
+	public static double targetAngleOffset() {
+		int wp = (int) Math.round(FOVx/2 - Robot.centerX);
+		double angle = Math.atan(2 * wp * Math.tan(FOVx) / FOVx);
+		double cameraToShooterAngleOffset = Math.atan(wc / targetDistance());
+		return Math.toDegrees(angle + cameraToShooterAngleOffset); // - for right side robot, + for left side
+	}
+
 	/**
 	 * Calculate the distance to the target in world units based on the pixel
 	 * offset of a point on the camera's screen.
@@ -55,19 +75,14 @@ public class TiltCameraDistanceCalculator {
 	 * @param hp the distance in pixels from the target to the view axis of the camera
 	 * @return the horizontal distance from the target to the camera
 	 */
-	public static double targetDistance(int hp) {
-		double tilt = Math.toRadians(31);
-		double hT = 226.06;
-		double hc = 29.21;
-		double FOVp = 480;
-		double view = Math.toRadians(24.5);
-		double h = hT - hc;
-		hp = (int) Math.round(FOVp/2 - hp);
+	public static double targetDistance() {
+		int hp = (int) Math.round(FOVy/2 - Robot.centerY);
+		System.out.println("Distance from center in pixels: " + hp);
 		if (hp == 0) {
 			return h / Math.tan(tilt);
 		}
-		double fov_adjustment = (FOVp * Math.cos(tilt) / 2 / hp / Math.tan(view)) - Math.sin(tilt);
+		double fov_adjustment = (FOVy * Math.cos(tilt) / 2 / hp / Math.tan(view)) - Math.sin(tilt);
+		System.out.println("Camera Distance: " + h * fov_adjustment / (1 + fov_adjustment * Math.tan(tilt)));
 		return h * fov_adjustment / (1 + fov_adjustment * Math.tan(tilt));
 	}
-
 }

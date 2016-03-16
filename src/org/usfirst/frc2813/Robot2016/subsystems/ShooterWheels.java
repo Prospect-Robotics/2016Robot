@@ -63,12 +63,16 @@ public class ShooterWheels extends Subsystem {
 		pIDStatus = false;
 	}
 	
-	protected double getSetpoint() {
+	public boolean getShooterSpeedSet() {
+		return shooterSpeedSet;
+	}
+	
+	public double getSetpoint() {
 		return setpoint;
 	}
 	
-	protected void setSetpoint(double setpoint) {
-		this.setpoint  = setpoint;
+	public void setSetpoint(double setpoint) {
+		this.setpoint = setpoint;
 	}
 
 	public double returnPIDInputLeft() {
@@ -91,12 +95,16 @@ public class ShooterWheels extends Subsystem {
 			shooterSpeedSet = true;
 		} else shooterSpeedSet = false;
 		
+		SmartDashboard.putNumber("LeftShooterEncoder", returnPIDInputLeft());
+		SmartDashboard.putNumber("RightShooterEncoder", returnPIDInputRight());
+		SmartDashboard.putNumber("ShooterWheelSetpoint", getSetpoint());
+		
 		if (pIDStatus) {
 			
 			if (side.equals("left")) {
-				speedControllerLeft.pidWrite(output);
+				speedControllerLeft.pidWrite(-output);
 			} else if (side.equals("right")) {
-				speedControllerRight.pidWrite(output);
+				speedControllerRight.pidWrite(-output);
 			} else {
 				System.out.println("Error: Subsystems/ShooterWheels usePIDOutput, incorrect input for side");
 				return;
@@ -113,7 +121,7 @@ public class ShooterWheels extends Subsystem {
 	/**
 	 * @param input dictates what sensor we are calling the PID loop on -- either "left" or "right"
 	 */
-	public void customPID(double p, double i, double d, String side) {
+	public void bangBangControl(String side) {
 		
 		double input;
 		if (side.equals("left")) {
@@ -125,14 +133,14 @@ public class ShooterWheels extends Subsystem {
 			return;
 		}
 		
-		double dt = (newTime - oldTime) / 1000;
-		oldTime = newTime;
-		double error = getSetpoint() - input;
-		integral = integral + error * dt;
-		double derivative = (error - previousError) / dt;
-		double output = p * error + i * integral + d * derivative;
-		previousError = error;
-		newTime = System.currentTimeMillis();
+		double output;
+		if (getSetpoint() > 0) {
+			if (input > getSetpoint()) output = 0;
+			else output = 1;
+		} else if (getSetpoint() < 0) {
+			if (input < getSetpoint()) output = 0;
+			else output = -1;
+		} else output = 0;
 		usePIDOutput(output, side);
 		
 	}

@@ -23,7 +23,7 @@ public class IdleShooterWheels extends Command {
     
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.shooterWheels.spin(0); // Shooter spin
+    	Robot.shooterWheels.setSetpoint(0); // Shooter spin
         	//    	SmartDashboard.putNumber("IntakeShooterValue", -Robot.oi.getJoystick1().getZ());
 //    	Robot.shooterAim.spin(-Robot.oi.getJoystick1().getY()); // Shooter spin	
 //    	Robot.shooterAim.angle(0.75 * Math.sqrt((-Robot.oi.getJoystick1().getZ() + 1.1)) - 1); // Shooter angle

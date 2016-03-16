@@ -78,7 +78,7 @@ public class TrajectorySimulator  {
 //		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		changeInTime = 0.007;
-		distGoalX = TiltCameraDistanceCalculator.targetDistance((int) Math.round(Robot.centerY)) + 43.18;
+		distGoalX = TiltCameraDistanceCalculator.targetDistance() + 43.18;
 		distGoalY = 216.17;
 		angleOfShooter = 10;
 		velocity = 1295.4;
@@ -103,7 +103,7 @@ public class TrajectorySimulator  {
 		System.out.println("Distance from goal: " + distGoalX);
 		
 		// Close to mid range
-//		for (int i = 0; true; i++) {
+//		for (int i = 0; i <= 10; i++) {
 //			
 //			minSpeed = 0;
 //			maxSpeed = 1700;
@@ -155,8 +155,6 @@ public class TrajectorySimulator  {
 //				} else break;
 //			} else angleOfShooter += 0.1;
 //			
-//			if (i > 10) break;
-//			
 //		}
 		
 		// Long range
@@ -170,7 +168,7 @@ public class TrajectorySimulator  {
 			actualDistGoalX = distGoalX - (35.56 * Math.cos(angleOfShooter));
 			actualDistGoalY = distGoalY - (35.56 * Math.sin(angleOfShooter));
 			
-			for (int i = 0; true; i++) {
+			for (int i = 0; i <= 10; i++) {
 
 				angleOfShooter = (maxAngle + minAngle) / 2;
 				
@@ -190,7 +188,6 @@ public class TrajectorySimulator  {
 					}
 				}
 				
-				if (i > 10) break;
 			}
 			
 		}
@@ -237,7 +234,7 @@ public class TrajectorySimulator  {
 		velocityY = velocity * Math.sin(Math.toRadians(angleOfShooter));
 //		Color color = new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255));
 		
-		for (time = 0; true; time += changeInTime) { // This is the target condition
+		for (time = 0; !(y < 0 || (longRange && x > distGoalX) || (!longRange && velocityY <= 0)); time += changeInTime) { // This is the target condition
 			
 			if (logValues) {
 //				System.out.println("x: " + x);

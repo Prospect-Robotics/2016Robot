@@ -35,6 +35,10 @@ public class Pneumatics extends Subsystem {
 //		elevatorSolenoid.set(value);
 //	}
 	
+	public boolean isExtended() {
+		return shooterSolenoidFirstChannel.get();
+	}
+	
 	public void extendShooterPiston() {
 		shooterSolenoidFirstChannel.set(true);
 		shooterSolenoidSecondChannel.set(false);

@@ -5,20 +5,18 @@ import org.usfirst.frc2813.Robot2016.RobotMap;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
-public class Arms extends PIDSubsystem {
+public class Arms extends Subsystem {
 	
-	private final SpeedController speedControllerSucker = RobotMap.armsSpeedControllerSucker;
+	private final SpeedController speedControllerTilt = RobotMap.armsSpeedControllerTilt;
+	private final SpeedController speedControllerIntake = RobotMap.armsSpeedControllerIntake;
 
 //	private final AnalogPotentiometer potentiometer = RobotMap.armsPotentiometer;
 
 	public Arms() {
-		super("Arms", 1.0, 0.0, 0.0);
-		setAbsoluteTolerance(0.2);
-		getPIDController().setContinuous(false);
-		LiveWindow.addActuator("Arms", "PIDSubsystem Controller",
-				getPIDController());
+		
 	}
 
 	public void initDefaultCommand() {
@@ -35,10 +33,10 @@ public class Arms extends PIDSubsystem {
 	}
 
 	public void move(double move) {
-		setSetpoint(move);
+		speedControllerTilt.set(-move);
 	}
 
-	public void pull(double move) {
-		speedControllerSucker.set(move);
+	public void intake(double move) {
+		speedControllerIntake.set(move);
 	}
 }

@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc2813.Robot2016.Robot;
 
-public class Shoot extends Command {
+public class ManualShoot extends Command {
 
-    public Shoot() {
+    public ManualShoot() {
     	requires(Robot.shooterWheels);
     	requires(Robot.pneumatics);
     }

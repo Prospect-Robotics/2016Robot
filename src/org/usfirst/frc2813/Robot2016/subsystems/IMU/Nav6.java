@@ -1,5 +1,8 @@
 package org.usfirst.frc2813.Robot2016.subsystems.IMU;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -7,9 +10,15 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Nav6 extends Subsystem {
-    IMU imu;
-    public Nav6 () {
+	
+    private IMU imu;
+    private List<Double> pitchData;
+    
+    public Nav6() {
+    	
         SerialPort serial_port;
+        pitchData = new ArrayList<Double>();
+        
         try {
             serial_port = new SerialPort(57600,SerialPort.Port.kUSB);
 
@@ -34,9 +43,14 @@ public class Nav6 extends Subsystem {
     public float getYaw(){
         return imu.getYaw();
     }
-    public float getPitch() {
-    	return imu.getPitch();
+    public double getPitch() {
+    	return pitchData.get(pitchData.size() - 1);
     }
+    
+    public void updatePitch() {
+    	pitchData.add((double) imu.getPitch());
+    }
+    
     public boolean resetNav6() {
         boolean is_calibrating = imu.isCalibrating();
         if (!is_calibrating) {
@@ -66,4 +80,24 @@ public class Nav6 extends Subsystem {
         SmartDashboard.putNumber(   "IMU_Temp_C",           imu.getTempC());
         */
     }
+    
+    public double[] getNormalizedPitch(int samples) {
+    	
+    	double mean;
+    	double stdDev;
+    	
+    	double sum = 0;
+    	for (int i = Math.max(0, pitchData.size() - samples); i < pitchData.size(); i++)
+    		sum += pitchData.get(i);
+    	mean = sum / samples;
+    	
+    	double devSum = 0;
+    	for (int i = Math.max(0, pitchData.size() - samples); i < pitchData.size(); i++)
+    		devSum += pitchData.get(i) - mean;
+    	stdDev = devSum / samples;
+    	
+    	return new double[] {mean, stdDev};
+    	
+    }
+    
 }

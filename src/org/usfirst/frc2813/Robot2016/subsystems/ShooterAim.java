@@ -2,7 +2,6 @@ package org.usfirst.frc2813.Robot2016.subsystems;
 
 import org.usfirst.frc2813.Robot2016.Robot;
 import org.usfirst.frc2813.Robot2016.RobotMap;
-import org.usfirst.frc2813.Robot2016.commands.shooter.IdleShooterAngle;
 
 import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -46,10 +45,10 @@ public class ShooterAim extends Subsystem {
 	public ShooterAim() {
 		
 		// PID settings
-		sensorSelection = ENCODER; // Default sensor is encoder
-		pIDStatus = true; // PID is on by default
+		sensorSelection = ACCELEROMETER; // Default sensor is encoder
+		pIDStatus = false; // PID is on by default
 		setAngle(0); // Set angle to 0 by default
-		marginOfError = 0.8; // A good margin of error is 0.8 of a degree
+		marginOfError = 2; // A good margin of error is 2 degrees
 		
 		// Shooter angle limits | TODO: Actually measure
 		lowerLimit = -32;
@@ -71,7 +70,7 @@ public class ShooterAim extends Subsystem {
 	}
 	
 	public void initDefaultCommand() {
-		setDefaultCommand(new IdleShooterAngle());
+//		setDefaultCommand(new IdleShooterAngle());
 	}
 
 	// These accessors are how the other classes interface with this one 
@@ -96,8 +95,8 @@ public class ShooterAim extends Subsystem {
 	}
 	
 	public void setAngle(double angle) {
-		if (angle < lowerLimit) angle = lowerLimit;
-		else if (angle > upperLimit) angle = upperLimit;
+		if (angle < lowerLimit) angle = lowerLimit - 1;
+		else if (angle > upperLimit) angle = upperLimit + 1;
 		setSetpoint(angle);
 	}
 	
@@ -106,7 +105,11 @@ public class ShooterAim extends Subsystem {
 	}
 	
 	protected void setSetpoint(double setpoint) {
-		this.setpoint  = setpoint;
+		this.setpoint = setpoint;
+	}
+	
+	public void manualAim(double value) {
+		speedControllerAngle.set(value);
 	}
 
 	// We use a custom PID loop as opposed to the built-in PID subsystem because it is more customizable and easier to diagnose
@@ -141,13 +144,15 @@ public class ShooterAim extends Subsystem {
 			integral = 0;
 			shooterAngleSet = true;
 		} else shooterAngleSet = false;
-		
+
+		SmartDashboard.putNumber("AimPIDInput", returnPIDInput());
 		SmartDashboard.putNumber("AimPIDOutput", output);
 		SmartDashboard.putNumber("AimPIDSetpoint", getAngle());
 		if (pIDStatus) {
 			speedControllerAngle.pidWrite(output); // This is the most important line in this method
 													// It gives the calculated motor value to the motor
 		}
+		
 	}
 
 	protected double returnPIDInput() {
