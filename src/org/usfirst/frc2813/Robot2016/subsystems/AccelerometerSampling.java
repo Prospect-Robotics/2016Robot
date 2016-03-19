@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
+// This class helps the ShooterAim class use the right values for PID input.
 public class AccelerometerSampling {
 
 	final int numberOfSamples = 10;
@@ -15,7 +16,6 @@ public class AccelerometerSampling {
 	private double[] xValues;
 	private double[] yValues;
 	private double[] zValues;
-	private int errors = 0; //TEMP
 	
 	public AccelerometerSampling() {
 		accelerometer = RobotMap.accelerometer;
@@ -28,20 +28,29 @@ public class AccelerometerSampling {
 	}
 	
 	public void update(){
+		
+		// Shift all of the values to the left once
 		for (int i = 0; i < numberOfSamples - 1; i++) {
 			xValues[i] = xValues[i + 1];
 			yValues[i] = yValues[i + 1];
 			zValues[i] = zValues[i + 1];
 		}
+		
+		// Update all of the values with accelerometer
 		xValues[numberOfSamples - 1] = this.getX();
 		yValues[numberOfSamples - 1] = this.getY();
 		zValues[numberOfSamples - 1] = this.getZ();
+		
+		// If all of the latest values are 0, then the accelerometer crashed. DisablePID and stop the motors, then try to re-initialize it.
 		if (xValues[numberOfSamples - 1] == 0 && yValues[numberOfSamples - 1] == 0 && zValues[numberOfSamples - 1] == 0) {
-			errors++;
+			
 			Robot.shooterAim.disablePID();
+			Robot.shooterAim.manualAim(0);
+			
 			accelerometer = new ADXL345_I2C(I2C.Port.kOnboard, Accelerometer.Range.k4G);
-			System.out.println(errors);
+			
 		}
+		
 	}
 	
 	public double getXAvg() {

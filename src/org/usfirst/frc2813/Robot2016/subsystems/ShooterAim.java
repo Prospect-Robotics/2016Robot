@@ -12,7 +12,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ShooterAim extends Subsystem {
 
-		
+	// PID Settings
+	private double p;
+	private double i;
+	private double d;
 	private int sensorSelection; // Sensor setting
 	private boolean pIDStatus; // PID is enabled when true
 	private double setpoint; // This is the value we want to get the sensor at -- the goal of the PID loop
@@ -23,6 +26,7 @@ public class ShooterAim extends Subsystem {
 	private double upperLimit;
 	
 	private boolean shooterAngleSet; // True when shooter is at the desired location (within the margin of error)
+	
 	
 	// These variables are for the custom PID loop to work
 	private double newTime;
@@ -45,6 +49,9 @@ public class ShooterAim extends Subsystem {
 	public ShooterAim() {
 		
 		// PID settings
+		p = 0.014;
+		i = 0.0;
+		d = 0.0014;
 		sensorSelection = ACCELEROMETER; // Default sensor is encoder
 		pIDStatus = false; // PID is on by default
 		setAngle(0); // Set angle to 0 by default
@@ -114,7 +121,7 @@ public class ShooterAim extends Subsystem {
 
 	// We use a custom PID loop as opposed to the built-in PID subsystem because it is more customizable and easier to diagnose
 	// This is called about once every 20ms in the Robot class
-	public void customPID(double p, double i, double d) {
+	public void customPID() {
 		
 		newTime = System.currentTimeMillis();
 		double dt = (newTime - oldTime) / 1000; // The change in time is calculated then converted to seconds
@@ -148,6 +155,7 @@ public class ShooterAim extends Subsystem {
 		SmartDashboard.putNumber("AimPIDInput", returnPIDInput());
 		SmartDashboard.putNumber("AimPIDOutput", output);
 		SmartDashboard.putNumber("AimPIDSetpoint", getAngle());
+		
 		if (pIDStatus) {
 			speedControllerAngle.pidWrite(output); // This is the most important line in this method
 													// It gives the calculated motor value to the motor

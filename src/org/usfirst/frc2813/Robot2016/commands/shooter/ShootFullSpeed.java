@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.Command;
 
 import org.usfirst.frc2813.Robot2016.Robot;
 
-public class ManualShoot extends Command {
+public class ShootFullSpeed extends Command {
 
-    public ManualShoot() {
+    public ShootFullSpeed() {
     	requires(Robot.shooterWheels);
     	requires(Robot.pneumatics);
     }
@@ -18,11 +18,13 @@ public class ManualShoot extends Command {
 
     protected void execute() {
     	Robot.shooterWheels.spin(1);
+    	
     	Robot.pneumatics.retractShooterPiston();
-    	Timer.delay(2);
+    	Timer.delay(1.5);
     	Robot.pneumatics.extendShooterPiston();
     	Timer.delay(0.5);
     	Robot.pneumatics.retractShooterPiston();
+    	
     }
 
     protected boolean isFinished() {

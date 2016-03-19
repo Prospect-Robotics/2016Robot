@@ -52,7 +52,6 @@ public class TiltCameraDistanceCalculator {
 
 	private static double tilt = Math.toRadians(31); // Angle of camera from ground
 	private static double hT = 226.06; // distance from the center of the goal to the ground
-//	private static double hT = 239;
 	private static double hc = 32.51;// height of camera from ground (in desired unit)
 	private static double wc = 25.4; // distance from camera to the center of the ball
 	private static double FOVx = 640; // width of camera input (in pixels)

@@ -11,17 +11,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ShooterWheels extends Subsystem {
 
-	private boolean pIDStatus; // PID is enabled when true
+	private boolean controllerStatus; // PID is enabled when true
 	private double setpoint; // This is the value we want to get the sensor at -- the goal of the PID loop
 	private double marginOfError; // Our target range of speed (in cm/s)
 
 	private boolean shooterSpeedSet; // True when shooter wheels are spinning at the same speed
-	
-	// These variables are for the custom PID loop to work
-	private double newTime;
-	private double oldTime;
-	private double integral;
-	private double previousError;
 	
 	// Hardware declarations
 	private final SpeedController speedControllerLeft;
@@ -31,17 +25,12 @@ public class ShooterWheels extends Subsystem {
 
 	public ShooterWheels() {
 
-		// PID settings
-		pIDStatus = true; // PID is on by default
+		// Bang-bang controller settings
+		controllerStatus = true; // PID is on by default
 		setSetpoint(0);
 		marginOfError = 0; // A good margin of error is 50cm/s TODO: Change comment to reflect actual good value
 
 		shooterSpeedSet = false; // Assume shooter wheels not spinning at desired speed
-		
-		// PID variable initiations
-		integral = 0;
-		previousError = 0;
-		oldTime = System.currentTimeMillis();
 		
 		// Hardware initializations
 		speedControllerLeft = RobotMap.shooterSpeedControllerLeft;
@@ -55,12 +44,12 @@ public class ShooterWheels extends Subsystem {
 		setDefaultCommand(new IdleShooterWheels());
 	}
 
-	public void enablePID() {
-		pIDStatus = true;
+	public void enableController() {
+		controllerStatus = true;
 	}
 	
-	public void disablePID() {
-		pIDStatus = false;
+	public void disableController() {
+		controllerStatus = false;
 	}
 	
 	public boolean getShooterSpeedSet() {
@@ -77,21 +66,18 @@ public class ShooterWheels extends Subsystem {
 
 	public double returnPIDInputLeft() {
 		return leftEncoder.pidGet();
-//		return 0;
 	}
 
 	public double returnPIDInputRight() {
 		return rightEncoder.pidGet();
-//		return 0;
 	}
 
-	protected void usePIDOutput(double output, String side) {
+	protected void useControllerOutput(double[] output) {
 		
 		if (returnPIDInputLeft() > getSetpoint() - marginOfError &&
 		returnPIDInputLeft() < getSetpoint() + marginOfError &&
 		returnPIDInputRight()  > getSetpoint() - marginOfError &&
 		returnPIDInputRight() < getSetpoint() + marginOfError) {
-			integral = 0;
 			shooterSpeedSet = true;
 		} else shooterSpeedSet = false;
 		
@@ -99,16 +85,10 @@ public class ShooterWheels extends Subsystem {
 		SmartDashboard.putNumber("RightShooterEncoder", returnPIDInputRight());
 		SmartDashboard.putNumber("ShooterWheelSetpoint", getSetpoint());
 		
-		if (pIDStatus) {
+		if (controllerStatus) {
 			
-			if (side.equals("left")) {
-				speedControllerLeft.pidWrite(-output);
-			} else if (side.equals("right")) {
-				speedControllerRight.pidWrite(-output);
-			} else {
-				System.out.println("Error: Subsystems/ShooterWheels usePIDOutput, incorrect input for side");
-				return;
-			}
+			speedControllerLeft.pidWrite(-output[0]);
+			speedControllerRight.pidWrite(-output[1]);
 			
 		}
 	}
@@ -121,27 +101,24 @@ public class ShooterWheels extends Subsystem {
 	/**
 	 * @param input dictates what sensor we are calling the PID loop on -- either "left" or "right"
 	 */
-	public void bangBangControl(String side) {
+	public void bangBangControl() {
 		
-		double input;
-		if (side.equals("left")) {
-			input = returnPIDInputLeft();
-		} else if (side.equals("right")) {
-			input = returnPIDInputRight();
-		} else {
-			System.out.println("Error: Subsystems/ShooterWheels customPID, incorrect input for side");
-			return;
-		}
+		double[] input = {returnPIDInputLeft(), returnPIDInputRight()};
+		double[] output = new double[2];
 		
-		double output;
 		if (getSetpoint() > 0) {
-			if (input > getSetpoint()) output = 0;
-			else output = 1;
+			if (input[0] > getSetpoint()) output[0] = 0;
+			else output[0] = 1;
+			if (input[1] > getSetpoint()) output[1] = 0;
+			else output[1] = 1;
 		} else if (getSetpoint() < 0) {
-			if (input < getSetpoint()) output = 0;
-			else output = -1;
-		} else output = 0;
-		usePIDOutput(output, side);
+			if (input[0] > getSetpoint()) output[0] = 0;
+			else output[0] = -1;
+			if (input[1] > getSetpoint()) output[1] = 0;
+			else output[1] = -1;
+		} else output = new double[] {0, 0};
+		
+		useControllerOutput(output);
 		
 	}
 	

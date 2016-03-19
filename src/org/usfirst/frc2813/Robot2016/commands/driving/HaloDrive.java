@@ -21,9 +21,12 @@ public class HaloDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double curveConstant = 0.5;
+    	
+    	// Do the math for curving the output of rotating the joystick to make it less sensitive
     	double joystickRotate = Robot.oi.getJoystick2().getZ(); 
+    	double curveConstant = 0.5;
     	double rotate = curveConstant * Math.pow(joystickRotate, 3) + (1 - curveConstant) * joystickRotate;
+    	
     	if (!Robot.driveTrain.getPIDStatus()) Robot.driveTrain.arcadeDrive(Robot.oi.getJoystick1().getY(), rotate);
     }
 

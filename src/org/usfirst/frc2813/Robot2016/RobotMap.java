@@ -73,7 +73,7 @@ public class RobotMap {
 		shooterSpeedControllerRight = new VictorSP(5);
 		shooterSpeedControllerAngle = new VictorSP(4);
 		
-		// LiveWindow.addActuator("ManualShoot", "SpeedController",
+		// LiveWindow.addActuator("ShootFullSpeed", "SpeedController",
 		// (VictorSP) shooterSpeedController);
 		
 		compressor = new Compressor();
@@ -82,17 +82,17 @@ public class RobotMap {
 //		elevatorSolenoid = new Solenoid(2);
 
 		shooterAngleEncoder = new Encoder(0, 1, false, EncodingType.k4X);
-		LiveWindow.addSensor("ManualShoot", "Encoder", shooterAngleEncoder);
+		LiveWindow.addSensor("ShootFullSpeed", "Encoder", shooterAngleEncoder);
 		shooterAngleEncoder.setDistancePerPulse(1.0);
 		shooterAngleEncoder.setPIDSourceType(PIDSourceType.kRate);
 		
 		shooterSpeedEncoderLeft = new Encoder(5, 4, false, EncodingType.k4X);
-		LiveWindow.addSensor("ManualShoot", "Encoder", shooterSpeedEncoderLeft);
+		LiveWindow.addSensor("ShootFullSpeed", "Encoder", shooterSpeedEncoderLeft);
 		shooterSpeedEncoderLeft.setDistancePerPulse(1.0);
 		shooterSpeedEncoderLeft.setPIDSourceType(PIDSourceType.kRate);
 		
 		shooterSpeedEncoderRight = new Encoder(3, 2, false, EncodingType.k4X);
-		LiveWindow.addSensor("ManualShoot", "Encoder", shooterSpeedEncoderRight);
+		LiveWindow.addSensor("ShootFullSpeed", "Encoder", shooterSpeedEncoderRight);
 		shooterSpeedEncoderRight.setDistancePerPulse(1.0);
 		shooterSpeedEncoderRight.setPIDSourceType(PIDSourceType.kRate);
 		
