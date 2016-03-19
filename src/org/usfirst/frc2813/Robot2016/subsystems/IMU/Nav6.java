@@ -48,7 +48,6 @@ public class Nav6 extends Subsystem {
     }
     
     public void updatePitch() {
-    	if (pitchData.size() > 1000) pitchData.remove(0);
     	pitchData.add((double) imu.getPitch());
     }
     
@@ -64,28 +63,6 @@ public class Nav6 extends Subsystem {
         }
 
     }
-    
-    public double[] getNormalizedPitch(int samples) {
-    	
-    	double mean;
-    	double stdDev;
-    	
-    	// Find mean by adding all values then dividing by number of samples
-    	double sum = 0;
-    	for (int i = Math.max(0, pitchData.size() - samples); i < pitchData.size(); i++)
-    		sum += pitchData.get(i);
-    	mean = sum / samples;
-    	
-    	// Find stdDeviation by adding all deviations from mean and dividing by number of samples
-    	double devSum = 0;
-    	for (int i = Math.max(0, pitchData.size() - samples); i < pitchData.size(); i++)
-    		devSum += pitchData.get(i) - mean;
-    	stdDev = devSum / samples;
-    	
-    	return new double[] {mean, stdDev};
-    	
-    }
-    
     public void displayNav6Data () {
         SmartDashboard.putNumber("IMU_Yaw", imu.getYaw());
         SmartDashboard.putNumber("PIDget", imu.pidGet());
@@ -95,13 +72,32 @@ public class Nav6 extends Subsystem {
         SmartDashboard.putNumber("IMU_CompassHeading", imu.getCompassHeading());
         SmartDashboard.putNumber("IMU_Update_Count", imu.getUpdateCount());
         SmartDashboard.putNumber("IMU_Byte_Count", imu.getByteCount());
-        /*  Can access if using IMUAdvanced
+        /*  Can acess if using IMUAdvanced
         //IMUAdvanced uses more CPU to process this data
         SmartDashboard.putNumber(   "IMU_Accel_X",          imu.getWorldLinearAccelX());
         SmartDashboard.putNumber(   "IMU_Accel_Y",          imu.getWorldLinearAccelY());
         SmartDashboard.putBoolean(  "IMU_IsMoving",         imu.isMoving());
         SmartDashboard.putNumber(   "IMU_Temp_C",           imu.getTempC());
         */
+    }
+    
+    public double[] getNormalizedPitch(int samples) {
+    	
+    	double mean;
+    	double stdDev;
+    	
+    	double sum = 0;
+    	for (int i = Math.max(0, pitchData.size() - samples); i < pitchData.size(); i++)
+    		sum += pitchData.get(i);
+    	mean = sum / samples;
+    	
+    	double devSum = 0;
+    	for (int i = Math.max(0, pitchData.size() - samples); i < pitchData.size(); i++)
+    		devSum += Math.abs(pitchData.get(i) - mean);
+    	stdDev = devSum / samples;
+    	
+    	return new double[] {mean, stdDev};
+    	
     }
     
 }
