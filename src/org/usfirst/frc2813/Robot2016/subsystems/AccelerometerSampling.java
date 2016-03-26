@@ -27,6 +27,10 @@ public class AccelerometerSampling {
 		}
 	}
 	
+	public double getAngleToGround() {
+		return 88.3 - (Math.atan2(getYAvg(), getXAvg()) * 180 / Math.PI);
+	}
+	
 	public void update(){
 		
 		// Shift all of the values to the left once

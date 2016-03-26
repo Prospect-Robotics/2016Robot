@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Nav6 extends Subsystem {
 	
-    private IMU imu;
+    public IMU imu;
     private List<Double> pitchData;
     
     public Nav6() {
@@ -57,7 +57,6 @@ public class Nav6 extends Subsystem {
         if (!is_calibrating) {
             Timer.delay(0.3);
             imu.zeroYaw();
-//            imu.zer
             return true;
         } else {
             return false;

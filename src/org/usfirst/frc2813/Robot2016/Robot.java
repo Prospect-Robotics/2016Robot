@@ -15,6 +15,8 @@ import java.util.logging.Logger;
 import org.usfirst.frc2813.Robot2016.commands.obstacles.TerrainObstacles;
 import org.usfirst.frc2813.Robot2016.commands.shooter.NetworkTables;
 import org.usfirst.frc2813.Robot2016.commands.shooter.TrajectorySimulator;
+import org.usfirst.frc2813.Robot2016.data.DataDisplayer;
+import org.usfirst.frc2813.Robot2016.data.DataLogger;
 import org.usfirst.frc2813.Robot2016.subsystems.*;
 import org.usfirst.frc2813.Robot2016.subsystems.IMU.Nav6;
 
@@ -38,9 +40,11 @@ public class Robot extends IterativeRobot {
 	public static double centerY;
 	public static double[] goalValues = new double[0];
 	public static double[] shootingValues;
-	public final double RANGE_SCALE = 4.88 / 512;
+	public final static double RANGE_SCALE = 4.88 / 512;
+	private DataDisplayer dataDisplayer;
+	private DataLogger dataLogger;
 	
-	public static AccelerometerSampling avgAccel;
+	public static AccelerometerSampling accelerometerSampling;
 	public static double[] normalPitch;
 	
 	public static boolean varyShooterSpeeds = false;
@@ -77,7 +81,7 @@ public class Robot extends IterativeRobot {
 		System.out.println("Ultrasonic");
 		table = NetworkTable.getTable("GRIP");
 		System.out.println("Network");
-		avgAccel = new AccelerometerSampling();
+		accelerometerSampling = new AccelerometerSampling();
 		System.out.println("Accelerometer");
 		
 		System.out.println("Robot Init Done");	
@@ -171,7 +175,7 @@ public class Robot extends IterativeRobot {
 
 		Robot.nav6.updatePitch();
 		Robot.normalPitch = Robot.nav6.getNormalizedPitch(50);
-		Robot.avgAccel.update();
+		Robot.accelerometerSampling.update();
 		
 	}
 	
@@ -188,33 +192,7 @@ public class Robot extends IterativeRobot {
 	
 	public void displayAndLogData() {
 		
-		SmartDashboard.putNumber("AccelX", RobotMap.accelerometer.getX());
-		SmartDashboard.putNumber("AccelY", RobotMap.accelerometer.getY());
-		SmartDashboard.putNumber("AccelZ", RobotMap.accelerometer.getZ());
-//		avgAccel.update();
-		// nav6.displayNav6Data();
-//		SmartDashboard.putNumber("Raw", ultrasonicSensor.getValue());
-//		SmartDashboard.putNumber("Volts", ultrasonicSensor.getVoltage());
-//		SmartDashboard.putNumber("AvgRaw", ultrasonicSensor.getAverageValue());
-//		SmartDashboard.putNumber("AvgVolts", ultrasonicSensor.getAverageVoltage());
-//		SmartDashboard.putNumber("Range(In.)", ultrasonicSensor.getVoltage() / RANGE_SCALE);
-//		SmartDashboard.putNumber("Joy1 X", Robot.oi.getJoystick1().getX());
-//		SmartDashboard.putNumber("Joy1 Y", Robot.oi.getJoystick1().getY());
-//		SmartDashboard.putNumber("Joy2 X", Robot.oi.getJoystick2().getX());
-//		SmartDashboard.putNumber("Joy2 Y", Robot.oi.getJoystick2().getY());
-
-		SmartDashboard.putNumber("MeanPitch", normalPitch[0]);
-		SmartDashboard.putNumber("StdDevPitch", normalPitch[1]);
-		
-		SmartDashboard.putBoolean("CompressorStatus", Robot.pneumatics.getCompressorStatus());
-		
-//		System.out.println("AccelerometerSampling Angle: " + (88.3 -(Math.atan2(avgAccel.getYAvg(), avgAccel.getXAvg()) * 180.0) / Math.PI));
-		SmartDashboard.putNumber("EncoderValue", RobotMap.shooterAngleEncoder.getDistance());
-		SmartDashboard.putBoolean("LimitSwitch", RobotMap.limitSwitch.get());
-		
-		SmartDashboard.putNumber("GoalCenerX", Robot.centerX);
-		SmartDashboard.putNumber("GoalCenterY", Robot.centerY);
-		SmartDashboard.putBoolean("GoalFound", true);
+		dataDisplayer.displayData();
 		
 	}
 

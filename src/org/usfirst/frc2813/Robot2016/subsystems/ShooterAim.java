@@ -165,7 +165,7 @@ public class ShooterAim extends Subsystem {
 
 	protected double returnPIDInput() {
 		if (sensorSelection == ENCODER) return (encoder.getDistance()); // TODO: Replace with linear model
-		if (sensorSelection == ACCELEROMETER) return 88.3 - (Math.atan2(Robot.avgAccel.getYAvg(), Robot.avgAccel.getXAvg()) * 180 / Math.PI);
+		if (sensorSelection == ACCELEROMETER) return Robot.accelerometerSampling.getAngleToGround();
 		return 0;
 	}
 	
