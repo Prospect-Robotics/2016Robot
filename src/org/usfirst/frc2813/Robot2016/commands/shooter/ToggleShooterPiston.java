@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class TogglePiston extends Command {
+public class ToggleShooterPiston extends Command {
 
-    public TogglePiston() {
+    public ToggleShooterPiston() {
     	
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -25,7 +25,7 @@ public class TogglePiston extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	if (Robot.pneumatics.isExtended()) Robot.pneumatics.retractShooterPiston();
+    	if (Robot.pneumatics.isShooterExtended()) Robot.pneumatics.retractShooterPiston();
     	else Robot.pneumatics.extendShooterPiston();
     	
     }

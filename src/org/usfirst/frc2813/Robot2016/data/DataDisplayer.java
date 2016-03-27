@@ -19,6 +19,7 @@ public class DataDisplayer {
 	private boolean limitSwitchStatusSD;
 	private boolean nav6DataSD;
 	private boolean pgEncoderDataSD;
+	private boolean shooterAimPIDOutputSD;
 	private boolean ultrasonicDataSD;
 	
 	public DataDisplayer() {
@@ -30,6 +31,7 @@ public class DataDisplayer {
 		this.limitSwitchStatusSD = LogAndDisplaySettings.displayLimitSwitchStatusSD;
 		this.nav6DataSD = LogAndDisplaySettings.displayNav6DataSD;
 		this.pgEncoderDataSD = LogAndDisplaySettings.displayPGEncoderDataSD;
+		this.shooterAimPIDOutputSD = LogAndDisplaySettings.shooterAimPIDOutputSD;
 		this.ultrasonicDataSD = LogAndDisplaySettings.displayUltrasonicDataSD;
 		
 	}
@@ -43,11 +45,12 @@ public class DataDisplayer {
 		if (limitSwitchStatusSD) displayLimitSwitchStatusSD();
 		if (nav6DataSD) displayNav6DataSD();
 		if (pgEncoderDataSD) displayPGEncoderDataSD();
+		if (shooterAimPIDOutputSD) displayShooterAimPIDOutputSD();
 		if (ultrasonicDataSD) displayUltrasonicDataSD();
 		
 	}
 	
-	private void displayAccelerometerDataSD() {
+	public void displayAccelerometerDataSD() {
 
 		SmartDashboard.putNumber("Accel_X", RobotMap.accelerometer.getX());
 		SmartDashboard.putNumber("Accel_Y", RobotMap.accelerometer.getY());
@@ -56,13 +59,11 @@ public class DataDisplayer {
 		
 	}
 	
-	private void displayCompressorStatusSD() {
-
+	public void displayCompressorStatusSD() {
 		SmartDashboard.putBoolean("CompressorStatus", Robot.pneumatics.getCompressorStatus());
-		
 	}
 	
-	private void displayGoalDataSD() {
+	public void displayGoalDataSD() {
 
 		SmartDashboard.putNumber("GoalCenerX", Robot.centerX);
 		SmartDashboard.putNumber("GoalCenterY", Robot.centerY);
@@ -71,7 +72,7 @@ public class DataDisplayer {
 	}
 	
 	
-	private void displayJoystickDataSD() {
+	public void displayJoystickDataSD() {
 
 			SmartDashboard.putNumber("Joy1_X", Robot.oi.getJoystick1().getX());
 			SmartDashboard.putNumber("Joy1_Y", Robot.oi.getJoystick1().getY());
@@ -80,13 +81,11 @@ public class DataDisplayer {
 		
 	}
 	
-	private void displayLimitSwitchStatusSD() {
-
+	public void displayLimitSwitchStatusSD() {
 		SmartDashboard.putBoolean("LimitSwitch", RobotMap.limitSwitch.get());
-		
 	}
 	
-	private void displayNav6DataSD() {
+	public void displayNav6DataSD() {
 
 		SmartDashboard.putNumber("Nav6_MeanPitch", Robot.normalPitch[0]);
 		SmartDashboard.putNumber("Nav6_StdDevPitch", Robot.normalPitch[1]);
@@ -102,7 +101,7 @@ public class DataDisplayer {
 		
 	}
 	
-	private void displayPGEncoderDataSD() {
+	public void displayPGEncoderDataSD() {
 
 		SmartDashboard.putNumber("pgEncoder_Distance", RobotMap.shooterAngleEncoder.getDistance());
 		SmartDashboard.putNumber("pgEncoder_Raw", RobotMap.shooterAngleEncoder.getRaw());
@@ -110,7 +109,13 @@ public class DataDisplayer {
 		
 	}
 	
-	private void displayUltrasonicDataSD() {
+	public void displayShooterAimPIDOutputSD() {
+		
+		SmartDashboard.putNumber("ShooterAim_pidOutput", Robot.shooterAim.getLastPIDOutput());
+		
+	}
+	
+	public void displayUltrasonicDataSD() {
 
 			SmartDashboard.putNumber("Raw", Robot.ultrasonicSensor.getValue());
 			SmartDashboard.putNumber("Volts", Robot.ultrasonicSensor.getVoltage());

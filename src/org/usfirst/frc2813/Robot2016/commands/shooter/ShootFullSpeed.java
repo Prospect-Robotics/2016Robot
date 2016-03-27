@@ -36,5 +36,6 @@ public class ShootFullSpeed extends Command {
     }
 
     protected void interrupted() {
+    	Robot.shooterWheels.spin(0);
     }
 }

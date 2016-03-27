@@ -9,11 +9,7 @@ public class SetShooterAngleToGoal extends Command {
 
     public SetShooterAngleToGoal() {
     	
- 
-    	
     	requires(Robot.shooterAim);
-    	// Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     	
     }
 
@@ -29,7 +25,7 @@ public class SetShooterAngleToGoal extends Command {
     protected void execute() {
     	
     	double angle = Robot.shootingValues[0];
-    	Robot.shooterAim.setAngle(angle);
+    	Robot.shooterAim.setSetpoint(angle);
     	
     }
 
@@ -40,15 +36,11 @@ public class SetShooterAngleToGoal extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.shooterAim.setPointedAtGoal(false);
-    	
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.shooterAim.setPointedAtGoal(false);
-  
     }
     
 }

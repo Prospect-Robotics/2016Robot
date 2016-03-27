@@ -3,8 +3,6 @@ package org.usfirst.frc2813.Robot2016.subsystems;
 import org.usfirst.frc2813.Robot2016.Robot;
 import org.usfirst.frc2813.Robot2016.RobotMap;
 
-import edu.wpi.first.wpilibj.ADXL345_I2C;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -27,6 +25,9 @@ public class ShooterAim extends Subsystem {
 	
 	private boolean shooterAngleSet; // True when shooter is at the desired location (within the margin of error)
 	
+	// Storage of PID outputs
+	private int numberOfOutputs; // Number of outputs to store
+	private double[] pidOutputs; // The last outputs the pid loop gave
 	
 	// These variables are for the custom PID loop to work
 	private double newTime;
@@ -36,8 +37,6 @@ public class ShooterAim extends Subsystem {
 	
 	// Hardware declarations
 	private final Encoder encoder;
-	private final ADXL345_I2C accelerometer;
-	private final DigitalInput limitSwitch;
 	private final SpeedController speedControllerAngle;
 	
 	// Sensor selections
@@ -54,7 +53,7 @@ public class ShooterAim extends Subsystem {
 		d = 0.0014;
 		sensorSelection = ACCELEROMETER; // Default sensor is encoder
 		pIDStatus = false; // PID is on by default
-		setAngle(0); // Set angle to 0 by default
+		setSetpoint(0); // Set angle to 0 by default
 		marginOfError = 2; // A good margin of error is 2 degrees
 		
 		// Shooter angle limits | TODO: Actually measure
@@ -63,6 +62,9 @@ public class ShooterAim extends Subsystem {
 
 		shooterAngleSet = false; // Assume shooter angle not set at desired value by default
 		
+		numberOfOutputs = 10;
+		pidOutputs = new double[numberOfOutputs];
+		
 		// PID variable initiations
 		integral = 0;
 		previousError = 0;
@@ -70,17 +72,14 @@ public class ShooterAim extends Subsystem {
 		
 		// Hardware initializations
 		encoder = RobotMap.shooterAngleEncoder;
-		accelerometer = RobotMap.accelerometer;
-		limitSwitch = RobotMap.limitSwitch;
 		speedControllerAngle = RobotMap.shooterSpeedControllerAngle;
 		
 	}
 	
 	public void initDefaultCommand() {
-//		setDefaultCommand(new IdleShooterAngle());
 	}
 
-	// These accessors are how the other classes interface with this one 
+	// These accessors allow other classes to interface with this one 
 	public void enablePID() {
 		pIDStatus = true;
 	}
@@ -88,35 +87,31 @@ public class ShooterAim extends Subsystem {
 	public void disablePID() {
 		pIDStatus = false;
 	}
+	
+	public double getLastPIDOutput() {
+		return pidOutputs[numberOfOutputs - 1];
+	}
 
 	public boolean getPointedAtGoal() {
 		return shooterAngleSet;
 	}
 	
-	public void setPointedAtGoal(boolean value) {
-		shooterAngleSet = value;
+	public void manualAim(double value) {
+		speedControllerAngle.set(value);
 	}
 	
-	public double getAngle() {
-		return getSetpoint();
-	}
-	
-	public void setAngle(double angle) {
-		if (angle < lowerLimit) angle = lowerLimit - 1;
-		else if (angle > upperLimit) angle = upperLimit + 1;
-		setSetpoint(angle);
+	public void modifySetpoint(double amountToAdd) {
+		setSetpoint(getSetpoint() + amountToAdd);
 	}
 	
 	protected double getSetpoint() {
 		return setpoint;
 	}
 	
-	protected void setSetpoint(double setpoint) {
+	public void setSetpoint(double setpoint) {
+		if (setpoint < lowerLimit) setpoint = lowerLimit - 1;
+		else if (setpoint > upperLimit) setpoint = upperLimit + 1;
 		this.setpoint = setpoint;
-	}
-	
-	public void manualAim(double value) {
-		speedControllerAngle.set(value);
 	}
 
 	// We use a custom PID loop as opposed to the built-in PID subsystem because it is more customizable and easier to diagnose
@@ -139,6 +134,7 @@ public class ShooterAim extends Subsystem {
 		if (output > 1) output = 1;
 		else if (output < -1) output = -1;
 		
+		updatePIDOutputArray(output);
 		usePIDOutput(output);
 		
 	}
@@ -154,13 +150,24 @@ public class ShooterAim extends Subsystem {
 
 		SmartDashboard.putNumber("AimPIDInput", returnPIDInput());
 		SmartDashboard.putNumber("AimPIDOutput", output);
-		SmartDashboard.putNumber("AimPIDSetpoint", getAngle());
+		SmartDashboard.putNumber("AimPIDSetpoint", getSetpoint());
 		
 		if (pIDStatus) {
 			speedControllerAngle.pidWrite(output); // This is the most important line in this method
 													// It gives the calculated motor value to the motor
 		}
 		
+	}
+	
+	protected void updatePIDOutputArray(double output) {
+
+		// Shift all of the values to the left once
+		for (int i = 0; i < numberOfOutputs - 1; i++) {
+			pidOutputs[i] = pidOutputs[i + 1];
+		}
+		
+		// Update all of the values with accelerometer
+		pidOutputs[numberOfOutputs - 1] = output;
 	}
 
 	protected double returnPIDInput() {

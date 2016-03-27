@@ -6,12 +6,11 @@ public class ObstacleHelper {
 	
 	public static boolean isOnRamp() {
 
-		Robot.nav6.updatePitch();
-		Robot.normalPitch = Robot.nav6.getNormalizedPitch(10);
+		Robot.updateSensorValues();
 		
 		double meanPitch = Robot.normalPitch[0];
 		double stdDevPitch = Robot.normalPitch[1];
-		double marginOfError = 3;
+		double marginOfError = 2;
 		
 		if (meanPitch > -marginOfError && meanPitch < marginOfError
 			&& stdDevPitch > -marginOfError && stdDevPitch < marginOfError)

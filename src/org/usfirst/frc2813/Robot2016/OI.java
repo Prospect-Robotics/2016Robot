@@ -11,7 +11,7 @@ import org.usfirst.frc2813.Robot2016.commands.driving.RotateRobotToGoal;
 import org.usfirst.frc2813.Robot2016.commands.arms.ArmsIntake;
 import org.usfirst.frc2813.Robot2016.commands.arms.ArmsJogDown;
 import org.usfirst.frc2813.Robot2016.commands.shooter.SetShooterAngleToGoal;
-import org.usfirst.frc2813.Robot2016.commands.shooter.TogglePiston;
+import org.usfirst.frc2813.Robot2016.commands.shooter.ToggleShooterPiston;
 import org.usfirst.frc2813.Robot2016.commands.shooter.ShootFullSpeed;
 import org.usfirst.frc2813.Robot2016.commands.shooter.ShootIntoGoal;
 import org.usfirst.frc2813.Robot2016.commands.shooter.ShooterIntake;
@@ -47,7 +47,7 @@ public class OI {
 		
 		new JoystickButton(operator, 1).whenPressed(new ShooterToBottom());
 		new JoystickButton(operator, 2).whileHeld(new ShooterOuttake());
-		new JoystickButton(operator, 3).whenPressed(new TogglePiston());
+		new JoystickButton(operator, 3).whenPressed(new ToggleShooterPiston());
 		new JoystickButton(operator, 5).whileHeld(new ShooterManualJogUp());
 		new JoystickButton(operator, 6).whileHeld(new ArmsJogUp());
 		new JoystickButton(operator, 7).whileHeld(new ShooterIntake());

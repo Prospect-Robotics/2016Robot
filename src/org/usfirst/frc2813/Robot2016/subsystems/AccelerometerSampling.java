@@ -45,7 +45,7 @@ public class AccelerometerSampling {
 		yValues[numberOfSamples - 1] = this.getY();
 		zValues[numberOfSamples - 1] = this.getZ();
 		
-		// If all of the latest values are 0, then the accelerometer crashed. DisablePID and stop the motors, then try to re-initialize it.
+		// If all of the latest values are 0, then the accelerometer crashed. DisablePID and stop the  shooter aim motor, then try to re-initialize it.
 		if (xValues[numberOfSamples - 1] == 0 && yValues[numberOfSamples - 1] == 0 && zValues[numberOfSamples - 1] == 0) {
 			
 			Robot.shooterAim.disablePID();

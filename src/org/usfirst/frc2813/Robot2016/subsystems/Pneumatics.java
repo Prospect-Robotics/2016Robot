@@ -1,6 +1,5 @@
 package org.usfirst.frc2813.Robot2016.subsystems;
 
-import org.usfirst.frc2813.Robot2016.Robot;
 import org.usfirst.frc2813.Robot2016.RobotMap;
 
 import edu.wpi.first.wpilibj.Compressor;
@@ -12,7 +11,7 @@ public class Pneumatics extends Subsystem {
 	private final Compressor compressor = RobotMap.compressor;
 	private final Solenoid shooterSolenoidFirstChannel = RobotMap.shooterSolenoidFirstChannel;
 	private final Solenoid shooterSolenoidSecondChannel = RobotMap.shooterSolenoidSecondChannel;
-//	private final Solenoid elevatorSolenoid = RobotMap.elevatorSolenoid;
+	private final Solenoid elevatorSolenoid = RobotMap.elevatorSolenoid;
 	
 	public void initDefaultCommand() {
 		
@@ -22,20 +21,20 @@ public class Pneumatics extends Subsystem {
 		return compressor.enabled();
 	}
 	
-//	public boolean getElevatorSolenoidStatus() {
-//		return elevatorSolenoid.get();
-//	}
+	public boolean getElevatorSolenoidStatus() {
+		return elevatorSolenoid.get();
+	}
 	
 	public void setCompressor(boolean value) {
 		if (value) compressor.start();
 		else compressor.stop();
 	}
 	
-//	public void setElevatorSolenoidStatus(boolean value) {
-//		elevatorSolenoid.set(value);
-//	}
+	public void setElevatorSolenoidStatus(boolean value) {
+		elevatorSolenoid.set(value);
+	}
 	
-	public boolean isExtended() {
+	public boolean isShooterExtended() {
 		return shooterSolenoidFirstChannel.get();
 	}
 	

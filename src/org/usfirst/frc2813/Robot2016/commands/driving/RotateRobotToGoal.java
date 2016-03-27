@@ -23,7 +23,7 @@ public class RotateRobotToGoal extends Command {
     	
     	// Find out how much robot needs to turn, then tell driveTrain how much to turn
     	angleOffset = TiltCameraDistanceCalculator.targetAngleOffset();
-    	Robot.driveTrain.changeSetpoint(angleOffset);
+    	Robot.driveTrain.modifySetpoint(angleOffset);
     	Robot.driveTrain.enablePID();
     	
     	System.out.println("Angle Offset: " + angleOffset);

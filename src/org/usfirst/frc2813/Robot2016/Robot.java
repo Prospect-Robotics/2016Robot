@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.logging.Logger;
 
+import org.usfirst.frc2813.Robot2016.commands.obstacles.ObstacleHighGoalAndReset;
 import org.usfirst.frc2813.Robot2016.commands.obstacles.TerrainObstacles;
 import org.usfirst.frc2813.Robot2016.commands.shooter.NetworkTables;
 import org.usfirst.frc2813.Robot2016.commands.shooter.TrajectorySimulator;
@@ -25,43 +26,41 @@ public class Robot extends IterativeRobot {
 
 	private Command autonomousCommand;
 
-	public static AnalogInput ultrasonicSensor;
+	public static Arms arms;
 	public static NetworkTable table;
 	public static OI oi;
-	public static Elevator elevator;
-	public static Nav6 nav6;
 	public static ShooterAim shooterAim;
 	public static ShooterWheels shooterWheels;
 	public static Pneumatics pneumatics;
 	public static DriveTrain driveTrain;
-	public static Arms arms;
 	public static double bottomGoalY;
 	public static double centerX;
 	public static double centerY;
 	public static double[] goalValues = new double[0];
 	public static double[] shootingValues;
 	public final static double RANGE_SCALE = 4.88 / 512;
-	private DataDisplayer dataDisplayer;
-	private DataLogger dataLogger;
+	public static AnalogInput ultrasonicSensor;
+	
+	public DataDisplayer dataDisplayer;
+	public DataLogger dataLogger;
+	public static Nav6 nav6;
+	
 	
 	public static AccelerometerSampling accelerometerSampling;
 	public static double[] normalPitch;
 	
 	public static boolean varyShooterSpeeds = false;
 	
-	public static int ghettoCount = 0;
-	
-	private boolean resetEncoder = true;
+	private static boolean resetEncoder = true;
 	
 	public void robotInit() {
 		
-		autonomousCommand = new TerrainObstacles();
+		autonomousCommand = new ObstacleHighGoalAndReset();
 		
 		System.out.println("Pre RobotMap Init");
 		RobotMap.init();
 		System.out.println("Post RobotMap Init");
 
-		elevator = new Elevator();
 		System.out.println("Elevator");
 		shooterAim = new ShooterAim();
 		System.out.println("Shooter Aim");
@@ -107,14 +106,11 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousPeriodic() {
-		Robot.nav6.updatePitch();
-		Robot.normalPitch = Robot.nav6.getNormalizedPitch(25);
-		SmartDashboard.putNumber("MeanPitch", normalPitch[0]);
-		SmartDashboard.putNumber("StdDevPitch", normalPitch[1]);
-		ghettoCount++;
-		if (ghettoCount == 60) autonomousCommand.start();
+		updateSensorValues();
 		if (!RobotMap.limitSwitch.get()) RobotMap.shooterAngleEncoder.reset();
-		
+
+    	displayAndLogData();
+    	
 		Scheduler.getInstance().run();
 	}
 
@@ -135,6 +131,7 @@ public class Robot extends IterativeRobot {
     	
 		updateSensorValues();
 		lookForGoal();
+		
     	displayAndLogData();
     	
 		Scheduler.getInstance().run();
@@ -144,8 +141,14 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 	}
+
 	
-	public void lookForGoal() {
+	public void displayAndLogData() {
+		
+		dataDisplayer.displayData();
+		
+	}
+	public static void lookForGoal() {
 		
 		Robot.goalValues = NetworkTables.findGoal();
 		if (Robot.goalValues.length == 0) {
@@ -163,7 +166,7 @@ public class Robot extends IterativeRobot {
 		
 	}
 	
-	public void updateControllers() {
+	public static void updateControllers() {
 		
 		Robot.shooterWheels.bangBangControl();
 		Robot.shooterAim.customPID();
@@ -171,15 +174,16 @@ public class Robot extends IterativeRobot {
 		
 	}
 	
-	public void updateSensorValues() {
+	public static void updateSensorValues() {
 
-		Robot.nav6.updatePitch();
-		Robot.normalPitch = Robot.nav6.getNormalizedPitch(50);
 		Robot.accelerometerSampling.update();
+		Robot.nav6.updatePitch();
+		
+		Robot.normalPitch = Robot.nav6.getNormalizedPitch(10);
 		
 	}
 	
-	public void resetEncoderCheck() {
+	public static void resetEncoderCheck() {
 		
 		if (RobotMap.limitSwitch.get() && resetEncoder) {
 			
@@ -187,12 +191,6 @@ public class Robot extends IterativeRobot {
 			resetEncoder = false;
 			
 		} else if (!RobotMap.limitSwitch.get()) resetEncoder = true;
-		
-	}
-	
-	public void displayAndLogData() {
-		
-		dataDisplayer.displayData();
 		
 	}
 

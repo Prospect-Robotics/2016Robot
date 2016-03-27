@@ -21,6 +21,8 @@ public class LogAndDisplaySettings {
 	
 	public static boolean displayPGEncoderDataSD = true;
 	
+	public static boolean shooterAimPIDOutputSD = true;
+	
 	public static boolean displayUltrasonicDataSD = false;
 	
 }

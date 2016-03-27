@@ -3,10 +3,7 @@ package org.usfirst.frc2813.Robot2016.subsystems;
 import org.usfirst.frc2813.Robot2016.Robot;
 import org.usfirst.frc2813.Robot2016.RobotMap;
 import org.usfirst.frc2813.Robot2016.commands.driving.HaloDrive;
-import org.usfirst.frc2813.Robot2016.commands.shooter.NetworkTables;
-import org.usfirst.frc2813.Robot2016.commands.shooter.TrajectorySimulator;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrain extends Subsystem {
@@ -26,7 +23,6 @@ public class DriveTrain extends Subsystem {
 	private double newTime = System.currentTimeMillis();
 	private double oldTime = System.currentTimeMillis();
 	private double setpoint = 0;
-	// private boolean driveStraight = true;
 
 	public DriveTrain() {
 		
@@ -121,10 +117,10 @@ public class DriveTrain extends Subsystem {
 		Robot.oi.addInputs(inputs);
 	}
 
-	public void changeSetpoint(double angle) {
-		angle = returnPIDInput() + angle;
-		angle = ((angle + 180) % 360) - 180;
-		setSetpoint(angle);
+	public void modifySetpoint(double angleToAdd) {
+		angleToAdd = returnPIDInput() + angleToAdd;
+		angleToAdd = ((angleToAdd + 180) % 360) - 180;
+		setSetpoint(angleToAdd);
 	}
 
 }
