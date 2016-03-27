@@ -19,7 +19,7 @@ public class ShootIntoGoal extends CommandGroup {
 
     	// Aim at goal
     	addSequential(new SetShooterAngleToGoal(), 0.7);
-    	addSequential(new ShootFullSpeed());
+    	addSequential(new ShootFullSpeed()); // TODO: Make this set speed to optimal speed and then shoot
     	
     }
     

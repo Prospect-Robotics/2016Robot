@@ -12,8 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.logging.Logger;
 
-import org.usfirst.frc2813.Robot2016.commands.obstacles.ObstacleHighGoalAndReset;
-import org.usfirst.frc2813.Robot2016.commands.obstacles.TerrainObstacles;
+import org.usfirst.frc2813.Robot2016.commands.ObstacleHighGoalAndReset;
 import org.usfirst.frc2813.Robot2016.commands.shooter.NetworkTables;
 import org.usfirst.frc2813.Robot2016.commands.shooter.TrajectorySimulator;
 import org.usfirst.frc2813.Robot2016.data.DataDisplayer;
