@@ -1,4 +1,4 @@
-package org.usfirst.frc2813.Robot2016.commands.shooter;
+package org.usfirst.frc2813.Robot2016.subsystems;
 //import java.awt.Color;
 //import java.awt.Graphics;
 //import java.awt.Graphics2D;
@@ -8,7 +8,6 @@ package org.usfirst.frc2813.Robot2016.commands.shooter;
 //import java.util.Random;
 
 import org.usfirst.frc2813.Robot2016.Robot;
-import org.usfirst.frc2813.Robot2016.subsystems.TiltCameraDistanceCalculator;
 
 //import javax.swing.JComponent;
 //import javax.swing.JFrame;
@@ -33,7 +32,6 @@ public class TrajectorySimulator  {
 	private static double velocity; // the velocity of the ball (in cm/s)
 	private static double velocityX;
 	private static double velocityY;
-	private static double time; // time (in seconds) since the ball has been launched
 	private static double x; // the position of the ball relative to its start (x is forward and backward)
 	private static double y; // the position of the ball relative to its start (y is up and down)
 	private static double accelerationX; // the acceleration of the ball where forward is positive (in cm/s)
@@ -72,7 +70,6 @@ public class TrajectorySimulator  {
 		velocity = 1295.4;
 		velocityX = velocity * Math.cos(Math.toRadians(angleOfShooter));
 		velocityY = velocity * Math.sin(Math.toRadians(angleOfShooter));
-		time = 0;
 		x = 0;
 		y = 0;
 		ballWeight = 295;
@@ -145,7 +142,7 @@ public class TrajectorySimulator  {
 			
 			initialVelocity = velocity;
 			minAngle = 10;
-			maxAngle = 90;
+			maxAngle = 58;
 			
 			// Calculate actual starting position of ball (changes with angle of shooter)
 			actualDistGoalX = distGoalX - (35.56 * Math.cos(angleOfShooter));
@@ -202,7 +199,7 @@ public class TrajectorySimulator  {
 		velocityX = velocity * Math.cos(Math.toRadians(angleOfShooter));
 		velocityY = velocity * Math.sin(Math.toRadians(angleOfShooter));
 		
-		for (time = 0; !(y < 0 || (longRange && x > distGoalX) || (!longRange && velocityY <= 0)); time += changeInTime) { // This is the target condition
+		for (double time = 0; !(y < 0 || (longRange && x > distGoalX) || (!longRange && velocityY <= 0)); time += changeInTime) { // This is the target condition
 			
 			accelerationX = -(dragConstant / ballWeight) * velocity * velocityX;
 			accelerationY = -980 - ((dragConstant / ballWeight) * velocity * velocityY);

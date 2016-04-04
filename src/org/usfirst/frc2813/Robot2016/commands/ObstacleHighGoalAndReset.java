@@ -3,7 +3,7 @@ package org.usfirst.frc2813.Robot2016.commands;
 import org.usfirst.frc2813.Robot2016.commands.driving.TurnToOpponentAlliance;
 import org.usfirst.frc2813.Robot2016.commands.driving.TurnToOurAlliance;
 import org.usfirst.frc2813.Robot2016.commands.obstacles.TerrainObstacles;
-import org.usfirst.frc2813.Robot2016.commands.shooter.ShootIntoGoal;
+import org.usfirst.frc2813.Robot2016.commands.shooter.autoShooting.ShootIntoGoal;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 

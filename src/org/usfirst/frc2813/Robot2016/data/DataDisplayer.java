@@ -20,6 +20,7 @@ public class DataDisplayer {
 	private boolean nav6DataSD;
 	private boolean pgEncoderDataSD;
 	private boolean shooterAimPIDOutputSD;
+	private boolean testSpeedDataSD;
 	private boolean ultrasonicDataSD;
 	
 	public DataDisplayer() {
@@ -32,6 +33,7 @@ public class DataDisplayer {
 		this.nav6DataSD = LogAndDisplaySettings.displayNav6DataSD;
 		this.pgEncoderDataSD = LogAndDisplaySettings.displayPGEncoderDataSD;
 		this.shooterAimPIDOutputSD = LogAndDisplaySettings.shooterAimPIDOutputSD;
+		this.testSpeedDataSD = LogAndDisplaySettings.testSpeedDataSD;
 		this.ultrasonicDataSD = LogAndDisplaySettings.displayUltrasonicDataSD;
 		
 	}
@@ -46,6 +48,7 @@ public class DataDisplayer {
 		if (nav6DataSD) displayNav6DataSD();
 		if (pgEncoderDataSD) displayPGEncoderDataSD();
 		if (shooterAimPIDOutputSD) displayShooterAimPIDOutputSD();
+		if (testSpeedDataSD) displayTestSpeedDataSD();
 		if (ultrasonicDataSD) displayUltrasonicDataSD();
 		
 	}
@@ -60,14 +63,14 @@ public class DataDisplayer {
 	}
 	
 	public void displayCompressorStatusSD() {
-		SmartDashboard.putBoolean("CompressorStatus", Robot.pneumatics.getCompressorStatus());
+		SmartDashboard.putBoolean("Compressor_Status", Robot.pneumatics.getCompressorStatus());
 	}
 	
 	public void displayGoalDataSD() {
 
-		SmartDashboard.putNumber("GoalCenerX", Robot.centerX);
-		SmartDashboard.putNumber("GoalCenterY", Robot.centerY);
-		SmartDashboard.putBoolean("GoalFound", true);
+		SmartDashboard.putNumber("Goal_CenerX", Robot.centerX);
+		SmartDashboard.putNumber("Goal_CenterY", Robot.centerY);
+		SmartDashboard.putBoolean("Goal_Found", true);
 		
 	}
 	
@@ -115,13 +118,19 @@ public class DataDisplayer {
 		
 	}
 	
+	public void displayTestSpeedDataSD() {
+		
+		SmartDashboard.putNumber("ShooterWheels_TestSpeed", Robot.shooterWheels.getTestSpeed());
+		
+	}
+	
 	public void displayUltrasonicDataSD() {
 
-			SmartDashboard.putNumber("Raw", Robot.ultrasonicSensor.getValue());
-			SmartDashboard.putNumber("Volts", Robot.ultrasonicSensor.getVoltage());
-			SmartDashboard.putNumber("AvgRaw", Robot.ultrasonicSensor.getAverageValue());
-			SmartDashboard.putNumber("AvgVolts", Robot.ultrasonicSensor.getAverageVoltage());
-			SmartDashboard.putNumber("Range(In.)", Robot.ultrasonicSensor.getVoltage() / Robot.RANGE_SCALE);
+			SmartDashboard.putNumber("Ultrasonic_Raw", Robot.ultrasonicSensor.getValue());
+			SmartDashboard.putNumber("Ultrasonic_Volts", Robot.ultrasonicSensor.getVoltage());
+			SmartDashboard.putNumber("Ultrasonic_AvgRaw", Robot.ultrasonicSensor.getAverageValue());
+			SmartDashboard.putNumber("Ultrasonic_AvgVolts", Robot.ultrasonicSensor.getAverageVoltage());
+			SmartDashboard.putNumber("Ultrasonic_Range(In.)", Robot.ultrasonicSensor.getVoltage() / Robot.RANGE_SCALE);
 			
 	}
 	

@@ -15,6 +15,8 @@ public class ShooterWheels extends Subsystem {
 	private double setpoint; // This is the value we want to get the sensor at -- the goal of the PID loop
 	private double marginOfError; // Our target range of speed (in cm/s)
 
+	private double testSpeed; // Speed that wheels spin when testing is enabled
+
 	private boolean shooterSpeedSet; // True when shooter wheels are spinning at the same speed
 	
 	// Hardware declarations
@@ -28,8 +30,10 @@ public class ShooterWheels extends Subsystem {
 		// Bang-bang controller settings
 		controllerStatus = true; // PID is on by default
 		setSetpoint(0);
-		marginOfError = 0; // A good margin of error is 50cm/s TODO: Change comment to reflect actual good value
+		marginOfError = 1000; // A good margin of error is 1000
 
+		testSpeed = 0;
+		
 		shooterSpeedSet = false; // Assume shooter wheels not spinning at desired speed
 		
 		// Hardware initializations
@@ -54,6 +58,14 @@ public class ShooterWheels extends Subsystem {
 	
 	public boolean getShooterSpeedSet() {
 		return shooterSpeedSet;
+	}
+
+	public double getTestSpeed() {
+		return testSpeed;
+	}
+
+	public void setTestSpeed(double testSpeed) {
+		this.testSpeed = testSpeed;
 	}
 	
 	public double getSetpoint() {

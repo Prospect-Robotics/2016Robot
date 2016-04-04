@@ -23,6 +23,8 @@ public class LogAndDisplaySettings {
 	
 	public static boolean shooterAimPIDOutputSD = true;
 	
+	public static boolean testSpeedDataSD = true;
+	
 	public static boolean displayUltrasonicDataSD = false;
 	
 }

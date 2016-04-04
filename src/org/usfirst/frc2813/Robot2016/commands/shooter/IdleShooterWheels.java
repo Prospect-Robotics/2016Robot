@@ -15,6 +15,7 @@ public class IdleShooterWheels extends Command {
     }
    
     protected void initialize() {
+    	Robot.shooterWheels.enableController();
     }
     
     protected void execute() {
