@@ -13,11 +13,13 @@ public class Nav6 extends Subsystem {
 	
     public IMU imu;
     private List<Double> pitchData;
+    private List<Double> yawData;
     
     public Nav6() {
     	
         SerialPort serial_port;
         pitchData = new ArrayList<Double>();
+        yawData = new ArrayList<Double>();
         
         try {
             serial_port = new SerialPort(57600,SerialPort.Port.kUSB);
@@ -32,23 +34,32 @@ public class Nav6 extends Subsystem {
             LiveWindow.addSensor("IMU", "Gyro", imu);
         }
     }
+    
     public void initDefaultCommand() {
     }
+    
     public double getUpdateCount() {
     	return imu.getUpdateCount();
     }
+    
     public double pidGet () {
         return imu.pidGet();
     }
-    public float getYaw(){
-        return imu.getYaw();
-    }
+    
     public double getPitch() {
     	return pitchData.get(pitchData.size() - 1);
     }
     
+    public double getYaw(){
+        return yawData.get(yawData.size() - 1);
+    }
+    
     public void updatePitch() {
     	pitchData.add((double) imu.getPitch());
+    }
+    
+    public void updateYaw() {
+    	yawData.add((double) imu.getYaw());
     }
     
     public boolean resetNav6() {
@@ -93,6 +104,25 @@ public class Nav6 extends Subsystem {
     	double devSum = 0;
     	for (int i = Math.max(0, pitchData.size() - samples); i < pitchData.size(); i++)
     		devSum += Math.abs(pitchData.get(i) - mean);
+    	stdDev = devSum / samples;
+    	
+    	return new double[] {mean, stdDev};
+    	
+    }
+    
+    public double[] getNormalizedYaw(int samples) {
+    	
+    	double mean;
+    	double stdDev;
+    	
+    	double sum = 0;
+    	for (int i = Math.max(0, yawData.size() - samples); i < yawData.size(); i++)
+    		sum += yawData.get(i);
+    	mean = sum / samples;
+    	
+    	double devSum = 0;
+    	for (int i = Math.max(0, yawData.size() - samples); i < yawData.size(); i++)
+    		devSum += Math.abs(yawData.get(i) - mean);
     	stdDev = devSum / samples;
     	
     	return new double[] {mean, stdDev};

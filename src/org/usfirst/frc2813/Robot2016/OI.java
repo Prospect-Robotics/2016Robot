@@ -48,9 +48,9 @@ public class OI {
 		operator = new Joystick(2);
 		
 		new JoystickButton(joystick1, 1).whenPressed(new ShootIntoGoal());
-		new JoystickButton(joystick1, 2).whenPressed(new TurnToOurAlliance());
-		new JoystickButton(joystick1, 3).whenPressed(new SetShooterToTestSpeed());
-		new JoystickButton(joystick1, 4).whenPressed(new TurnToOpponentAlliance());
+		new JoystickButton(joystick1, 2).whenPressed(new SetShooterToTestSpeed());
+		new JoystickButton(joystick1, 4).whileHeld(new TurnToOurAlliance());
+		new JoystickButton(joystick1, 5).whileHeld(new TurnToOpponentAlliance());
 		new JoystickButton(joystick1, 8).whenPressed(new IncreaseShooterTestSpeed());
 		new JoystickButton(joystick1, 9).whenPressed(new DecreaseShooterTestSpeed());
 		

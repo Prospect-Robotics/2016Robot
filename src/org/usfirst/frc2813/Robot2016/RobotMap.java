@@ -69,8 +69,8 @@ public class RobotMap {
 		// LiveWindow.addSensor("Elevator", "Encoder", elevatorEncoder);
 		// elevatorEncoder.setDistancePerPulse(1.0);
 		// elevatorEncoder.setPIDSourceType(PIDSourceType.kRate);
-		shooterSpeedControllerLeft = new VictorSP(7);
-		shooterSpeedControllerRight = new VictorSP(5);
+		shooterSpeedControllerLeft = new VictorSP(2);
+		shooterSpeedControllerRight = new VictorSP(3);
 		shooterSpeedControllerAngle = new VictorSP(4);
 		
 		// LiveWindow.addActuator("ShootFullSpeed", "SpeedController",
@@ -100,19 +100,19 @@ public class RobotMap {
 		
 		limitSwitch = new DigitalInput(9);
 
-		driveTrainSpeedControllerFrontLeft = new VictorSP(2);
+		driveTrainSpeedControllerFrontLeft = new VictorSP(9);
 		LiveWindow.addActuator("ArcadeDrive", "SpeedControllerFrontLeft",
 				(VictorSP) driveTrainSpeedControllerFrontLeft);
 
-		driveTrainSpeedControllerFrontRight = new VictorSP(1);
+		driveTrainSpeedControllerFrontRight = new VictorSP(7);
 		LiveWindow.addActuator("ArcadeDrive", "SpeedControllerFrontRight",
 				(VictorSP) driveTrainSpeedControllerFrontRight);
 
-		driveTrainSpeedControllerBackLeft = new VictorSP(3);
+		driveTrainSpeedControllerBackLeft = new VictorSP(8);
 		LiveWindow.addActuator("ArcadeDrive", "SpeedControllerBackLeft",
 				(VictorSP) driveTrainSpeedControllerBackLeft);
 
-		driveTrainSpeedControllerBackRight = new VictorSP(0);
+		driveTrainSpeedControllerBackRight = new VictorSP(6);
 		LiveWindow.addActuator("ArcadeDrive", "SpeedControllerBackRight",
 				(VictorSP) driveTrainSpeedControllerBackRight);
 
@@ -133,11 +133,11 @@ public class RobotMap {
 //		armsPotentiometer = new AnalogPotentiometer(1, 1.0, 0.0);
 //		LiveWindow.addSensor("Arms", "Potentiometer", armsPotentiometer);
 
-		 armsSpeedControllerTilt = new VictorSP(6);
+		 armsSpeedControllerTilt = new VictorSP(0);
 		 LiveWindow.addActuator("Arms", "SpeedControllerTilt",
 		 (VictorSP) armsSpeedControllerTilt);
 		 
-		 armsSpeedControllerIntake = new VictorSP(8);
+		 armsSpeedControllerIntake = new VictorSP(1);
 		 LiveWindow.addActuator("Arms", "SpeedControllerIntake",
 		 (VictorSP) armsSpeedControllerIntake);
 

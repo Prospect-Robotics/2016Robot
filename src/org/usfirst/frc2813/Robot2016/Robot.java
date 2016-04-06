@@ -52,8 +52,6 @@ public class Robot extends IterativeRobot {
 	
 	public void robotInit() {
 		
-		autonomousCommand = new ObstacleHighGoalAndReset();
-		
 		System.out.println("Pre RobotMap Init");
 		RobotMap.init();
 		System.out.println("Post RobotMap Init");
@@ -79,8 +77,13 @@ public class Robot extends IterativeRobot {
 		System.out.println("Network");
 		accelerometerSampling = new AccelerometerSampling();
 		System.out.println("Accelerometer");
+		dataDisplayer = new DataDisplayer();
+		System.out.println("DataDisplayer");
 		
-		System.out.println("Robot Init Done");	
+		System.out.println("Robot init done");
+		
+		autonomousCommand = new ObstacleHighGoalAndReset();
+		System.out.println("Autonomous command initialized");
 
 	}
 
@@ -145,6 +148,7 @@ public class Robot extends IterativeRobot {
 		dataDisplayer.displayData();
 		
 	}
+	
 	public static void lookForGoal() {
 		
 		Robot.goalValues = NetworkTables.findGoal();
@@ -175,6 +179,7 @@ public class Robot extends IterativeRobot {
 
 		Robot.accelerometerSampling.update();
 		Robot.nav6.updatePitch();
+		Robot.nav6.updateYaw();
 		
 		Robot.normalPitch = Robot.nav6.getNormalizedPitch(10);
 		
