@@ -24,7 +24,7 @@ public class ShootIntoGoal extends CommandGroup {
     	// Rev up shooter
     	addSequential(new SetShooterToCalculatedSpeed(), 1.5);
     	
-    	//Fire at goal
+    	// Fire at goal
     	addSequential(new ToggleShooterPiston());
     	addSequential(new WaitCommand(0.25));
     	addSequential(new ToggleShooterPiston());
