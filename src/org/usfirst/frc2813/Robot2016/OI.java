@@ -22,6 +22,7 @@ import org.usfirst.frc2813.Robot2016.commands.shooter.jogging.ShooterSensorJogUp
 import org.usfirst.frc2813.Robot2016.commands.shooter.testing.DecreaseShooterTestSpeed;
 import org.usfirst.frc2813.Robot2016.commands.shooter.testing.IncreaseShooterTestSpeed;
 import org.usfirst.frc2813.Robot2016.commands.shooter.testing.SetShooterToTestSpeed;
+import org.usfirst.frc2813.Robot2016.commands.shooter.ManualShooterAngle;
 import org.usfirst.frc2813.Robot2016.commands.shooter.ShootFullSpeed;
 import org.usfirst.frc2813.Robot2016.commands.shooter.ShooterIntake;
 import org.usfirst.frc2813.Robot2016.commands.shooter.ShooterOuttake;
@@ -56,6 +57,7 @@ public class OI {
 		
 		new JoystickButton(operator, 1).whenPressed(new ShooterToBottom());
 		new JoystickButton(operator, 2).whenPressed(new ToggleShooterPiston());
+		new JoystickButton(operator, 3).whenPressed(new ManualShooterAngle());
 		new JoystickButton(operator, 5).whileHeld(new ShooterManualJogUp());
 		new JoystickButton(operator, 6).whileHeld(new ShooterOuttake());
 		new JoystickButton(operator, 7).whenPressed(new ShootFullSpeed());
