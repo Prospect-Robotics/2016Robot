@@ -23,7 +23,6 @@ public class Robot extends IterativeRobot {
 
 	private Command autonomousCommand;
 
-	public static Arms arms;
 	public static NetworkTable table;
 	public static OI oi;
 	public static ShooterAim shooterAim;
@@ -67,8 +66,6 @@ public class Robot extends IterativeRobot {
 		System.out.println("Pneumatics");
 		driveTrain = new DriveTrain();
 		System.out.println("DriveTrain");
-		arms = new Arms();
-		System.out.println("Arms");
 		oi = new OI();
 		System.out.println("OI");
 		ultrasonicSensor = new AnalogInput(3);

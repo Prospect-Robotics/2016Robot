@@ -44,6 +44,10 @@ public class RobotMap {
 	public static Compressor compressor;
 	public static Solenoid shooterSolenoidFirstChannel;
 	public static Solenoid shooterSolenoidSecondChannel;
+	public static Solenoid leftArmSolenoidFirstChannel;
+	public static Solenoid leftArmSolenoidSecondChannel;
+	public static Solenoid rightArmSolenoidFirstChannel;
+	public static Solenoid rightArmSolenoidSecondChannel;
 	public static Solenoid elevatorSolenoid;
 
 	public static void init() {
@@ -79,7 +83,11 @@ public class RobotMap {
 		compressor = new Compressor();
 		shooterSolenoidFirstChannel = new Solenoid(0);
 		shooterSolenoidSecondChannel = new Solenoid(1);
-		elevatorSolenoid = new Solenoid(2);
+		leftArmSolenoidFirstChannel = new Solenoid(2);
+		leftArmSolenoidSecondChannel = new Solenoid(3);
+		rightArmSolenoidFirstChannel = new Solenoid(4);
+		rightArmSolenoidSecondChannel = new Solenoid(5);
+		elevatorSolenoid = new Solenoid(6);
 
 		shooterAngleEncoder = new Encoder(0, 1, false, EncodingType.k4X);
 		LiveWindow.addSensor("ShootFullSpeed", "Encoder", shooterAngleEncoder);
@@ -131,14 +139,14 @@ public class RobotMap {
 //		LiveWindow.addSensor("ArcadeDrive", "Gyro", driveTrainGyro);
 //		driveTrainGyro.setSensitivity(0.007);
 //		armsPotentiometer = new AnalogPotentiometer(1, 1.0, 0.0);
-//		LiveWindow.addSensor("Arms", "Potentiometer", armsPotentiometer);
+//		LiveWindow.addSensor("ArmsToggle", "Potentiometer", armsPotentiometer);
 
 		 armsSpeedControllerTilt = new VictorSP(6);
-		 LiveWindow.addActuator("Arms", "SpeedControllerTilt",
+		 LiveWindow.addActuator("ArmsToggle", "SpeedControllerTilt",
 		 (VictorSP) armsSpeedControllerTilt);
 		 
 		 armsSpeedControllerIntake = new VictorSP(8);
-		 LiveWindow.addActuator("Arms", "SpeedControllerIntake",
+		 LiveWindow.addActuator("ArmsToggle", "SpeedControllerIntake",
 		 (VictorSP) armsSpeedControllerIntake);
 
 	}

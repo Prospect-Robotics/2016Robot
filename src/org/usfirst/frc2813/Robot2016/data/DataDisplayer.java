@@ -20,6 +20,7 @@ public class DataDisplayer {
 	private boolean nav6DataSD;
 	private boolean pgEncoderDataSD;
 	private boolean shooterAimPIDOutputSD;
+	private boolean shooterWheelsDataSD;
 	private boolean testSpeedDataSD;
 	private boolean ultrasonicDataSD;
 	
@@ -32,8 +33,9 @@ public class DataDisplayer {
 		this.limitSwitchStatusSD = LogAndDisplaySettings.displayLimitSwitchStatusSD;
 		this.nav6DataSD = LogAndDisplaySettings.displayNav6DataSD;
 		this.pgEncoderDataSD = LogAndDisplaySettings.displayPGEncoderDataSD;
-		this.shooterAimPIDOutputSD = LogAndDisplaySettings.shooterAimPIDOutputSD;
-		this.testSpeedDataSD = LogAndDisplaySettings.testSpeedDataSD;
+		this.shooterAimPIDOutputSD = LogAndDisplaySettings.displayShooterAimPIDOutputSD;
+		this.shooterWheelsDataSD = LogAndDisplaySettings.displayShooterWheelsDataSD;
+		this.testSpeedDataSD = LogAndDisplaySettings.displayTestSpeedDataSD;
 		this.ultrasonicDataSD = LogAndDisplaySettings.displayUltrasonicDataSD;
 		
 	}
@@ -48,6 +50,7 @@ public class DataDisplayer {
 		if (nav6DataSD) displayNav6DataSD();
 		if (pgEncoderDataSD) displayPGEncoderDataSD();
 		if (shooterAimPIDOutputSD) displayShooterAimPIDOutputSD();
+		if (shooterWheelsDataSD) displayShooterWheelsDataSD();
 		if (testSpeedDataSD) displayTestSpeedDataSD();
 		if (ultrasonicDataSD) displayUltrasonicDataSD();
 		
@@ -115,6 +118,14 @@ public class DataDisplayer {
 	public void displayShooterAimPIDOutputSD() {
 		
 		SmartDashboard.putNumber("ShooterAim_pidOutput", Robot.shooterAim.getLastPIDOutput());
+		
+	}
+	
+	public void displayShooterWheelsDataSD() {
+		
+		SmartDashboard.putNumber("ShooterWheels_LeftShooterEncoder", Robot.shooterWheels.returnPIDInputLeft());
+		SmartDashboard.putNumber("ShooterWheels_RightShooterEncoder", Robot.shooterWheels.returnPIDInputRight());
+		SmartDashboard.putNumber("ShooterWheels_Setpoint", Robot.shooterWheels.getSetpoint());
 		
 	}
 	

@@ -30,7 +30,7 @@ public class ShooterWheels extends Subsystem {
 		// Bang-bang controller settings
 		controllerStatus = true; // PID is on by default
 		setSetpoint(0);
-		marginOfError = 1000; // A good margin of error is 1000
+		marginOfError = 1800; // A good margin of error is 1800
 
 		testSpeed = 0;
 		
@@ -75,6 +75,14 @@ public class ShooterWheels extends Subsystem {
 	public void setSetpoint(double setpoint) {
 		this.setpoint = setpoint;
 	}
+	
+	/**
+	 * @param value Value of encoder's "pidGet" method
+	 * @return Ball exit velocity in cm/s
+	 */
+	public double encoderValueToBallExitVelocity(double value) {
+		return value / 500; // TODO: Measure actual values and make actual formula.
+	}
 
 	public double returnPIDInputLeft() {
 		return leftEncoder.pidGet();
@@ -88,14 +96,10 @@ public class ShooterWheels extends Subsystem {
 		
 		if (returnPIDInputLeft() > getSetpoint() - marginOfError &&
 		returnPIDInputLeft() < getSetpoint() + marginOfError &&
-		returnPIDInputRight()  > getSetpoint() - marginOfError &&
+		returnPIDInputRight() > getSetpoint() - marginOfError &&
 		returnPIDInputRight() < getSetpoint() + marginOfError) {
 			shooterSpeedSet = true;
 		} else shooterSpeedSet = false;
-		
-		SmartDashboard.putNumber("LeftShooterEncoder", returnPIDInputLeft());
-		SmartDashboard.putNumber("RightShooterEncoder", returnPIDInputRight());
-		SmartDashboard.putNumber("ShooterWheelSetpoint", getSetpoint());
 		
 		if (controllerStatus) {
 			
@@ -110,9 +114,6 @@ public class ShooterWheels extends Subsystem {
 		speedControllerRight.set(-speed);
 	}
 
-	/**
-	 * @param input dictates what sensor we are calling the PID loop on -- either "left" or "right"
-	 */
 	public void bangBangControl() {
 		
 		double[] input = {returnPIDInputLeft(), returnPIDInputRight()};

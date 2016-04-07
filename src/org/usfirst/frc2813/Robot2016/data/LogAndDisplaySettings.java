@@ -7,23 +7,25 @@ package org.usfirst.frc2813.Robot2016.data;
  */
 public class LogAndDisplaySettings {
 
-	public static boolean displayAccelerometerDataSD = false;
+	public static boolean displayAccelerometerDataSD = true;
 	
-	public static boolean displayCompressorStatusSD = false;
+	public static boolean displayCompressorStatusSD = true;
 	
-	public static boolean displayGoalDataSD = false;
+	public static boolean displayGoalDataSD = true;
 	
 	public static boolean displayJoystickDataSD = true;
 	
-	public static boolean displayLimitSwitchStatusSD = false;
+	public static boolean displayLimitSwitchStatusSD = true;
 	
 	public static boolean displayNav6DataSD = true;
 	
-	public static boolean displayPGEncoderDataSD = false;
+	public static boolean displayPGEncoderDataSD = true;
 	
-	public static boolean shooterAimPIDOutputSD = false;
+	public static boolean displayShooterAimPIDOutputSD = true;
 	
-	public static boolean testSpeedDataSD = false;
+	public static boolean displayShooterWheelsDataSD = true;
+	
+	public static boolean displayTestSpeedDataSD = true;
 	
 	public static boolean displayUltrasonicDataSD = false;
 	

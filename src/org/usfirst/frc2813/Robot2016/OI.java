@@ -6,12 +6,12 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 
-import org.usfirst.frc2813.Robot2016.commands.arms.ArmsJogUp;
+import org.usfirst.frc2813.Robot2016.commands.arms.ArmsUp;
 import org.usfirst.frc2813.Robot2016.commands.driving.RotateRobotToGoal;
 import org.usfirst.frc2813.Robot2016.commands.driving.TurnToOpponentAlliance;
 import org.usfirst.frc2813.Robot2016.commands.driving.TurnToOurAlliance;
-import org.usfirst.frc2813.Robot2016.commands.arms.ArmsIntake;
-import org.usfirst.frc2813.Robot2016.commands.arms.ArmsJogDown;
+import org.usfirst.frc2813.Robot2016.commands.arms.ArmsDown;
+import org.usfirst.frc2813.Robot2016.commands.arms.ArmsToggle;
 import org.usfirst.frc2813.Robot2016.commands.shooter.ToggleShooterPiston;
 import org.usfirst.frc2813.Robot2016.commands.shooter.autoShooting.SetShooterAngleToGoal;
 import org.usfirst.frc2813.Robot2016.commands.shooter.autoShooting.ShootIntoGoal;
@@ -55,15 +55,13 @@ public class OI {
 		new JoystickButton(joystick1, 9).whenPressed(new DecreaseShooterTestSpeed());
 		
 		new JoystickButton(operator, 1).whenPressed(new ShooterToBottom());
-		new JoystickButton(operator, 2).whileHeld(new ShooterOuttake());
-		new JoystickButton(operator, 3).whenPressed(new ToggleShooterPiston());
+		new JoystickButton(operator, 2).whenPressed(new ToggleShooterPiston());
 		new JoystickButton(operator, 5).whileHeld(new ShooterManualJogUp());
-		new JoystickButton(operator, 6).whileHeld(new ArmsJogUp());
-		new JoystickButton(operator, 7).whileHeld(new ShooterIntake());
-		new JoystickButton(operator, 8).whileHeld(new SetShooterAngleToGoal());
+		new JoystickButton(operator, 6).whileHeld(new ShooterOuttake());
+		new JoystickButton(operator, 7).whenPressed(new ShootFullSpeed());
 		new JoystickButton(operator, 9).whileHeld(new ShooterManualJogDown());
-		new JoystickButton(operator, 10).whileHeld(new ArmsJogDown());
-		new JoystickButton(operator, 11).whileHeld(new ArmsIntake());
+		new JoystickButton(operator, 10).whileHeld(new ShooterIntake());
+		new JoystickButton(operator, 11).whenPressed(new ArmsToggle());
 		new JoystickButton(operator, 12).whenPressed(new ShootIntoGoal());
 		
 	}
