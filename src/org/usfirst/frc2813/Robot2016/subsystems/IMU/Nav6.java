@@ -34,6 +34,9 @@ public class Nav6 extends Subsystem {
             LiveWindow.addSensor("IMU", "Gyro", imu);
         }
     }
+    public boolean isValid() {
+    	return imu != null;
+    }
     
     public void initDefaultCommand() {
     }

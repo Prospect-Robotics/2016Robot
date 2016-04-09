@@ -10,7 +10,7 @@ import org.usfirst.frc2813.Robot2016.Robot;
  *
  * The triangle ΔABC is complementary to ΔDEC
  *
- * FOVy = the height of the camera field of view in pixels
+ * FOVy = the height of the camera field of viewX in pixels
  * hT = the height of the the target (in feet or meters)
  * ha = AC, the height of the target above the center line (feet or meters)
  * hp = the image position of the target (in pixels)
@@ -50,20 +50,25 @@ import org.usfirst.frc2813.Robot2016.Robot;
  */
 public class TiltCameraDistanceCalculator {
 
-	private static double tilt = Math.toRadians(31); // Angle of camera from ground
+	private static double tilt = Math.toRadians(30); // Angle of camera from ground
 	private static double hT = 226.06; // distance from the center of the goal to the ground
 	private static double hc = 32.51;// height of camera from ground (in desired unit)
-	private static double wc = 25.4; // distance from camera to the center of the ball
+	private static double wc = 35; // distance from camera to the center of the ball
 	private static double FOVx = 640; // width of camera input (in pixels)
 	private static double FOVy = 480; // height of camera input (in pixels)
-	private static double view = Math.toRadians(25.5); // Field of view of the camera (can find this info online)
+	private static double viewX = Math.toRadians(67.0/2); // Field of viewX of the camera (can find this info online)
+	private static double viewY = Math.toRadians(25.5); // Field of viewX of the camera (can find this info online)
 
 	private static double h = hT - hc;
 	
 	public static double targetAngleOffset() {
-		int wp = (int) Math.round(FOVx/2 - Robot.centerX);
-		double angle = Math.atan(2 * wp * Math.tan(FOVx) / FOVx);
-		double cameraToShooterAngleOffset = Math.atan(wc / targetDistance());
+		System.out.println("CenterX" + NetworkTables.findGoal()[0]);
+		int wp = -(int) Math.round(FOVx/2 - NetworkTables.findGoal()[0]);
+		System.out.println("Width distance from center in pixels: " + wp);
+		double angle = Math.atan2(2 * wp * Math.tan(viewX), FOVx);
+		System.out.println("Angle: " + Math.toDegrees(angle));
+		double cameraToShooterAngleOffset = Math.atan2(wc, targetDistance());
+		System.out.println("Camera To Shooter Angle Offset: " + Math.toDegrees(cameraToShooterAngleOffset));
 		return Math.toDegrees(angle + cameraToShooterAngleOffset); // - for right side robot, + for left side
 	}
 
@@ -71,16 +76,17 @@ public class TiltCameraDistanceCalculator {
 	 * Calculate the distance to the target in world units based on the pixel
 	 * offset of a point on the camera's screen.
 	 * 
-	 * @param hp the distance in pixels from the target to the view axis of the camera
+	 * @param hp the distance in pixels from the target to the viewX axis of the camera
 	 * @return the horizontal distance from the target to the camera
 	 */
 	public static double targetDistance() {
-		int hp = (int) Math.round(FOVy/2 - Robot.centerY);
-		System.out.println("Distance from center in pixels: " + hp);
+		System.out.println("CenterY" + NetworkTables.findGoal()[1]);
+		int hp = -(int) Math.round(FOVy/2 - NetworkTables.findGoal()[1]);
+		System.out.println("Height distance from center in pixels: " + hp);
 		if (hp == 0) {
 			return h / Math.tan(tilt);
 		}
-		double fov_adjustment = (FOVy * Math.cos(tilt) / 2 / hp / Math.tan(view)) - Math.sin(tilt);
+		double fov_adjustment = (FOVy * Math.cos(tilt) / 2 / hp / Math.tan(viewY)) - Math.sin(tilt);
 		System.out.println("Camera Distance: " + h * fov_adjustment / (1 + fov_adjustment * Math.tan(tilt)));
 		return h * fov_adjustment / (1 + fov_adjustment * Math.tan(tilt));
 	}

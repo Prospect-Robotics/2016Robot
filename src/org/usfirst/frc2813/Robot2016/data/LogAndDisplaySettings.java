@@ -9,6 +9,8 @@ public class LogAndDisplaySettings {
 
 	public static boolean displayAccelerometerDataSD = true;
 	
+	public static boolean displayArmStatusSD = true;
+	
 	public static boolean displayCompressorStatusSD = true;
 	
 	public static boolean displayGoalDataSD = true;

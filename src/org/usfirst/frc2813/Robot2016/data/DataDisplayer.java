@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DataDisplayer {
 
 	private boolean accelerometerDataSD;
+	private boolean armsStatusSD;
 	private boolean compressorSatusSD;
 	private boolean goalDataSD;
 	private boolean joystickDataSD;
@@ -27,6 +28,7 @@ public class DataDisplayer {
 	public DataDisplayer() {
 		
 		this.accelerometerDataSD = LogAndDisplaySettings.displayAccelerometerDataSD;
+		this.armsStatusSD = LogAndDisplaySettings.displayArmStatusSD;
 		this.compressorSatusSD = LogAndDisplaySettings.displayCompressorStatusSD;
 		this.goalDataSD = LogAndDisplaySettings.displayGoalDataSD;
 		this.joystickDataSD = LogAndDisplaySettings.displayJoystickDataSD;
@@ -43,6 +45,7 @@ public class DataDisplayer {
 	public void displayData() {
 
 		if (accelerometerDataSD) displayAccelerometerDataSD();
+		if (armsStatusSD) displayArmsStatusSD();
 		if (compressorSatusSD) displayCompressorStatusSD();
 		if (goalDataSD) displayGoalDataSD();
 		if (joystickDataSD) displayJoystickDataSD();
@@ -61,11 +64,19 @@ public class DataDisplayer {
 		SmartDashboard.putNumber("Accel_X", RobotMap.accelerometer.getX());
 		SmartDashboard.putNumber("Accel_Y", RobotMap.accelerometer.getY());
 		SmartDashboard.putNumber("Accel_Z", RobotMap.accelerometer.getZ());
-		System.out.println("Accel_Angle" + (88.3 -(Math.atan2(Robot.accelerometerSampling.getYAvg(), Robot.accelerometerSampling.getXAvg()) * 180.0) / Math.PI));
+		SmartDashboard.putNumber("Accel_Angle", Robot.accelerometerSampling.getAngleToGround());
+//		SmartDashboard.putNumber("Accel_Angle", (Math.atan2(Robot.accelerometerSampling.getYAvg(), Robot.accelerometerSampling.getXAvg()) * 180.0) / Math.PI);
+		
+	}
+	
+	public void displayArmsStatusSD() {
+		
+		SmartDashboard.putBoolean("Arms", Robot.pneumatics.isArmExtended());
 		
 	}
 	
 	public void displayCompressorStatusSD() {
+//		System.out.println("Compressor: " + Robot.pneumatics.getCompressorStatus());
 		SmartDashboard.putBoolean("Compressor_Status", Robot.pneumatics.getCompressorStatus());
 	}
 	
@@ -82,8 +93,16 @@ public class DataDisplayer {
 
 			SmartDashboard.putNumber("Joy1_X", Robot.oi.getJoystick1().getX());
 			SmartDashboard.putNumber("Joy1_Y", Robot.oi.getJoystick1().getY());
+			SmartDashboard.putNumber("Joy1_Z", Robot.oi.getJoystick1().getZ());
+			SmartDashboard.putNumber("Joy1_Axis4", Robot.oi.getJoystick1().getRawAxis(4));
+			SmartDashboard.putNumber("Joy1_Twist", Robot.oi.getJoystick1().getTwist());
+			
 			SmartDashboard.putNumber("Joy2_X", Robot.oi.getJoystick2().getX());
 			SmartDashboard.putNumber("Joy2_Y", Robot.oi.getJoystick2().getY());
+			SmartDashboard.putNumber("Joy2_Z", Robot.oi.getJoystick2().getZ());
+			SmartDashboard.putNumber("Joy2_Axis4", Robot.oi.getJoystick2().getRawAxis(4));
+			SmartDashboard.putNumber("Joy2_Twist", Robot.oi.getJoystick2().getTwist());
+			
 		
 	}
 	
@@ -92,19 +111,21 @@ public class DataDisplayer {
 	}
 	
 	public void displayNav6DataSD() {
-
-		SmartDashboard.putNumber("Nav6_MeanPitch", Robot.normalPitch[0]);
-		SmartDashboard.putNumber("Nav6_StdDevPitch", Robot.normalPitch[1]);
 		
-        SmartDashboard.putNumber("IMU_Yaw", Robot.nav6.imu.getYaw());
-        SmartDashboard.putNumber("IMU_PIDget", Robot.nav6.imu.pidGet());
-        SmartDashboard.putBoolean("IMU_IsCalibrating", Robot.nav6.imu.isCalibrating());
-        SmartDashboard.putNumber("IMU_Pitch", Robot.nav6.imu.getPitch());
-        SmartDashboard.putNumber("IMU_Roll", Robot.nav6.imu.getRoll());
-        SmartDashboard.putNumber("IMU_CompassHeading", Robot.nav6.imu.getCompassHeading());
-        SmartDashboard.putNumber("IMU_Update_Count", Robot.nav6.imu.getUpdateCount());
-        SmartDashboard.putNumber("IMU_Byte_Count", Robot.nav6.imu.getByteCount());
-		
+		if (Robot.nav6 != null) {
+			SmartDashboard.putNumber("Nav6_MeanPitch", Robot.normalPitch[0]);
+			SmartDashboard.putNumber("Nav6_StdDevPitch", Robot.normalPitch[1]);
+			
+	        SmartDashboard.putNumber("IMU_Yaw", Robot.nav6.imu.getYaw());
+	        SmartDashboard.putNumber("IMU_PIDget", Robot.nav6.imu.pidGet());
+	        SmartDashboard.putBoolean("IMU_IsCalibrating", Robot.nav6.imu.isCalibrating());
+	        SmartDashboard.putNumber("IMU_Pitch", Robot.nav6.imu.getPitch());
+	        SmartDashboard.putNumber("IMU_Roll", Robot.nav6.imu.getRoll());
+	        SmartDashboard.putNumber("IMU_CompassHeading", Robot.nav6.imu.getCompassHeading());
+	        SmartDashboard.putNumber("IMU_Update_Count", Robot.nav6.imu.getUpdateCount());
+	        SmartDashboard.putNumber("IMU_Byte_Count", Robot.nav6.imu.getByteCount());
+		}
+        
 	}
 	
 	public void displayPGEncoderDataSD() {

@@ -28,9 +28,9 @@ public class DriveTrain extends Subsystem {
 	public DriveTrain() {
 		
 		// PID Settings
-		p = 0.07;
+		p = 0.08;
 		i = 0.0;
-		d = 0.007;
+		d = 0.008;
 		
 		setSetpoint(0);
 		
@@ -69,9 +69,15 @@ public class DriveTrain extends Subsystem {
 	}
 
 	protected double returnPIDInput() {
-		yaw = Robot.nav6.pidGet();
-		return yaw;
-		
+		if(Robot.nav6 != null) {
+			yaw = Robot.nav6.pidGet();
+			return yaw;
+		}
+		else {
+			disablePID();
+			System.out.println("nav6 is NULL.\n");
+			return 0;
+		}
 	}
 	
 	public void customPID() {
@@ -88,7 +94,6 @@ public class DriveTrain extends Subsystem {
 	}
 
 	protected void usePIDOutput(double output) {
-		SmartDashboard.putNumber("Nav6UpdateCount", Robot.nav6.getUpdateCount());
 		SmartDashboard.putNumber("DriveTrainPIDInput", returnPIDInput());
 		SmartDashboard.putNumber("DriveTrainPIDOutput", output);
 		SmartDashboard.putString("DriveTrainPIDStatus", String.valueOf(pIDStatus));

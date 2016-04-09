@@ -17,19 +17,20 @@ public class SetShooterAngleToGoal extends Command {
     protected void initialize() {
 
     	// Calculates then sets optimal goal shooting angle
-    	Robot.shooterAim.enablePID();
     	Robot.updateShootingValues();
-    	Robot.shooterAim.setSetpoint(Robot.shootingValues[0]);
+    	if (Robot.shootingValues.length > 0) {
+    		Robot.shooterAim.setSetpoint(Robot.shootingValues[0]);
+    		Robot.shooterAim.enablePID();
+    	}
     	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    }
-
+    } 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return false; // Keep running until canceled
+    	return Robot.shootingValues.length == 0; // Keep running until canceled
     }
 
     // Called once after isFinished returns true

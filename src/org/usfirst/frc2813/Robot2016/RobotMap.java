@@ -44,10 +44,9 @@ public class RobotMap {
 	public static Compressor compressor;
 	public static Solenoid shooterSolenoidFirstChannel;
 	public static Solenoid shooterSolenoidSecondChannel;
-	public static Solenoid leftArmSolenoidFirstChannel;
-	public static Solenoid leftArmSolenoidSecondChannel;
-	public static Solenoid rightArmSolenoidFirstChannel;
-	public static Solenoid rightArmSolenoidSecondChannel;
+	public static Solenoid armsSolenoidFirstChannel;
+	public static Solenoid armsSolenoidSecondChannel;
+	public static Solenoid shooterSolenoid;
 	public static Solenoid elevatorSolenoid;
 
 	public static void init() {
@@ -83,11 +82,9 @@ public class RobotMap {
 		compressor = new Compressor();
 		shooterSolenoidFirstChannel = new Solenoid(0);
 		shooterSolenoidSecondChannel = new Solenoid(1);
-		leftArmSolenoidFirstChannel = new Solenoid(2);
-		leftArmSolenoidSecondChannel = new Solenoid(3);
-		rightArmSolenoidFirstChannel = new Solenoid(4);
-		rightArmSolenoidSecondChannel = new Solenoid(5);
-		elevatorSolenoid = new Solenoid(6);
+		armsSolenoidFirstChannel = new Solenoid(2);
+		armsSolenoidSecondChannel = new Solenoid(3);
+		elevatorSolenoid = new Solenoid(4);
 
 		shooterAngleEncoder = new Encoder(0, 1, false, EncodingType.k4X);
 		LiveWindow.addSensor("ShootFullSpeed", "Encoder", shooterAngleEncoder);

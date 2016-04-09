@@ -12,10 +12,10 @@ public class ObstacleHighGoalAndReset extends CommandGroup {
 	public ObstacleHighGoalAndReset() {
 		
 		addSequential(new TerrainObstacles());
-		addSequential(new ShootIntoGoal());
-		addSequential(new TurnToOurAlliance(), 3);
-		addSequential(new TerrainObstacles());
-		addSequential(new TurnToOpponentAlliance(), 3);
+//		addSequential(new ShootIntoGoal());
+//		addSequential(new TurnToOurAlliance(), 3);
+//		addSequential(new TerrainObstacles());
+//		addSequential(new TurnToOpponentAlliance(), 3);
 		
 	}
 	

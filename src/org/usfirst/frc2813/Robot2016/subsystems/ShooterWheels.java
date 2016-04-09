@@ -125,9 +125,9 @@ public class ShooterWheels extends Subsystem {
 			if (input[1] > getSetpoint()) output[1] = 0;
 			else output[1] = 1;
 		} else if (getSetpoint() < 0) {
-			if (input[0] > getSetpoint()) output[0] = 0;
+			if (input[0] < getSetpoint()) output[0] = 0;
 			else output[0] = -1;
-			if (input[1] > getSetpoint()) output[1] = 0;
+			if (input[1] < getSetpoint()) output[1] = 0;
 			else output[1] = -1;
 		} else output = new double[] {0, 0};
 		

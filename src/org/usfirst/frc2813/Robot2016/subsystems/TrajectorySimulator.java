@@ -67,7 +67,7 @@ public class TrajectorySimulator  {
 		distGoalX = TiltCameraDistanceCalculator.targetDistance() + 43.18;
 		distGoalY = 216.17;
 		angleOfShooter = 10;
-		velocity = 1295.4;
+		velocity = 1850;
 		velocityX = velocity * Math.cos(Math.toRadians(angleOfShooter));
 		velocityY = velocity * Math.sin(Math.toRadians(angleOfShooter));
 		x = 0;
@@ -86,56 +86,56 @@ public class TrajectorySimulator  {
 		
 		System.out.println("Distance from goal: " + distGoalX);
 		
-		// Close to mid range
-		if (Robot.varyShooterSpeeds) {
-			for (int i = 0; i <= 10; i++) {
-				
-				minSpeed = 50;
-				maxSpeed = 1295.4;
-				angleOfShooter = (maxAngle + minAngle) / 2;
-				boolean velocityTuned = false;
-				boolean foundValue = true;
-				
-				// Calculate actual starting position of ball (changes with angle of shooter)
-				actualDistGoalX = distGoalX - (35.56 * Math.cos(angleOfShooter));
-				actualDistGoalY = distGoalY - (35.56 * Math.sin(angleOfShooter));
-				
-				for (int j = 0; !velocityTuned && foundValue; j++) {
-					
-					// Calculate trajectory of ball until y-velocity is 0 or less
-					initialVelocity = (maxSpeed + minSpeed) / 2;
-					calculateTajectory(false);
-					
-					// Change initial velocity based on guessed error
-					if (x < actualDistGoalX - 1) {
-						minSpeed = initialVelocity;
-					} else if (x > actualDistGoalX + 3) {
-						maxSpeed = initialVelocity;
-					} else if (initialVelocity <= maxSpeed) velocityTuned = true;
-					if (j > 100 || (j > 10 && initialVelocity > maxSpeed)) foundValue = false;
-				}
-				
-				if (foundValue) {
-					double guessDistance = Math.sqrt(Math.pow(actualDistGoalX - x, 2) + Math.pow(actualDistGoalY - y, 2));
-					if (guessDistance < minDistance || minDistance == -1) {
-						minDistance = guessDistance;
-						bestAttemptValues[0] = angleOfShooter;
-						bestAttemptValues[1] = initialVelocity;
-					}
-
-					if (minDistance > 5) {
-						
-						if (y < actualDistGoalY) {
-							minAngle = angleOfShooter;
-						} else {
-							maxAngle = angleOfShooter;
-						}
-						
-					} else break;
-				} else angleOfShooter += 0.1;
-				
-			}
-		}
+//		// Close to mid range
+//		if (Robot.varyShooterSpeeds) {
+//			for (int i = 0; i <= 10; i++) {
+//				
+//				minSpeed = 50;
+//				maxSpeed = 1295.4;
+//				angleOfShooter = (maxAngle + minAngle) / 2;
+//				boolean velocityTuned = false;
+//				boolean foundValue = true;
+//				
+//				// Calculate actual starting position of ball (changes with angle of shooter)
+//				actualDistGoalX = distGoalX - (35.56 * Math.cos(angleOfShooter));
+//				actualDistGoalY = distGoalY - (35.56 * Math.sin(angleOfShooter));
+//				
+//				for (int j = 0; !velocityTuned && foundValue; j++) {
+//					
+//					// Calculate trajectory of ball until y-velocity is 0 or less
+//					initialVelocity = (maxSpeed + minSpeed) / 2;
+//					calculateTajectory(false);
+//					
+//					// Change initial velocity based on guessed error
+//					if (x < actualDistGoalX - 1) {
+//						minSpeed = initialVelocity;
+//					} else if (x > actualDistGoalX + 3) {
+//						maxSpeed = initialVelocity;
+//					} else if (initialVelocity <= maxSpeed) velocityTuned = true;
+//					if (j > 100 || (j > 10 && initialVelocity > maxSpeed)) foundValue = false;
+//				}
+//				
+//				if (foundValue) {
+//					double guessDistance = Math.sqrt(Math.pow(actualDistGoalX - x, 2) + Math.pow(actualDistGoalY - y, 2));
+//					if (guessDistance < minDistance || minDistance == -1) {
+//						minDistance = guessDistance;
+//						bestAttemptValues[0] = angleOfShooter;
+//						bestAttemptValues[1] = initialVelocity;
+//					}
+//
+//					if (minDistance > 5) {
+//						
+//						if (y < actualDistGoalY) {
+//							minAngle = angleOfShooter;
+//						} else {
+//							maxAngle = angleOfShooter;
+//						}
+//						
+//					} else break;
+//				} else angleOfShooter += 0.1;
+//				
+//			}
+//		}
 		
 		// Long range
 		if (minDistance == -1 || minDistance > 50) {

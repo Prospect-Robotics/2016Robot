@@ -11,10 +11,8 @@ public class Pneumatics extends Subsystem {
 	private final Compressor compressor = RobotMap.compressor;
 	private final Solenoid shooterSolenoidFirstChannel = RobotMap.shooterSolenoidFirstChannel;
 	private final Solenoid shooterSolenoidSecondChannel = RobotMap.shooterSolenoidSecondChannel;
-	private final Solenoid leftArmSolenoidFirstChannel = RobotMap.leftArmSolenoidFirstChannel;
-	private final Solenoid leftArmSolenoidSecondChannel = RobotMap.leftArmSolenoidSecondChannel;
-	private final Solenoid rightArmSolenoidFirstChannel = RobotMap.rightArmSolenoidFirstChannel;
-	private final Solenoid rightArmSolenoidSecondChannel = RobotMap.rightArmSolenoidSecondChannel;
+	private final Solenoid armsSolenoidFirstChannel = RobotMap.armsSolenoidFirstChannel;
+	private final Solenoid armsSolenoidSecondChannel = RobotMap.armsSolenoidSecondChannel;
 	private final Solenoid elevatorSolenoid = RobotMap.elevatorSolenoid;
 	
 	public void initDefaultCommand() {
@@ -53,27 +51,22 @@ public class Pneumatics extends Subsystem {
 	}
 	
 	public boolean isArmExtended() {
-		return leftArmSolenoidFirstChannel.get();
+		return !armsSolenoidFirstChannel.get();
 	}
 	
-	public void extendLeftArmPiston() {
-		leftArmSolenoidFirstChannel.set(true);
-		leftArmSolenoidSecondChannel.set(false);
+	public void toggleArms() {
+		if (isArmExtended()) retractArms();
+		else extendArms();
 	}
 	
-	public void retractLeftArmPiston() {
-		leftArmSolenoidFirstChannel.set(false);
-		leftArmSolenoidSecondChannel.set(true);
+	public void extendArms() {
+		armsSolenoidFirstChannel.set(false);
+		armsSolenoidSecondChannel.set(true);
 	}
 	
-	public void extendRightArmPiston() {
-		rightArmSolenoidFirstChannel.set(true);
-		rightArmSolenoidSecondChannel.set(false);
-	}
-	
-	public void retractRightArmPiston() {
-		rightArmSolenoidFirstChannel.set(false);
-		rightArmSolenoidSecondChannel.set(true);
+	public void retractArms() {
+		armsSolenoidFirstChannel.set(true);
+		armsSolenoidSecondChannel.set(false);
 	}
 	
 }

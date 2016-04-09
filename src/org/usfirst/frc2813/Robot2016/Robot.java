@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.util.logging.Logger;
 
 import org.usfirst.frc2813.Robot2016.commands.ObstacleHighGoalAndReset;
+import org.usfirst.frc2813.Robot2016.commands.arms.SafeArmsUp;
 import org.usfirst.frc2813.Robot2016.data.DataDisplayer;
 import org.usfirst.frc2813.Robot2016.data.DataLogger;
 import org.usfirst.frc2813.Robot2016.subsystems.*;
@@ -61,7 +62,12 @@ public class Robot extends IterativeRobot {
 		shooterWheels = new ShooterWheels();
 		System.out.println("Shooter Wheels");
 		nav6 = new Nav6();
-		System.out.println("Nav6");
+		if(nav6 != null && nav6.isValid()) {
+			System.out.println("Nav6");
+		} else {
+			nav6 = null;
+			System.out.println("Nav6 is offline.  PID disabled.");
+		}
 		pneumatics = new Pneumatics();
 		System.out.println("Pneumatics");
 		driveTrain = new DriveTrain();
@@ -81,17 +87,24 @@ public class Robot extends IterativeRobot {
 		
 		autonomousCommand = new ObstacleHighGoalAndReset();
 		System.out.println("Autonomous command initialized");
+		
+		(new SafeArmsUp()).start();
+		System.out.println("Arms retracted");
 
 	}
 
 	public void disabledInit() {
 		
 		Robot.pneumatics.retractShooterPiston();
+		Robot.pneumatics.retractArms();
 		
 	}
 
 	public void disabledPeriodic() {
+		updateSensorValues();
+		displayAndLogData();
 		Scheduler.getInstance().run();
+		
 	}
 
 	public void autonomousInit() {
@@ -104,7 +117,6 @@ public class Robot extends IterativeRobot {
 
 	public void autonomousPeriodic() {
 		updateSensorValues();
-		if (!RobotMap.limitSwitch.get()) RobotMap.shooterAngleEncoder.reset();
 
     	displayAndLogData();
     	
@@ -154,6 +166,7 @@ public class Robot extends IterativeRobot {
 		} else if (Robot.goalValues.length >= 2) {
 			Robot.centerX = Robot.goalValues[0];
 			Robot.centerY = Robot.goalValues[1];
+			SmartDashboard.putBoolean("GoalFound", true);
 		}
 		
 	}
@@ -175,10 +188,14 @@ public class Robot extends IterativeRobot {
 	public static void updateSensorValues() {
 
 		Robot.accelerometerSampling.update();
-		Robot.nav6.updatePitch();
-		Robot.nav6.updateYaw();
-		
-		Robot.normalPitch = Robot.nav6.getNormalizedPitch(10);
+		if (Robot.nav6 != null) {
+			Robot.nav6.updatePitch();
+			Robot.nav6.updateYaw();
+			
+			Robot.normalPitch = Robot.nav6.getNormalizedPitch(10);
+		}
+			
+		if (!RobotMap.limitSwitch.get()) RobotMap.shooterAngleEncoder.reset();
 		
 	}
 	

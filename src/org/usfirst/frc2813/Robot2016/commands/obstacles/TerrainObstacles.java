@@ -9,8 +9,8 @@ public class TerrainObstacles extends CommandGroup {
 
     public TerrainObstacles() {
         
-    	addSequential(new DriveUntilOnRamp(), 3);
-    	addSequential(new DriveUntilOffRamp(), 5);
+    	addSequential(new DriveUntilOnRamp(), 5);
+    	addSequential(new DriveUntilOffRamp(), 9);
     	
     }
 }

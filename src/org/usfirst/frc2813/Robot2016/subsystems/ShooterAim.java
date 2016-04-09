@@ -92,12 +92,17 @@ public class ShooterAim extends Subsystem {
 		return pidOutputs[numberOfOutputs - 1];
 	}
 
-	public boolean getPointedAtGoal() {
+	public boolean isPointedAtGoal() {
 		return shooterAngleSet;
 	}
 	
 	public void manualAim(double value) {
-		speedControllerAngle.set(value);
+		
+		if (Robot.pneumatics.isArmExtended() || returnPIDInput() < -4 || value < 0)
+			speedControllerAngle.set(value);
+		else
+			speedControllerAngle.set(0);
+		
 	}
 	
 	public void modifySetpoint(double amountToAdd) {
@@ -152,9 +157,11 @@ public class ShooterAim extends Subsystem {
 		SmartDashboard.putNumber("AimPIDOutput", output);
 		SmartDashboard.putNumber("AimPIDSetpoint", getSetpoint());
 		
-		if (pIDStatus) {
+		if (pIDStatus && Robot.pneumatics.isArmExtended()) {
 			speedControllerAngle.pidWrite(output); // This is the most important line in this method
 													// It gives the calculated motor value to the motor
+		} else if (pIDStatus && !Robot.pneumatics.isArmExtended()) {
+			speedControllerAngle.pidWrite(0);
 		}
 		
 	}
@@ -166,8 +173,10 @@ public class ShooterAim extends Subsystem {
 			pidOutputs[i] = pidOutputs[i + 1];
 		}
 		
+		
 		// Update all of the values with accelerometer
 		pidOutputs[numberOfOutputs - 1] = output;
+		
 	}
 
 	protected double returnPIDInput() {

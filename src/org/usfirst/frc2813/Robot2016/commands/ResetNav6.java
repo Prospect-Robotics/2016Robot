@@ -15,7 +15,8 @@ public class ResetNav6 extends Command {
 	}
 
 	protected void execute() {
-		Robot.nav6.resetNav6();
+		if (Robot.nav6 != null)
+			Robot.nav6.resetNav6();
 	}
 
 	protected boolean isFinished() {

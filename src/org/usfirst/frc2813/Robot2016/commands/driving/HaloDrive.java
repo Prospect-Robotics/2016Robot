@@ -23,8 +23,8 @@ public class HaloDrive extends Command {
     protected void execute() {
     	
     	// Do the math for curving the output of rotating the joystick to make it less sensitive
-    	double joystickRotate = Robot.oi.getJoystick2().getZ(); 
-    	double curveConstant = 0.5;
+    	double joystickRotate = Robot.oi.getJoystick2().getRawAxis(4); 
+    	double curveConstant = 0.65;
     	double rotate = curveConstant * Math.pow(joystickRotate, 3) + (1 - curveConstant) * joystickRotate;
     	
     	if (!Robot.driveTrain.getPIDStatus()) Robot.driveTrain.arcadeDrive(Robot.oi.getJoystick1().getY(), rotate);

@@ -10,10 +10,11 @@ public class ObstacleHelper {
 		
 		double meanPitch = Robot.normalPitch[0];
 		double stdDevPitch = Robot.normalPitch[1];
-		double marginOfError = 2;
+		double meanMarginOfError = 3;
+		double stdDevMarginOfError = 0.8;
 		
-		if (meanPitch > -marginOfError && meanPitch < marginOfError
-			&& stdDevPitch > -marginOfError && stdDevPitch < marginOfError)
+		if (meanPitch > -meanMarginOfError && meanPitch < meanMarginOfError
+			&& stdDevPitch > -stdDevMarginOfError && stdDevPitch < stdDevMarginOfError)
 			return false;
 		return true;
 		

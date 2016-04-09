@@ -21,15 +21,7 @@ public class ArmsToggle extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
-    	if (Robot.pneumatics.isArmExtended()) {
-    		Robot.pneumatics.retractLeftArmPiston();
-    		Robot.pneumatics.retractRightArmPiston();
-    	} else {
-    		Robot.pneumatics.extendLeftArmPiston();
-    		Robot.pneumatics.extendRightArmPiston();
-    	}
-    	
+    	Robot.pneumatics.toggleArms();	
     }
 
     // Make this return true when this Command no longer needs to run execute()

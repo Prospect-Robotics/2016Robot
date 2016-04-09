@@ -7,6 +7,7 @@ import org.usfirst.frc2813.Robot2016.Robot;
 public class ShooterIntake extends Command {
 
 	public ShooterIntake() {
+		requires(Robot.shooterAim);
 		requires(Robot.shooterWheels);
 	}
 
@@ -14,11 +15,12 @@ public class ShooterIntake extends Command {
 		
     	Robot.pneumatics.retractShooterPiston();
     	Robot.shooterWheels.enableController();
-    	Robot.shooterWheels.setSetpoint(-24000);
+    	Robot.shooterWheels.setSetpoint(-18000);
     	
 	}
 
 	protected void execute() {
+		Robot.shooterAim.manualAim(-0.2);
 	}
 
 	protected boolean isFinished() {
@@ -26,10 +28,12 @@ public class ShooterIntake extends Command {
 	}
 
 	protected void end() {
+		Robot.shooterAim.manualAim(0);
     	Robot.shooterWheels.setSetpoint(0);
 	}
 
 	protected void interrupted() {
+		Robot.shooterAim.manualAim(0);
     	Robot.shooterWheels.setSetpoint(0);
 	}
 }
